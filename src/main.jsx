@@ -18,7 +18,7 @@ const root = document.getElementById("root");
 let router = createBrowserRouter([
   {
     path: "/",
-    Component: <Header />
+    element: <Root />
   },
 ]);
 
