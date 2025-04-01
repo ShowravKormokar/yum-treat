@@ -12,6 +12,8 @@ import Event from './Pages/Events/Event.jsx';
 import Blogs from './Pages/Blogs/Blogs.jsx';
 import About from './Pages/About/About.jsx';
 import Contact from './Pages/Contact/Contact.jsx';
+import SignIn from "./Pages/SignIn/SignIn.jsx";
+import SignUp from "./Pages/Signup/SignUp.jsx";
 
 let router = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ let router = createBrowserRouter([
     ]
 
   },
+  {
+    path: '/sign_in',
+    element: <SignIn />
+  },
+  {
+    path: '/sign_up',
+    element: <SignUp />
+  }
 ]);
 
 const root = document.getElementById("root");
