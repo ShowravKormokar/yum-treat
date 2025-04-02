@@ -1,9 +1,10 @@
 import React from 'react';
+import Category from '../../components/Category/Category';
 
 const Menu = () => {
     return (
         <div>
-            <h3>This is Menus page.</h3>
+            <Category/>
         </div>
     );
 };

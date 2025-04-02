@@ -4,6 +4,7 @@ import serv1Img from "../../assets/image/serv-1.png";
 import serv2Img from "../../assets/image/serv-2.png";
 import serv3Img from "../../assets/image/serv-3.png";
 import serv4Img from "../../assets/image/serv-4.png";
+import { Link } from "react-router-dom";
 
 const About = () => {
     return (
@@ -16,14 +17,14 @@ const About = () => {
 
                 {/* Content Section */}
                 <div className="flex-1 text-center md:text-left">
-                    <span className="text-3xl font-cursive text-[#c34c2e]">Why Choose Us?</span>
+                    <span className="text-3xl font-cursive text-[#c34c2e] font-[cursive]">Why Choose Us?</span>
                     <h3 className="text-3xl pt-2 font-bold text-[#130f40]">What's Make Our Food Delicious!</h3>
                     <p className="text-lg text-gray-600 leading-relaxed py-4">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ut explicabo, numquam iusto est a ipsum assumenda tempore esse corporis?
                     </p>
-                    <a href="#" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
+                    <Link to="#" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
                         Read More
-                    </a>
+                    </Link>
 
                     {/* Icons Section */}
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-8">
