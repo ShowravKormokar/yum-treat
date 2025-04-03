@@ -14,6 +14,8 @@ import About from './Pages/About/About.jsx';
 import Contact from './Pages/Contact/Contact.jsx';
 import SignIn from "./Pages/SignIn/SignIn.jsx";
 import SignUp from "./Pages/Signup/SignUp.jsx";
+import Account from "./Pages/Account/Account.jsx";
+import Product from "./Pages/Product/Product.jsx";
 
 let router = createBrowserRouter([
   {
@@ -41,8 +43,16 @@ let router = createBrowserRouter([
         element: <About />
       },
       {
-        path: '/contact',
+        path: '/contact_us',
         element: <Contact />
+      },
+      {
+        path: '/account',
+        element: <Account />
+      },
+      {
+        path: '/product',
+        element: <Product />
       }
     ]
 

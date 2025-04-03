@@ -1,9 +1,12 @@
 import React from 'react';
+import FAQ from '../../components/Faqs/Faq';
+import OurTeam from './OurTeam';
 
 const About = () => {
     return (
-        <div>
-            <h3>This is about pages.</h3>
+        <div className='mt-10' id='ourStory'>
+            <OurTeam/>
+            <FAQ/>
         </div>
     );
 };

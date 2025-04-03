@@ -22,7 +22,7 @@ const About = () => {
                     <p className="text-lg text-gray-600 leading-relaxed py-4">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos ut explicabo, numquam iusto est a ipsum assumenda tempore esse corporis?
                     </p>
-                    <Link to="#" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
+                    <Link to="/about_us#ourStory" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
                         Read More
                     </Link>
 

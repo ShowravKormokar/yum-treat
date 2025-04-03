@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBars, FaSearch, FaShoppingCart, FaUser, FaUtensils, FaTimes } from "react-icons/fa";
 import Cart from "../Cart/Cart";
-import { Link, Links, NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = ({ isLoggedIn, profileImage }) => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -28,9 +28,9 @@ const Navbar = ({ isLoggedIn, profileImage }) => {
                     <NavLink to="/contact_us" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Contact us</NavLink>
                 </nav>
                 <div className="flex items-center gap-4 text-2xl">
-                    <FaSearch className="cursor-pointer" onClick={() => setSearchOpen(!searchOpen)} />
-                    <FaShoppingCart className="cursor-pointer" onClick={() => setCartOpen(!cartOpen)} />
-                    <NavLink to="/account"><FaUser className="cursor-pointer" /></NavLink>
+                    <FaSearch className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setSearchOpen(!searchOpen)} />
+                    <FaShoppingCart className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setCartOpen(!cartOpen)} />
+                    <NavLink to="/account"><FaUser className="cursor-pointer hover:text-[#c34c2e]" /></NavLink>
                 </div>
             </header>
 

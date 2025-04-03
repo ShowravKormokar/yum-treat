@@ -21,7 +21,7 @@ const Home = () => {
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis unde
                         dolores temporibus hic quam debitis tenetur harum nemo.
                     </p>
-                    <a href="/home" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
+                    <a href="/menus#order_now" className="bg-[#c34c2e] text-white px-6 py-3 rounded-lg inline-block mt-4">
                         Order Now
                     </a>
                 </div>
@@ -46,7 +46,7 @@ const Home = () => {
             <About />
             <Popular />
             <Banner />
-            <Order/>
+            <Order />
         </>
     );
 };
