@@ -27,14 +27,14 @@ const SignUp = () => {
         });
 
     }
-    console.log(usersignUp);
+    // console.log(usersignUp);
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //Stops the browser from automaticaly reloading the page when the form submitted
 
         try {
             if (usersignUp.password === usersignUp.cPassword) {
-                console.info(usersignUp);
+                // console.info(usersignUp);
 
                 const res = await fetch(url, {
                     method: "POST", //Tells the server this is a POST request
@@ -46,7 +46,7 @@ const SignUp = () => {
 
                 if (res.status === 201) {
                     alert("Sign up successfully!");
-                    const resData = await res.JSON();
+                    const resData = await res.json();
 
                     setUserSignUp({
                         email: "",
@@ -54,7 +54,11 @@ const SignUp = () => {
                         cPassword: ""
                     });
                     navigate("/sign_in");
+                } else {
+                    const resData = await res.json();
+                    alert(resData.message || "Signup failed");
                 }
+                // console.log(res);
             } else {
                 setUserSignUp({
                     ...usersignUp,
@@ -62,7 +66,7 @@ const SignUp = () => {
                 });
             }
         } catch (err) {
-            console.error(err);
+            console.log(err);
         }
     }
 
