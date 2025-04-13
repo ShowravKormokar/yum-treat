@@ -1,7 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose'); // For mongodb schema, model and queries
 const bcrypt = require('bcrypt'); // For hashing password securely
-const jwt = require('jwt'); // To generate and verify JWTs for user authentication
+const jwt = require('jsonwebtoken'); // To generate and verify JWTs for user authentication
 
 
 /* ----------------------- Create schema for sign up ----------------------- */
@@ -69,14 +69,14 @@ signUpSchema.methods.generateToken = async function () { //Adds a method to crea
     try {
         return jwt.sign( //Sets token validity duration
             {
-                userId: this._id.toString(), 
+                userId: this._id.toString(),
             },
             process.env.JWT_SECRET_KEY, //Used to sign and later verify the token
             {
                 expiresIn: "30d" //Sets token validity duration
             }
         );
-    } catch (err){
+    } catch (err) {
         console.error(err);
     }
 };

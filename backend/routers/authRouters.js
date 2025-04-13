@@ -6,9 +6,12 @@ const validate = require('../middlewares/validateMiddlewares');
 const jwtAuthMiddleware = require('../middlewares/jwtAuthMiddlewares');
 
 //Get usersInfo using protected route using jwtAuthMiddleware
-router
-    .route('/user-info') //for admin only
-    .get(jwtAuthMiddleware, authController, authController.getSignUpData);
+// router
+//     .route('/user-info') //for admin only
+//     .get(jwtAuthMiddleware, authController, authController.getSignUpData);
+router.get("/ping", (req, res) => { // Testing api that response perfectly - PASS✅
+    res.send("pong!");
+});
 
 //Handle new user sign-up -> Ensures frontend is sending correct data format.
 router

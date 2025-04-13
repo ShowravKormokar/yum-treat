@@ -1,4 +1,4 @@
-const { z } = reqire('zod');
+const { z } = require('zod');
 
 //----------------- Create an object schema
 const signUpValidationSchema = z
