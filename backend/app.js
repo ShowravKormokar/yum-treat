@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 // ------------------------- Add all routes 
-// app.use(express.json());
+app.use(express.json());
 app.use("/api/auth", authRouter);
 
 //-------------------------- Start the server

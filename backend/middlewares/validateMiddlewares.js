@@ -6,9 +6,8 @@ const validate = (schema) => async (req, res, next) => { //it takes a Zod schema
         req.body = parseBody; //It replaces req.body with the clean, validated data.
         next(); //Then it calls next() to move to the controller (e.g., authController.register)
     } catch (err) {
-        res.status(400).json({
-            message: err?.issues?.[0]?.message || "Invalid input data", //if fails validation -> Zod returns an issues array with all validation errors, first error message to the client with status 400 Bad Request
-        });
+        const errorMessage = error?.errors?.[0]?.message || "Validation error";
+        res.status(400).json({ message: errorMessage });
     }
 };
 
