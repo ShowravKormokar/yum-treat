@@ -20,7 +20,7 @@ const Navbar = ({ isLoggedIn, profileImage }) => {
                     <FaUtensils className="text-[#c34c2e] mr-2" /> YumTreat
                 </Link>
                 <nav className={`absolute top-20 left-0 w-full bg-white shadow-md p-4 flex flex-col items-center space-y-4 text-lg text-gray-600 md:relative md:top-auto md:left-auto md:w-auto md:flex-row md:space-y-0 md:space-x-6 md:bg-transparent md:shadow-none ${menuOpen ? "flex" : "hidden md:flex"}`}>
-                    <NavLink to="/home" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Home</NavLink>
+                    <NavLink to="/" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Home</NavLink>
                     <NavLink to="/menus" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Menus</NavLink>
                     <NavLink to="/events" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Events</NavLink>
                     <NavLink to="/blogs" className="hover:text-[#c34c2e]" onClick={() => setMenuOpen(false)}>Blogs</NavLink>
