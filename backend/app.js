@@ -1,9 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const authRouter = require('./routers/authRouters');
+const cors = require('cors');
 require('./db/connection');
 
 const app = express();
+
+//Allow request from frontend
+const corsOptions = {
+    origin: "http://localhost:5173", // only allow this origin
+    methods: ["GET", "POST", "PUT", "DELETE"], // only allow these HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // only allow these headers
+    credentials: true, // allow cookies or credentials if needed
+};
+app.use(cors(corsOptions));
 
 //---------------------------Define a test route
 app.get('/', (req, res) => {
