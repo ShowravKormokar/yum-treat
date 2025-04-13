@@ -9,7 +9,7 @@ const signUpValidationSchema = z
             .email({ message: "Invalid email" }),
 
         password: z
-            .string({ required_error: "Passord must be required" })
+            .string({ required_error: "Password must be required" })
             .min(6, { message: "Password must be at least 6 characters" })
             .max(1024, { message: "Password can't be greater than 1024 characters" }),
 
