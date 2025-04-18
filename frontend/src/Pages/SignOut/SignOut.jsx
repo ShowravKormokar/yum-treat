@@ -3,7 +3,7 @@ import { useAuthContext } from '../../Context/AuthContext';
 import { Navigate } from "react-router-dom";
 import Loader from '../../components/Loader'; // 🧠 Import the Loader
 
-const Logout = () => {
+const SignOut = () => {
     const { logOutUser } = useAuthContext();
     const [loading, setLoading] = useState(true);
 
@@ -18,7 +18,7 @@ const Logout = () => {
         return <Loader />;
     }
 
-    return <Navigate to="/" />;
+    return <Navigate to="/sign_in" />;
 };
 
-export default Logout;
+export default SignOut;
