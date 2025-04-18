@@ -1,18 +1,22 @@
-//This reducer handles how your authentication state (like login, logout token) should change in response to certain actions.
+// This reducer handles how your authentication state (like login/logout token) should change in response to certain actions.
 const AuthReducer = (state, action) => {
     switch (action.type) {
-        case "REMOVE_TOKEN": {
-            const removeToken = localStorage.removeItem("token"); //It's responsible for clearing the token both from localStorage and from React state.
-
+        case "SET_TOKEN": {
             return {
-                ...state, //spreads the previous state (in case you add more fields in the future).
-                token: "", //sets token to an empty string, meaning user is logged out.
-                removeToken
-            }
+                ...state,
+                token: action.payload, // Sets the token received from login
+            };
+        }
+        case "REMOVE_TOKEN": {
+            // No need to remove token from localStorage here—already done in AuthContext
+            return {
+                ...state,
+                token: "", // Clears the token from state (user is logged out)
+            };
         }
         default:
             return state;
     }
 };
 
-export default AuthReducer
+export default AuthReducer;
