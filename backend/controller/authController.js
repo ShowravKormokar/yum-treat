@@ -79,7 +79,11 @@ const login = async (req, res) => {
             return res.status(200).json({
                 message: "Login successful!",
                 token: await userExist.generateToken(),
-                userId: userExist._id.toString()
+                user: {
+                    userId: userExist._id,
+                    userEmail: userExist.email,
+                    // optionally add more non-sensitive info here
+                },
             });
         } else {
             return res.status(400).json({ message: "Invalid email or password!" });
