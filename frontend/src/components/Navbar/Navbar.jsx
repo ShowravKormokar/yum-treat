@@ -4,13 +4,13 @@ import Cart from "../Cart/Cart";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Context/AuthContext";
 
-const Navbar = ({ profileImage }) => {
+const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [searchOpen, setSearchOpen] = useState(false);
     const [cartOpen, setCartOpen] = useState(false);
 
     const { isLoggedIn } = useAuthContext();
-
+    console.log("User is log in:", isLoggedIn);
 
     return (
         <div className="relative w-full">
@@ -38,7 +38,7 @@ const Navbar = ({ profileImage }) => {
                     <FaSearch className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setSearchOpen(!searchOpen)} />
                     <FaShoppingCart className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setCartOpen(!cartOpen)} />
                     {isLoggedIn ? (
-                        <NavLink to="/account"><FaUser className="cursor-pointer hover:text-[#c34c2e]" /></NavLink>
+                        <NavLink to="/account" className=" p-[4px] border-2 rounded-full"><FaUser className="cursor-pointer hover:text-[#c34c2e]" /></NavLink>
                     ) : (
                         <NavLink to="/sign_in" className="text-lg text-gray-600 border-1 px-2 py-1 rounded-lg hover:text-[#c34c2e]">Sign In</NavLink>
                     )}
