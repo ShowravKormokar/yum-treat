@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../Context/AuthContext';
 import { Navigate } from "react-router-dom";
-import Loader from '../../components/Loader'; // 🧠 Import the Loader
+import Loader from '../../components/Loader/Loader'; // 🧠 Import the Loader
 
 const SignOut = () => {
     const { logOutUser } = useAuthContext();
