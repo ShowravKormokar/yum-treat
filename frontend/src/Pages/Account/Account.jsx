@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { NavLink } from "react-router";
 
 const Account = ({ user }) => {
     const [orders, setOrders] = useState([]);
@@ -39,7 +40,7 @@ const Account = ({ user }) => {
             <div className="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h2 className="text-2xl font-semibold">Email: abc@xyz.com </h2>
                 {/* <h2 className="text-2xl font-semibold">Email: {user.email}</h2> */}
-                <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg">Logout</button>
+                <button className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"><NavLink to="/sign_out">Sign Out</NavLink></button>
             </div>
 
             <div className="mt-6">

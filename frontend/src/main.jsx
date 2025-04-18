@@ -17,6 +17,7 @@ import SignUp from "./Pages/Signup/SignUp.jsx";
 import Account from "./Pages/Account/Account.jsx";
 import Product from "./Pages/Product/Product.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
+import SignOut from "./Pages/SignOut/SignOut.jsx";
 
 let router = createBrowserRouter([
   {
@@ -68,7 +69,7 @@ let router = createBrowserRouter([
   },
   {
     path: '/sign_out',
-    element: <SignUp />
+    element: <SignOut />
   }
 ]);
 

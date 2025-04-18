@@ -11,6 +11,7 @@ const Navbar = ({ profileImage }) => {
 
     const { isLoggedIn } = useAuthContext();
 
+
     return (
         <div className="relative w-full">
             {/* Header */}
@@ -37,11 +38,10 @@ const Navbar = ({ profileImage }) => {
                     <FaSearch className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setSearchOpen(!searchOpen)} />
                     <FaShoppingCart className="cursor-pointer hover:text-[#c34c2e]" onClick={() => setCartOpen(!cartOpen)} />
                     {isLoggedIn ? (
-                        <NavLink to="/sign_out">Sign Out</NavLink>
+                        <NavLink to="/account"><FaUser className="cursor-pointer hover:text-[#c34c2e]" /></NavLink>
                     ) : (
-                        <NavLink to="/sign_up">Sign up</NavLink>
+                        <NavLink to="/sign_in" className="text-lg text-gray-600 border-1 px-2 py-1 rounded-lg hover:text-[#c34c2e]">Sign In</NavLink>
                     )}
-                    <NavLink to="/account"><FaUser className="cursor-pointer hover:text-[#c34c2e]" /></NavLink>
                 </div>
             </header>
 
