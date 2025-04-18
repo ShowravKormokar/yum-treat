@@ -65,6 +65,10 @@ let router = createBrowserRouter([
   {
     path: '/sign_up',
     element: <SignUp />
+  },
+  {
+    path: '/sign_out',
+    element: <SignUp />
   }
 ]);
 
