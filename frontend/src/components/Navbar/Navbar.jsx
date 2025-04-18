@@ -10,7 +10,7 @@ const Navbar = () => {
     const [cartOpen, setCartOpen] = useState(false);
 
     const { isLoggedIn } = useAuthContext();
-    console.log("User is log in:", isLoggedIn);
+    // console.log("User is log in:", isLoggedIn);
 
     return (
         <div className="relative w-full">
