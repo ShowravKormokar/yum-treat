@@ -1,12 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../Context/AuthContext";
 
 // Signup post request url
 const url = "http://localhost:5000/api/auth/sign_up";
 
 const SignUp = () => {
+
+    const { storeTokenInLS } = useAuthContext();
 
     const [usersignUp, setUserSignUp] = useState({
         email: "",
@@ -47,6 +49,7 @@ const SignUp = () => {
                 if (res.status === 201) {
                     alert("Sign up successfully!");
                     const resData = await res.json();
+                    storeTokenInLS(resData.token);
 
                     setUserSignUp({
                         email: "",
