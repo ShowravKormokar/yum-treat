@@ -40,9 +40,7 @@ const SignIn = () => {
             console.log(res);
             if (res.ok) {
                 const resdata = await res.json();
-                if (rememberMe) {
-                    storeTokenInLS(resdata.token); // Only store if checked
-                }
+                storeTokenInLS(resdata.token, rememberMe);
 
                 alert("Log in successfully!");
                 setUserLogIn({ email: "", password: "" });
@@ -58,6 +56,8 @@ const SignIn = () => {
         }
     }
     console.log(userlogIn);
+    console.log("Token stored in LS:", localStorage.getItem("token"));
+
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">

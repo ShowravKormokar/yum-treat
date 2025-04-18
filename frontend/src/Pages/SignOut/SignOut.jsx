@@ -1,18 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../../Context/AuthContext';
 import { Navigate } from "react-router-dom";
-import Loader from '../../components/Loader/Loader'; // 🧠 Import the Loader
+import Loader from '../../components/Loader/Loader';
 
 const SignOut = () => {
     const { logOutUser } = useAuthContext();
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        logOutUser();
-        setTimeout(() => {
+        logOutUser(); // Logs the user out
+        const timer = setTimeout(() => {
             setLoading(false);
-        }, 1000); // Simulate delay
-    }, [logOutUser]);
+        }, 1000);
+
+        return () => clearTimeout(timer); // Cleanup on unmount
+    }, []); // 👈 Only run once on mount
 
     if (loading) {
         return <Loader />;
