@@ -18,6 +18,7 @@ import Account from "./Pages/Account/Account.jsx";
 import Product from "./Pages/Product/Product.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import SignOut from "./Pages/SignOut/SignOut.jsx";
+import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 
 let router = createBrowserRouter([
   {
@@ -50,7 +51,11 @@ let router = createBrowserRouter([
       },
       {
         path: '/account',
-        element: <Account />
+        element: (
+          <ProtectedRoute>
+            <Account />
+          </ProtectedRoute>
+        )
       },
       {
         path: '/product',
