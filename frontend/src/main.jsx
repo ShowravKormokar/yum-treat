@@ -4,7 +4,7 @@ import './index.css'
 import {
   createBrowserRouter,
   RouterProvider,
-} from "react-router";
+} from "react-router-dom";
 import Root from "./Root/Root.jsx";
 import Home from './Pages/Home/Home.jsx';
 import Menu from './Pages/Menus/Menu.jsx';
@@ -16,6 +16,7 @@ import SignIn from "./Pages/SignIn/SignIn.jsx";
 import SignUp from "./Pages/Signup/SignUp.jsx";
 import Account from "./Pages/Account/Account.jsx";
 import Product from "./Pages/Product/Product.jsx";
+import { AuthProvider } from "./Context/AuthContext.jsx";
 
 let router = createBrowserRouter([
   {
@@ -69,5 +70,7 @@ let router = createBrowserRouter([
 
 const root = document.getElementById("root");
 ReactDOM.createRoot(root).render(
-  <RouterProvider router={router} />
+  <AuthProvider> {/* Wrap app inside AuthProvider */}
+    <RouterProvider router={router} />
+  </AuthProvider>
 );

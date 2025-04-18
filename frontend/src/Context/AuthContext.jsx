@@ -24,8 +24,8 @@ const AuthProvider = ({ children }) => {
         })
     };
 
-    //Logged status
-    let isLoggedIn = state.token;
+    // Logged-in status
+    let isLoggedIn = !!state.token; // Ensure this is boolean
 
     const value = {
         storeTokenInLS,
@@ -41,7 +41,7 @@ const AuthProvider = ({ children }) => {
 }
 
 const useAuthContext = () => {
-    return (useAuthContext(AuthContext))
+    return useContext(AuthContext);
 };
 
 export { AuthProvider, useAuthContext }
