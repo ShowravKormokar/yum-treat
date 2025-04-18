@@ -3,45 +3,62 @@ import authReducer from "../Reducer/AuthReducer";
 
 // Create context
 const AuthContext = createContext();
-const initialState = {
-    token: localStorage.getItem("token"),
-}
 
-// Create provider
+// Get token from either localStorage or sessionStorage
+const initialState = {
+    token: localStorage.getItem("token") || sessionStorage.getItem("token"),
+};
+
+// AuthProvider Component
 const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
-    // Store token in local storage
-    const storeTokenInLS = (serverToken) => {
+    // Store token based on "Remember Me"
+    const storeTokenInLS = (serverToken, rememberMe) => {
         //This function saves the JWT/token in localStorage when the user logs in. This use this to persist login state across sessions.
-        return localStorage.setItem("token", serverToken);
-    };
+        if (rememberMe) {
+            localStorage.setItem("token", serverToken); // Save for 30 days
+        } else {
+            sessionStorage.setItem("token", serverToken); // Session only
+        }
 
-    //User logout 
-    const logOutUser = () => {
+        // Update token in state
         dispatch({
-            type: "REMOVE_TOKEN" //This dispatches an action to the reducer to remove the token (logout).
-        })
+            type: "SET_TOKEN",
+            payload: serverToken
+        });
     };
 
-    // Logged-in status
-    let isLoggedIn = !!state.token; // Ensure this is boolean
+    // Logout: remove token from both storages
+    const logOutUser = () => {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
 
+        dispatch({
+            type: "REMOVE_TOKEN"
+        });
+    };
+
+    // Boolean flag for login status
+    const isLoggedIn = !!state.token;
+
+    // Auth context value
     const value = {
         storeTokenInLS,
         logOutUser,
         isLoggedIn
-    }
-    //It passes down the value so any nested component can access auth state and functions.
+    };
+
     return (
         <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};
 
+// Custom hook to access context
 const useAuthContext = () => {
     return useContext(AuthContext);
 };
 
-export { AuthProvider, useAuthContext }
+export { AuthProvider, useAuthContext };
