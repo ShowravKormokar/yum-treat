@@ -90,7 +90,6 @@ const login = async (req, res) => {
         }
 
     } catch (err) {
-        console.error("Login Error:", err.message); // ✅ Debugging: Logs error details
         res.status(500).json({ message: "Internal server error!", error: err.message });
     }
 };
@@ -98,29 +97,28 @@ const login = async (req, res) => {
 // Fetch Individual profile info
 const individualProfileInfo = async (req, res) => {
     try {
-        const userData = req.jwtPayload;
-        const userId = userData.userId;
+        const { userId } = req.jwtPayload;
 
-        // Find profile details by ID
-        const profileDetails = await SignUp.findById(userId);
+        //Find profile details by ID
+        const profileDetails = await SignUp.findById(userId).select("_id email username");
 
         if (profileDetails) {
-            res.status(201).json({
+            res.status(200).json({
                 message: "Success",
-                profileDetails: profileDetails
+                profileDetails
             });
         } else {
-            res.status(201).json({
-                message: "Failed",
-                error: "Invalid token"
+            res.status(404).json({
+                message: "User not found",
             });
         }
     } catch (err) {
-        res.status(500), json({
+        res.status(500).json({
             message: "Internal server error.",
             error: err.message
         });
     }
 };
+
 
 module.exports = { getSignUpData, register, login, individualProfileInfo };

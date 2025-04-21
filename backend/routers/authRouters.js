@@ -26,6 +26,6 @@ router
 //Show logged-in user's own profile -> authController.individualProfile pulls user data based on token's userId.
 router
     .route('/account')
-    .get(authController.individualProfileInfo);
+    .get(jwtAuthMiddleware, authController.individualProfileInfo);
 
 module.exports = router;
