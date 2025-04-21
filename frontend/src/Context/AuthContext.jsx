@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import authReducer from "../Reducer/AuthReducer";
 
 // Create context
@@ -12,6 +12,7 @@ const initialState = {
 // AuthProvider Component
 const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
+    const [user, setUser] = useState(null); // 🧠 Store user info here
 
     // Store token based on "Remember Me"
     const storeTokenInLS = (serverToken, rememberMe) => {
@@ -39,6 +40,31 @@ const AuthProvider = ({ children }) => {
         });
     };
 
+    // Fetch user info
+    const fetchUser = async () => {
+        try {
+            const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+            if (!token) return;
+
+            const res = await fetch("http://localhost:5000/api/auth/account", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const data = await res.json();
+            if (res.ok && data.profileDetails) {
+                setUser(data.profileDetails); // Set user info to context
+            }
+        } catch (err) {
+            console.error("Failed to fetch user info", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchUser();
+    }, [state.token]); // Fetch when token changes
+
     // Boolean flag for login status
     const isLoggedIn = !!state.token;
 
@@ -46,7 +72,8 @@ const AuthProvider = ({ children }) => {
     const value = {
         storeTokenInLS,
         logOutUser,
-        isLoggedIn
+        isLoggedIn,
+        user
     };
 
     return (

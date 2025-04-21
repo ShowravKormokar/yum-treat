@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
+import { useAuthContext } from '../../Context/AuthContext';
 
-const Account = ({ user }) => {
+const Account = () => {
     const [orders, setOrders] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState({ rating: 0, feedback: "" });
     const [deliveredOrders, setDeliveredOrders] = useState([]);
+
+    const { user, isLoggedIn } = useAuthContext();
 
     useEffect(() => {
         // Fetch user orders and reviews from an API or state
@@ -34,12 +37,23 @@ const Account = ({ user }) => {
         setReview({ rating: 0, feedback: "" });
     };
 
+    //For test data is perfectly fetch
+    console.info(user);
+    console.log(isLoggedIn);
+
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
             <h1 className="text-3xl font-bold text-center">User Account</h1>
             <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-                <h2 className="text-2xl font-semibold">Email: abc@xyz.com </h2>
-                {/* <h2 className="text-2xl font-semibold">Email: {user.email}</h2> */}
+                {/* <h2 className="text-2xl font-semibold">Email: abc@xyz.com </h2> */}
+                {user ? (
+                    <div>
+                        <p><strong>User ID:</strong> {user._id}</p>
+                        <p><strong>Email:</strong> {user.email}</p>
+                    </div>
+                ) : (
+                    <p>Loading user info...</p>
+                )}
                 <NavLink
                     to="/sign_out"
                     className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg block text-center"
