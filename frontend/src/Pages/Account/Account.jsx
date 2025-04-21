@@ -38,8 +38,8 @@ const Account = () => {
     };
 
     //For test data is perfectly fetch
-    console.info(user);
-    console.log(isLoggedIn);
+    //console.info(user);
+    //console.log(isLoggedIn);
 
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
