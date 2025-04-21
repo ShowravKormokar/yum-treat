@@ -19,6 +19,7 @@ import Product from "./Pages/Product/Product.jsx";
 import { AuthProvider } from "./Context/AuthContext.jsx";
 import SignOut from "./Pages/SignOut/SignOut.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
+import { CategoryProvider } from "./Context/CategoryContext.jsx";
 
 let router = createBrowserRouter([
   {
@@ -81,6 +82,8 @@ let router = createBrowserRouter([
 const root = document.getElementById("root");
 ReactDOM.createRoot(root).render(
   <AuthProvider> {/* Wrap app inside AuthProvider */}
-    <RouterProvider router={router} />
+    <CategoryProvider>
+      <RouterProvider router={router} />
+    </CategoryProvider>
   </AuthProvider>
 );

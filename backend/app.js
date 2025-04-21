@@ -3,6 +3,8 @@ const express = require('express');
 const authRouter = require('./routers/authRouters');
 const cors = require('cors');
 require('./db/connection');
+const categoryRouter = require("./routers/categoryRoutes");
+
 
 const app = express();
 
@@ -23,6 +25,10 @@ app.get('/', (req, res) => {
 // ------------------------- Add all routes 
 app.use(express.json());
 app.use("/api/auth", authRouter);
+
+// ------------------------- Category routes
+app.use("/api", categoryRouter);
+
 
 //-------------------------- Start the server
 const PORT = process.env.PORT || 5000;
