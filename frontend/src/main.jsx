@@ -22,6 +22,7 @@ import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import { CategoryProvider } from "./Context/CategoryContext.jsx";
 import Dashboard from "./dashboard/Dashboard.jsx";
 import FoodAddForm from "./dashboard/Dash-components/FoodAddForm.jsx";
+import DashboardHome from "./dashboard/DashboardHome.jsx";
 
 let router = createBrowserRouter([
   {
@@ -83,6 +84,10 @@ let router = createBrowserRouter([
     path: '/admin-dashboard',
     element: <Dashboard />,
     children: [
+      {
+        path: '',
+        element: <DashboardHome /> // This would render the InfoCards and OrderCards
+      },
       {
         path: 'add-foods',
         element: <FoodAddForm />
