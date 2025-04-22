@@ -20,6 +20,8 @@ import { AuthProvider } from "./Context/AuthContext.jsx";
 import SignOut from "./Pages/SignOut/SignOut.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import { CategoryProvider } from "./Context/CategoryContext.jsx";
+import Dashboard from "./dashboard/Dashboard.jsx";
+import FoodAddForm from "./dashboard/Dash-components/FoodAddForm.jsx";
 
 let router = createBrowserRouter([
   {
@@ -76,6 +78,16 @@ let router = createBrowserRouter([
   {
     path: '/sign_out',
     element: <SignOut />
+  },
+  {
+    path: '/admin-dashboard',
+    element: <Dashboard />,
+    children: [
+      {
+        path: 'add-foods',
+        element: <FoodAddForm />
+      }
+    ]
   }
 ]);
 
