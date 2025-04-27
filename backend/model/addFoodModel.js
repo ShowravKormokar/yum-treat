@@ -3,32 +3,47 @@ const mongoose = require('mongoose');
 const foodSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
-        trim: true,
-    },
-    category: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    price: {
-        type: Number,
-        required: true,
+        required: true
     },
     description: {
         type: String,
-        default: '',
+        required: true
     },
     imageUrl: {
         type: String,
-        default: '',
+        required: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
+    rating: {
+        type: Number,
+        default: 0
     },
+    numberOfReviews: {
+        type: Number,
+        default: 0
+    },
+    currentPrice: {
+        type: Number,
+        required: true
+    }, // Make sure this is present and required
+    pastPrice: {
+        type: Number
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    tags: {
+        type: [String],
+        default: []
+    },
+    customOrder: {
+        type: Boolean,
+        default: false
+    },
+    isAvailable: {
+        type: Boolean,
+        default: true
+    }
 });
 
-const FoodModel = mongoose.model('Food', foodSchema);
-
-module.exports = FoodModel;
+module.exports = mongoose.model('Food', foodSchema);

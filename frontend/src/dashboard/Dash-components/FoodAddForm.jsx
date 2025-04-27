@@ -9,36 +9,44 @@ const FoodAddForm = () => {
     const { categories } = useCategoryContext();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name: '',
-        description: '',
-        imageUrl: '',
+        name: "",
+        description: "",
+        imageUrl: "",
         rating: 0,
         numberOfReviews: 0,
-        currentPrice: '',
-        pastPrice: '',
-        category: '',
+        currentPrice: 0.0,
+        pastPrice: 0.0,
+        category: "",
         tags: [],
         customOrder: false,
         isAvailable: true,
-        newTag: ''
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const commonTags = [
-        'spicy', 'chicken', 'roast', 'vegetarian', 'vegan',
-        'gluten-free', 'dairy-free', 'nut-free', 'seafood', 'cheesy'
+        "spicy",
+        "chicken",
+        "roast",
+        "vegetarian",
+        "vegan",
+        "gluten-free",
+        "dairy-free",
+        "nut-free",
+        "seafood",
+        "cheesy",
     ];
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: type === "checkbox" ? checked : value,
         }));
 
+        // Clear error when user starts typing
         if (errors[name]) {
-            setErrors(prev => {
+            setErrors((prev) => {
                 const newErrors = { ...prev };
                 delete newErrors[name];
                 return newErrors;
@@ -47,19 +55,18 @@ const FoodAddForm = () => {
     };
 
     const handleTagAdd = (tag) => {
-        if (tag && !formData.tags.includes(tag)) {
-            setFormData(prev => ({
+        if (!formData.tags.includes(tag)) {
+            setFormData((prev) => ({
                 ...prev,
                 tags: [...prev.tags, tag],
-                newTag: ''
             }));
         }
     };
 
     const handleRemoveTag = (tagToRemove) => {
-        setFormData(prev => ({
+        setFormData((prev) => ({
             ...prev,
-            tags: prev.tags.filter(tag => tag !== tagToRemove)
+            tags: prev.tags.filter((tag) => tag !== tagToRemove),
         }));
     };
 
@@ -68,16 +75,13 @@ const FoodAddForm = () => {
 
         if (!formData.name.trim()) newErrors.name = 'Food name is required';
         if (!formData.description.trim()) newErrors.description = 'Description is required';
+        if (!formData.imageUrl.trim()) newErrors.imageUrl = 'Image URL is required';
         if (!formData.category) newErrors.category = 'Category is required';
-        if (!formData.currentPrice || parseFloat(formData.currentPrice) < 0) {
-            newErrors.currentPrice = 'Valid current price is required';
-        }
-        if (!formData.imageUrl.trim()) {
-            newErrors.imageUrl = 'Image URL is required';
-        }
-        if (formData.pastPrice) {
+        if (!formData.currentPrice || parseFloat(formData.currentPrice) <= 0) newErrors.currentPrice = 'Valid current price is required';
+
+        if (formData.pastPrice && parseFloat(formData.pastPrice)) {
             if (parseFloat(formData.pastPrice) < 0) {
-                newErrors.pastPrice = 'Past price cannot be negative';
+                newErrors.pastPrice = 'Price cannot be negative';
             } else if (parseFloat(formData.pastPrice) > parseFloat(formData.currentPrice)) {
                 newErrors.pastPrice = 'Past price must be ≤ current price';
             }
@@ -86,6 +90,7 @@ const FoodAddForm = () => {
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -96,43 +101,35 @@ const FoodAddForm = () => {
 
         try {
             const foodData = {
-                name: formData.name.trim(),
-                description: formData.description.trim(),
-                imageUrl: formData.imageUrl.trim(),
-                rating: parseFloat(formData.rating) || 0,
-                numberOfReviews: parseInt(formData.numberOfReviews) || 0,
+                ...formData,
+                rating: parseFloat(formData.rating),
+                numberOfReviews: parseInt(formData.numberOfReviews),
                 currentPrice: parseFloat(formData.currentPrice),
                 pastPrice: formData.pastPrice ? parseFloat(formData.pastPrice) : undefined,
-                category: formData.category,
-                tags: formData.tags.filter(tag => commonTags.includes(tag)),
-                customOrder: formData.customOrder,
-                isAvailable: formData.isAvailable,
+                tags: formData.tags.filter((tag) => commonTags.includes(tag)),
             };
 
-            const response = await axios.post(URL, foodData, {
+            // Log the food data to check if the price is correctly included
+            console.log("Food data being sent:", foodData);
+
+            const response = await fetch(URL, {
+                method: "POST",
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(foodData),
             });
 
-            alert('✅ Food item added successfully!');
-            // navigate('/foods'); // You can update route according to your app
-        } catch (error) {
-            console.error('Error adding food:', error);
-
-            if (error.response) {
-                if (error.response.data.errors) {
-                    const serverErrors = {};
-                    error.response.data.errors.forEach(err => {
-                        serverErrors[err.path] = err.msg;
-                    });
-                    setErrors(serverErrors);
-                } else {
-                    alert(error.response.data.error || '❌ Failed to add food item');
-                }
-            } else {
-                alert('❌ Network error. Please try again.');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || "Failed to add food item");
             }
+
+            alert("Food item added successfully!");
+            navigate("/admin-dashboard");
+        } catch (error) {
+            console.error("Error adding food:", error);
+            alert(error.message || "Something went wrong. Please try again.");
         } finally {
             setIsSubmitting(false);
         }

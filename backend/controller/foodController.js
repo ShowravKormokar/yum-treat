@@ -2,28 +2,35 @@ const Food = require('../model/addFoodModel');
 
 // Create a new food item
 const createFood = async (req, res) => {
+    console.log(req.body);
     try {
-        const { name, category, price, description, imageUrl } = req.body;
+        const {
+            name, description, imageUrl, rating, numberOfReviews,
+            currentPrice, pastPrice, category, tags, customOrder, isAvailable
+        } = req.body;
 
-        // Check if important fields are given
-        if (!name || !category || !price) {
-            return res.status(400).json({ message: 'Name, category, and price are required.' });
-        }
-
-        const newFood = new Food({
+        // Create a new food item with provided data
+        const food = new Food({
             name,
-            category,
-            price,
             description,
             imageUrl,
+            rating,
+            numberOfReviews,
+            currentPrice: currentPrice || 0,  // Ensure it's a valid number
+            pastPrice: pastPrice || 0,  // Default to 0 if missing
+            category,
+            tags,
+            customOrder,
+            isAvailable
         });
 
-        await newFood.save();
+        // Save the food item to the database
+        await food.save();
 
-        res.status(201).json({ message: 'Food created successfully', food: newFood });
+        res.status(201).json({ message: 'Food added successfully!' });
     } catch (error) {
-        console.error('Error creating food:', error);
-        res.status(500).json({ message: 'Server Error' });
+        console.error('Error adding food:', error);
+        res.status(400).json({ error: 'Failed to add food item' });
     }
 };
 
