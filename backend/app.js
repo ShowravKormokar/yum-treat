@@ -1,14 +1,14 @@
 require('dotenv').config();
 const express = require('express');
-const authRouter = require('./routers/authRouters');
 const cors = require('cors');
-require('./db/connection');
+const authRouter = require('./routers/authRouters');
 const categoryRouter = require("./routers/categoryRoutes");
-
+const foodRoutes = require('./routers/addFoodRoutes');
+require('./db/connection');
 
 const app = express();
 
-//Allow request from frontend
+// ------------------ 1. Allow request from frontend
 const corsOptions = {
     origin: "http://localhost:5173", // only allow this origin
     methods: ["GET", "POST", "PUT", "DELETE"], // only allow these HTTP methods
@@ -17,19 +17,19 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-//---------------------------Define a test route
+// ------------------ 2. Body parser (MUST before routes)
+app.use(express.json());
+
+// ------------------ 3. Test route
 app.get('/', (req, res) => {
-    res.send('API is running...');//Define a route when client send a get requset on the /URL
+    res.send('API is running...');
 });
 
-// ------------------------- Add all routes 
-app.use(express.json());
+// ------------------ 4. Define all routes
 app.use("/api/auth", authRouter);
+app.use("/api", categoryRouter); // Your category routes
+app.use('/api/foods', foodRoutes); // Your food routes
 
-// ------------------------- Category routes
-app.use("/api", categoryRouter);
-
-
-//-------------------------- Start the server
+// ------------------ 5. Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`)); // It starts the server on port 5000
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

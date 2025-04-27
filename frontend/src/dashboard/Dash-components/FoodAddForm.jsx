@@ -1,24 +1,34 @@
 import { useState } from 'react';
 import { useCategoryContext } from "../../Context/CategoryContext";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const URL = "http://localhost:5000/api/foods/add";
 
 const FoodAddForm = () => {
-    const { categories } = useCategoryContext(); // Get categories from context
+    const { categories } = useCategoryContext();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        foodName: '',
-        foodDescription: '',
-        foodImageUrl: '',
+        name: '',
+        description: '',
+        imageUrl: '',
         rating: 0,
-        numberOfReviewers: 0,
+        numberOfReviews: 0,
         currentPrice: '',
         pastPrice: '',
         category: '',
         tags: [],
-        customOrderAccepted: false,
-        isAvailable: true, // New field for food availability
+        customOrder: false,
+        isAvailable: true,
         newTag: ''
     });
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const commonTags = ['spicy', 'chicken', 'roast', 'vegetarian', 'vegan', 'gluten-free', 'dairy-free', 'nut-free', 'seafood', 'cheesy'];
+    const commonTags = [
+        'spicy', 'chicken', 'roast', 'vegetarian', 'vegan',
+        'gluten-free', 'dairy-free', 'nut-free', 'seafood', 'cheesy'
+    ];
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -26,10 +36,18 @@ const FoodAddForm = () => {
             ...prev,
             [name]: type === 'checkbox' ? checked : value
         }));
+
+        if (errors[name]) {
+            setErrors(prev => {
+                const newErrors = { ...prev };
+                delete newErrors[name];
+                return newErrors;
+            });
+        }
     };
 
     const handleTagAdd = (tag) => {
-        if (!formData.tags.includes(tag)) {
+        if (tag && !formData.tags.includes(tag)) {
             setFormData(prev => ({
                 ...prev,
                 tags: [...prev.tags, tag],
@@ -45,26 +63,79 @@ const FoodAddForm = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.name.trim()) newErrors.name = 'Food name is required';
+        if (!formData.description.trim()) newErrors.description = 'Description is required';
+        if (!formData.category) newErrors.category = 'Category is required';
+        if (!formData.currentPrice || parseFloat(formData.currentPrice) < 0) {
+            newErrors.currentPrice = 'Valid current price is required';
+        }
+        if (!formData.imageUrl.trim()) {
+            newErrors.imageUrl = 'Image URL is required';
+        }
+        if (formData.pastPrice) {
+            if (parseFloat(formData.pastPrice) < 0) {
+                newErrors.pastPrice = 'Past price cannot be negative';
+            } else if (parseFloat(formData.pastPrice) > parseFloat(formData.currentPrice)) {
+                newErrors.pastPrice = 'Past price must be ≤ current price';
+            }
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you would typically send the data to your backend API
-        console.log('Form submitted:', formData);
-        alert('Food item added successfully!');
-        // Reset form after submission
-        setFormData({
-            foodName: '',
-            foodDescription: '',
-            foodImageUrl: '',
-            rating: 0,
-            numberOfReviewers: 0,
-            currentPrice: '',
-            pastPrice: '',
-            category: '',
-            tags: [],
-            customOrderAccepted: false,
-            isAvailable: true, // Reset to true
-            newTag: ''
-        });
+
+        if (!validateForm()) return;
+
+        setIsSubmitting(true);
+
+        try {
+            const foodData = {
+                name: formData.name.trim(),
+                description: formData.description.trim(),
+                imageUrl: formData.imageUrl.trim(),
+                rating: parseFloat(formData.rating) || 0,
+                numberOfReviews: parseInt(formData.numberOfReviews) || 0,
+                currentPrice: parseFloat(formData.currentPrice),
+                pastPrice: formData.pastPrice ? parseFloat(formData.pastPrice) : undefined,
+                category: formData.category,
+                tags: formData.tags.filter(tag => commonTags.includes(tag)),
+                customOrder: formData.customOrder,
+                isAvailable: formData.isAvailable,
+            };
+
+            const response = await axios.post(URL, foodData, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            alert('✅ Food item added successfully!');
+            // navigate('/foods'); // You can update route according to your app
+        } catch (error) {
+            console.error('Error adding food:', error);
+
+            if (error.response) {
+                if (error.response.data.errors) {
+                    const serverErrors = {};
+                    error.response.data.errors.forEach(err => {
+                        serverErrors[err.path] = err.msg;
+                    });
+                    setErrors(serverErrors);
+                } else {
+                    alert(error.response.data.error || '❌ Failed to add food item');
+                }
+            } else {
+                alert('❌ Network error. Please try again.');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -74,44 +145,44 @@ const FoodAddForm = () => {
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Food Name */}
                 <div>
-                    <label htmlFor="foodName" className="block text-sm font-medium text-gray-700">Food Name *</label>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Food Name *</label>
                     <input
                         type="text"
-                        id="foodName"
-                        name="foodName"
-                        value={formData.foodName}
+                        id="name"
+                        name="name"
+                        value={formData.name}
                         onChange={handleChange}
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.name ? 'border-red-500' : ''}`}
                     />
+                    {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
                 </div>
 
                 {/* Food Description */}
                 <div>
-                    <label htmlFor="foodDescription" className="block text-sm font-medium text-gray-700">Description *</label>
+                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description *</label>
                     <textarea
-                        id="foodDescription"
-                        name="foodDescription"
-                        value={formData.foodDescription}
+                        id="description"
+                        name="description"
+                        value={formData.description}
                         onChange={handleChange}
-                        required
                         rows={3}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.description ? 'border-red-500' : ''}`}
                     />
+                    {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
                 </div>
 
                 {/* Food Image URL */}
                 <div>
-                    <label htmlFor="foodImageUrl" className="block text-sm font-medium text-gray-700">Image URL *</label>
+                    <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">Image URL *</label>
                     <input
                         type="url"
-                        id="foodImageUrl"
-                        name="foodImageUrl"
-                        value={formData.foodImageUrl}
+                        id="imageUrl"
+                        name="imageUrl"
+                        value={formData.imageUrl}
                         onChange={handleChange}
-                        required
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.imageUrl ? 'border-red-500' : ''}`}
                     />
+                    {errors.imageUrl && <p className="mt-1 text-sm text-red-600">{errors.imageUrl}</p>}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -133,13 +204,13 @@ const FoodAddForm = () => {
 
                     {/* Number of Reviewers */}
                     <div>
-                        <label htmlFor="numberOfReviewers" className="block text-sm font-medium text-gray-700">Number of Reviewers</label>
+                        <label htmlFor="numberOfReviews" className="block text-sm font-medium text-gray-700">Number of Reviewers</label>
                         <input
                             type="number"
-                            id="numberOfReviewers"
-                            name="numberOfReviewers"
+                            id="numberOfReviews"
+                            name="numberOfReviews"
                             min="0"
-                            value={formData.numberOfReviewers}
+                            value={formData.numberOfReviews}
                             onChange={handleChange}
                             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
                         />
@@ -153,14 +224,14 @@ const FoodAddForm = () => {
                             name="category"
                             value={formData.category}
                             onChange={handleChange}
-                            required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.category ? 'border-red-500' : ''}`}
                         >
                             <option value="">Select a category</option>
                             {categories.map(category => (
                                 <option key={category._id} value={category._id}>{category.name}</option>
                             ))}
                         </select>
+                        {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category}</p>}
                     </div>
                 </div>
 
@@ -176,9 +247,9 @@ const FoodAddForm = () => {
                             step="0.01"
                             value={formData.currentPrice}
                             onChange={handleChange}
-                            required
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.currentPrice ? 'border-red-500' : ''}`}
                         />
+                        {errors.currentPrice && <p className="mt-1 text-sm text-red-600">{errors.currentPrice}</p>}
                     </div>
 
                     {/* Past Price */}
@@ -192,8 +263,9 @@ const FoodAddForm = () => {
                             step="0.01"
                             value={formData.pastPrice}
                             onChange={handleChange}
-                            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border"
+                            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 p-2 border ${errors.pastPrice ? 'border-red-500' : ''}`}
                         />
+                        {errors.pastPrice && <p className="mt-1 text-sm text-red-600">{errors.pastPrice}</p>}
                     </div>
                 </div>
 
@@ -269,13 +341,13 @@ const FoodAddForm = () => {
                 <div className="flex items-center">
                     <input
                         type="checkbox"
-                        id="customOrderAccepted"
-                        name="customOrderAccepted"
-                        checked={formData.customOrderAccepted}
+                        id="customOrder"
+                        name="customOrder"
+                        checked={formData.customOrder}
                         onChange={handleChange}
                         className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
                     />
-                    <label htmlFor="customOrderAccepted" className="ml-2 block text-sm text-gray-700">
+                    <label htmlFor="customOrder" className="ml-2 block text-sm text-gray-700">
                         Accept Custom Orders for this item
                     </label>
                 </div>
@@ -284,9 +356,10 @@ const FoodAddForm = () => {
                 <div className="pt-4">
                     <button
                         type="submit"
-                        className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-150"
+                        disabled={isSubmitting}
+                        className={`w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition duration-150 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                        Add Food Item
+                        {isSubmitting ? 'Adding...' : 'Add Food Item'}
                     </button>
                 </div>
             </form>
