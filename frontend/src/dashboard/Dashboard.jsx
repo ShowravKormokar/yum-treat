@@ -27,9 +27,14 @@ const Dashboard = () => {
 
     const getTitle = () => {
         const path = location.pathname;
-        if (path.includes('add-foods')) return 'Add Food';
         if (path.includes('analytics')) return 'Analytics';
-        if (path.includes('orders')) return 'Orders';
+        if (path.includes('add-foods')) return 'Add Food';
+        if (path.includes('add-category')) return 'Orders';
+        if (path.includes('edit-foods')) return 'Edit Foods';
+        if (path.includes('order-info')) return 'Orders';
+        if (path.includes('contact-log')) return 'Orders';
+        if (path.includes('table-booking')) return 'Orders';
+        if (path.includes('messages')) return 'Orders';
         return 'Dashboard';
     };
 
@@ -61,7 +66,7 @@ const Dashboard = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/analytics" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="analytics" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaChartLine className="mr-3" /> Analytics
                             </Link>
                         </li>
@@ -71,27 +76,32 @@ const Dashboard = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/add-category" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="add-category" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaPlus className="mr-3" /> Add Category
                             </Link>
                         </li>
                         <li>
-                            <Link to="/orders" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="edit-foods" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                                <FaPlus className="mr-3" /> Edit Foods
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="orders" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaList className="mr-3" /> Order Info
                             </Link>
                         </li>
                         <li>
-                            <Link to="/contact-logs" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="contact-logs" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaEnvelope className="mr-3" /> Contact Logs
                             </Link>
                         </li>
                         <li>
-                            <Link to="/table-bookings" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="table-bookings" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaChair className="mr-3" /> Table Booking
                             </Link>
                         </li>
                         <li>
-                            <Link to="/messages" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="messages" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaEnvelope className="mr-3" /> Messages
                             </Link>
                         </li>

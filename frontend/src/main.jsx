@@ -23,6 +23,9 @@ import { CategoryProvider } from "./Context/CategoryContext.jsx";
 import Dashboard from "./dashboard/Dashboard.jsx";
 import FoodAddForm from "./dashboard/Dash-components/FoodAddForm.jsx";
 import DashboardHome from "./dashboard/DashboardHome.jsx";
+import FoodsProvider from "./Context/FoodsContext.jsx";
+import EditFoods from "./dashboard/Dash-components/EditFoods.jsx";
+import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
 
 let router = createBrowserRouter([
   {
@@ -91,16 +94,35 @@ let router = createBrowserRouter([
       {
         path: 'add-foods',
         element: <FoodAddForm />
+      },
+      {
+        path: 'edit-foods',
+        element: <EditFoods />
+      },
+      {
+        path: 'add-foods',
+        element: <FoodAddForm />
+      },
+      {
+        path: 'add-foods',
+        element: <FoodAddForm />
+      },
+      {
+        path: 'edit-food/:id',
+        element: <EditFood />
       }
     ]
   }
+
 ]);
 
 const root = document.getElementById("root");
 ReactDOM.createRoot(root).render(
-  <AuthProvider> {/* Wrap app inside AuthProvider */}
+  <AuthProvider>
     <CategoryProvider>
-      <RouterProvider router={router} />
+      <FoodsProvider>
+        <RouterProvider router={router} />
+      </FoodsProvider>
     </CategoryProvider>
   </AuthProvider>
 );

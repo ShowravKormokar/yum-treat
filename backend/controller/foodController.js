@@ -34,7 +34,7 @@ const createFood = async (req, res) => {
     }
 };
 
-// (optional) Get all food items
+//Get all food items
 const getAllFoods = async (req, res) => {
     try {
         const foods = await Food.find();
@@ -45,4 +45,45 @@ const getAllFoods = async (req, res) => {
     }
 };
 
-module.exports = { createFood, getAllFoods };
+// Get a single food item by ID
+const getFoodById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const food = await Food.findById(id);
+
+        if (!food) {
+            return res.status(404).json({ message: 'Food not found' });
+        }
+
+        res.json(food);
+    } catch (error) {
+        console.error('Error fetching food by ID:', error);
+        res.status(500).json({ message: 'Server Error' });
+    }
+};
+
+// Update food item
+const updateFood = async (req, res) => {
+    try {
+        const food = await Food.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        if (!food) return res.status(404).json({ message: 'Food not found' });
+        res.json({ message: 'Food updated successfully', food });
+    } catch (error) {
+        console.error('Error updating food:', error);
+        res.status(400).json({ error: 'Failed to update food item' });
+    }
+};
+
+// Delete food item
+const deleteFood = async (req, res) => {
+    try {
+        const food = await Food.findByIdAndDelete(req.params.id);
+        if (!food) return res.status(404).json({ message: 'Food not found' });
+        res.json({ message: 'Food deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting food:', error);
+        res.status(400).json({ error: 'Failed to delete food item' });
+    }
+};
+
+module.exports = { createFood, getAllFoods, getFoodById, updateFood, deleteFood };

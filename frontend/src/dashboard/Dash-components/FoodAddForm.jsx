@@ -35,7 +35,12 @@ const FoodAddForm = () => {
         "nut-free",
         "seafood",
         "cheesy",
+        "gravy",
+        "grill",
+        "rice",
+        "fish"
     ];
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
