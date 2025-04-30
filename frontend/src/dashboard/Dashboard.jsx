@@ -52,7 +52,7 @@ const Dashboard = () => {
             <aside
                 className={`fixed md:static z-30 w-64 h-full bg-white shadow-md transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 transition-transform duration-200 ease-in-out`}
             >
-                <div className="p-4 border-b">
+                <div className="p-[11px] border-b">
                     <Link to="/home" className="text-3xl font-bold text-gray-800 flex items-center">
                         <FaUtensils className="text-[#c34c2e] mr-2" /> YumTreat
                     </Link>
