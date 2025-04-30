@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FoodsContext } from "../../Context/FoodsContext";
 import { FaStar, FaStarHalfAlt, FaRegStar, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+// import f1 from '../../assets/foods/'
 
 const EditFoods = () => {
     const navigate = useNavigate();
@@ -47,7 +48,7 @@ const EditFoods = () => {
                         {/* Food Image */}
                         <div className="mb-4">
                             <img
-                                src={food.imageUrl || 'https://via.placeholder.com/300'}
+                                src={`../src/assets/foods/${food.imageUrl}.png`}
                                 alt={food.name}
                                 className="h-40 mx-auto object-cover"
                             />
@@ -71,7 +72,7 @@ const EditFoods = () => {
 
                         {/* Price (optional) */}
                         <div className="text-lg font-bold text-gray-900">
-                            ${food.price || '0'}.00
+                            ${food.currentPrice || '0'}.00
                             {food.oldPrice && (
                                 <span className="text-gray-500 line-through text-sm ml-2">
                                     ${food.oldPrice}.00
