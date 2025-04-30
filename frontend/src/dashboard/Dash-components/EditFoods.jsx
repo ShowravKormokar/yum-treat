@@ -72,10 +72,10 @@ const EditFoods = () => {
 
                         {/* Price (optional) */}
                         <div className="text-lg font-bold text-gray-900">
-                            ${food.currentPrice || '0'}.00
-                            {food.oldPrice && (
+                            ${food.currentPrice || '0'}
+                            {!food.pastPrice == 0 && (
                                 <span className="text-gray-500 line-through text-sm ml-2">
-                                    ${food.oldPrice}.00
+                                    ${food.pastPrice}
                                 </span>
                             )}
                         </div>

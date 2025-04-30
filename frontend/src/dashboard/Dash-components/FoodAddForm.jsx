@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useCategoryContext } from "../../Context/CategoryContext";
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { validateFoodForm } from '../utils/foodValidation';
 
 const URL = "http://localhost:5000/api/foods/add";
 
@@ -76,24 +76,9 @@ const FoodAddForm = () => {
     };
 
     const validateForm = () => {
-        const newErrors = {};
-
-        if (!formData.name.trim()) newErrors.name = 'Food name is required';
-        if (!formData.description.trim()) newErrors.description = 'Description is required';
-        if (!formData.imageUrl.trim()) newErrors.imageUrl = 'Image URL is required';
-        if (!formData.category) newErrors.category = 'Category is required';
-        if (!formData.currentPrice || parseFloat(formData.currentPrice) <= 0) newErrors.currentPrice = 'Valid current price is required';
-
-        if (formData.pastPrice && parseFloat(formData.pastPrice)) {
-            if (parseFloat(formData.pastPrice) < 0) {
-                newErrors.pastPrice = 'Price cannot be negative';
-            } else if (parseFloat(formData.pastPrice) > parseFloat(formData.currentPrice)) {
-                newErrors.pastPrice = 'Past price must be ≤ current price';
-            }
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        const validationErrors = validateFoodForm(formData);
+        setErrors(validationErrors);
+        return Object.keys(validationErrors).length === 0;
     };
 
 
