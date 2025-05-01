@@ -11,14 +11,17 @@ const CartButton = ({ food }) => {
         // const cart = "";
 
         // ✅ Check if item already exists
-        // const alreadyExists = cart.some(item => item._id === food._id);
-        // if (alreadyExists) return;
+        const alreadyExists = cart.some(item => item._id === food._id);
+        if (alreadyExists) return;
 
         const newItem = {
             _id: food._id,
             name: food.name,
             price: food.currentPrice,
-            image: `/src/assets/foods/${food.imageUrl}.png`
+            image: food.imageUrl,
+            isAva: food.isAvailable,
+            isCus: food.customOrder
+
         };
 
         const updatedCart = [...cart, newItem];
