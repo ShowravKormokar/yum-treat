@@ -1,0 +1,87 @@
+import Order from "../models/orderModel.js";
+
+// Place a new order
+export const placeOrder = async (req, res) => {
+    try {
+        const {
+            product_id,
+            fullName,
+            address,
+            city,
+            postalCode,
+            phone,
+            note,
+            paymentMethod
+        } = req.body;
+
+        const user_id = req.user._id; // Make sure req.user is populated from auth middleware
+
+        const newOrder = new Order({
+            user_id,
+            product_id,
+            fullName,
+            address,
+            city,
+            postalCode,
+            phone,
+            note,
+            paymentMethod
+        });
+
+        await newOrder.save();
+        res.status(201).json({ message: "Order placed successfully", order: newOrder });
+    } catch (error) {
+        console.error("Error placing order:", error);
+        res.status(500).json({ error: "Failed to place order" });
+    }
+};
+
+// Get all orders (Admin)
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().populate("user_id").populate("product_id");
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ error: "Failed to fetch orders" });
+    }
+};
+
+// Get orders for a specific user
+export const getUserOrders = async (req, res) => {
+    try {
+        const user_id = req.user._id;
+        const orders = await Order.find({ user_id }).populate("product_id");
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching user orders:", error);
+        res.status(500).json({ error: "Failed to fetch your orders" });
+    }
+};
+
+// Update order status (Admin)
+export const updateOrderStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        if (!["preparing", "ready"].includes(status)) {
+            return res.status(400).json({ error: "Invalid status value" });
+        }
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            { status },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json({ message: "Order status updated", order: updatedOrder });
+    } catch (error) {
+        console.error("Error updating status:", error);
+        res.status(500).json({ error: "Failed to update order status" });
+    }
+};

@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const orderSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "userSignUp", // Adjust if your user model name is different
+        ref: "userSignUp",
         required: true
     },
     product_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Food", // Adjust based on your food model name
+        ref: "Food",
         required: true
     },
     fullName: {
@@ -48,7 +48,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["preparing", "ready"],
+        enum: ["preparing", "ready","cancle"],
         default: "preparing"
     }
 }, {
