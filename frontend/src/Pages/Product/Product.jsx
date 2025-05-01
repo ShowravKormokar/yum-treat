@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
+import CartButton from "../../components/Cart/CartButton";
 
 const Product = () => {
     const { id } = useParams();
@@ -72,7 +73,9 @@ const Product = () => {
                             ${foodData.pastPrice}
                         </span>
                     )}</p>
-                    <button className="mt-4 mr-2 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer">Add to Cart</button>
+                    <CartButton
+                        food={foodData}
+                    />
                 </div>
             </div>
 

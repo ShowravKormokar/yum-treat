@@ -34,6 +34,9 @@ const AuthProvider = ({ children }) => {
     const logOutUser = () => {
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
+        localStorage.removeItem("cart"); // 🔥 Clear cart on logout
+
+        window.dispatchEvent(new Event("userLoggedOut")); // 📢 Notify other components (e.g., Cart.jsx)
 
         dispatch({
             type: "REMOVE_TOKEN"

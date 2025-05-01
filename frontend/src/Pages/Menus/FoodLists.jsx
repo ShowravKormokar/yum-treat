@@ -3,6 +3,7 @@ import { FoodsContext } from "../../Context/FoodsContext";
 import { useCategoryContext } from "../../Context/CategoryContext";
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import CartButton from "../../components/Cart/CartButton";
 
 const FoodLists = () => {
     const navigate = useNavigate();
@@ -61,12 +62,11 @@ const FoodLists = () => {
                                     )}
                                 </div>
 
-                                <button
-                                    className="mt-4 mr-2 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
-                                    onClick={() => console.log("Add to cart", food)}
-                                >
-                                    Add to Cart
-                                </button>
+
+                                <CartButton food={food} />
+                                {/* <CartButton food={food._id, food.name, food.imageUrl, food.currentPrice, food.isAvailable, food.customOrder} /> */}
+
+
                                 <button
                                     onClick={() => handleDetails(food._id)}
                                     className="mt-4 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
