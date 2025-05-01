@@ -28,6 +28,7 @@ import EditFoods from "./dashboard/Dash-components/EditFoods.jsx";
 import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import ThankYou from "./components/Aditionals/ThankYou.jsx";
+import { OrderProvider } from "./Context/OrderContext.jsx";
 
 let router = createBrowserRouter([
   {
@@ -139,7 +140,9 @@ ReactDOM.createRoot(root).render(
   <AuthProvider>
     <CategoryProvider>
       <FoodsProvider>
-        <RouterProvider router={router} />
+        <OrderProvider>
+          <RouterProvider router={router} />
+        </OrderProvider>
       </FoodsProvider>
     </CategoryProvider>
   </AuthProvider>

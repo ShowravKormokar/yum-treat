@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useAuthContext } from '../../Context/AuthContext';
+import { useOrderContext } from "../../Context/OrderContext";
+import OrderedItem from "./OrderedItem";
 
 const Account = () => {
-    const [orders, setOrders] = useState([]);
+    const orderContext = useOrderContext();
+    const { orders, loading } = orderContext;
+
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState({ rating: 0, feedback: "" });
     const [deliveredOrders, setDeliveredOrders] = useState([]);
@@ -11,23 +15,16 @@ const Account = () => {
     const { user, isLoggedIn } = useAuthContext();
 
     useEffect(() => {
-        // Fetch user orders and reviews from an API or state
-        fetchUserOrders();
-        fetchUserReviews();
-    }, []);
+        // When orders are updated from context, update deliveredOrders
+        if (orders.length > 0) {
+            setDeliveredOrders(orders.filter(order => order.status === "Delivered"));
+        }
 
-    const fetchUserOrders = () => {
-        // Dummy orders data (Replace with API call)
-        const dummyOrders = [
-            { id: 1, product: "Steak", status: "Delivered" },
-            { id: 2, product: "Cold Coffee", status: "Pending" },
-        ];
-        setOrders(dummyOrders);
-        setDeliveredOrders(dummyOrders.filter(order => order.status === "Delivered"));
-    };
+        fetchUserReviews();
+    }, [orders]); // ⬅️ React to order updates
 
     const fetchUserReviews = () => {
-        // Dummy reviews data (Replace with API call)
+        // Dummy reviews (replace with API later if needed)
         setReviews([{ product: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
 
@@ -36,10 +33,6 @@ const Account = () => {
         setReviews([...reviews, { ...review }]);
         setReview({ rating: 0, feedback: "" });
     };
-
-    //For test data is perfectly fetch
-    //console.info(user);
-    //console.log(isLoggedIn);
 
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
@@ -66,9 +59,16 @@ const Account = () => {
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Order History</h2>
                 <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
-                    {orders.length ? orders.map(order => (
-                        <li key={order.id} className="border-b py-2">{order.product} - {order.status}</li>
-                    )) : <p>No orders found.</p>}
+                    {orders.length ? (
+                        orders.map(order => (
+                            <li key={order._id} className="border-b py-2">
+                                <OrderedItem productID={order.product_id} />
+                                <div className="flex items-center justify-evenly gap-8"><h3>Status: {order.status}</h3> <p>Note: {order.note}</p></div>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No orders found.</p>
+                    )}
                 </ul>
             </div>
 
