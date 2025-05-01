@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router";
 
 const Cart = ({ cartOpen, setCartOpen }) => {
     const [cartItems, setCartItems] = useState([]);
@@ -96,9 +97,14 @@ const Cart = ({ cartOpen, setCartOpen }) => {
                         ${total.toFixed(2)} + ${includeVAT.toFixed(2)}
                     </span> = ${withVat.toFixed(2)}
                 </h3>
-                <a href="#" className="bg-[#c34c2e] text-white px-6 py-2 rounded-md inline-block mt-4">
+                <NavLink
+                    to="/checkout"
+                    className="bg-[#c34c2e] text-white px-6 py-2 rounded-md inline-block mt-4"
+                    onClick={() => setCartOpen(false)}
+                >
                     Proceed to Checkout
-                </a>
+                </NavLink>
+
             </div>
         </section>
     );

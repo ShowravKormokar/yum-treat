@@ -26,6 +26,8 @@ import DashboardHome from "./dashboard/DashboardHome.jsx";
 import FoodsProvider from "./Context/FoodsContext.jsx";
 import EditFoods from "./dashboard/Dash-components/EditFoods.jsx";
 import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
+import Checkout from "./Pages/Checkout/Checkout.jsx";
+import ThankYou from "./components/Aditionals/ThankYou.jsx";
 
 let router = createBrowserRouter([
   {
@@ -67,6 +69,22 @@ let router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <Product />
+      },
+      {
+        path: '/checkout',
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/thank-you',
+        element: (
+          <ProtectedRoute>
+            <ThankYou />
+          </ProtectedRoute>
+        )
       }
     ]
 
