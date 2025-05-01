@@ -1,12 +1,40 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
-const Product = ({ products }) => {
-    const { productId } = useParams();
-    const product = products.find((item) => item.id === parseInt(productId));
+const Product = () => {
+    const { id } = useParams();
 
-    if (!product) {
+    const [foodData, setFoodData] = useState({
+        name: '',
+        description: '',
+        imageUrl: '',
+        rating: 0,
+        numberOfReviews: 0,
+        currentPrice: 0,
+        pastPrice: 0,
+        category: '',
+        tags: [],
+        customOrder: false,
+        isAvailable: true
+    });
+
+    // Fetch food details
+    useEffect(() => {
+        const fetchFood = async () => {
+            try {
+                const res = await fetch(`http://localhost:5000/api/foods/${id}`);
+                if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+                const data = await res.json();
+                setFoodData(data);
+            } catch (error) {
+                console.error('Error fetching food:', error);
+            }
+        };
+        fetchFood();
+    }, [id]);
+
+    if (!foodData || !foodData.name) {
         return <div className="text-center text-red-500 text-2xl mt-10">Product Not Found</div>;
     }
 
@@ -26,29 +54,33 @@ const Product = ({ products }) => {
     };
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-10">
+        <div className="max-w-6xl mx-auto px-4 py-10 md:mt-20 mt-10">
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Left Side: Product Image */}
                 <div>
-                    <img src={product.image} alt={product.title} className="w-full h-96 object-cover rounded-lg shadow-md" />
+                    <img src={`../src/assets/foods/${foodData.imageUrl}.png`} alt={foodData.name} className="w-[80%] h-auto object-cover " />
                 </div>
 
                 {/* Right Side: Product Details */}
                 <div className="space-y-4">
-                    <h2 className="text-4xl font-bold text-gray-800">{product.title}</h2>
-                    <div className="flex items-center space-x-1">{renderStars(product.rating)}</div>
-                    <p className="text-sm text-gray-500">Tags: {product.tags.join(", ")}</p>
-                    <p className="text-gray-700">{product.description}</p>
-                    <p className="text-2xl font-semibold text-orange-500">${product.price}</p>
-                    <button className="bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition">Add to Cart</button>
+                    <h2 className="text-4xl font-bold text-gray-800">{foodData.name}</h2>
+                    <div className="flex items-center space-x-1">{renderStars(foodData.rating)} {` (${foodData.numberOfReviews})`}</div>
+                    <p className="text-sm text-gray-500">Tags: {foodData.tags.join(", ")}</p>
+                    <p className="text-gray-700">{foodData.description}</p>
+                    <p className="text-2xl font-semibold text-orange-500">${foodData.currentPrice || '0'} {!foodData.pastPrice == 0 && (
+                        <span className="text-gray-500 line-through text-sm ml-2">
+                            ${foodData.pastPrice}
+                        </span>
+                    )}</p>
+                    <button className="mt-4 mr-2 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer">Add to Cart</button>
                 </div>
             </div>
 
             {/* Product Reviews */}
-            <div className="mt-10">
+            {/* <div className="mt-10">
                 <h3 className="text-3xl font-semibold text-gray-800 mb-5">Customer Reviews</h3>
-                {product.reviews.length > 0 ? (
-                    product.reviews.map((review, index) => (
+                {foodData.reviews.length > 0 ? (
+                    foodData.reviews.map((review, index) => (
                         <div key={index} className="bg-gray-100 p-4 rounded-lg mb-4">
                             <div className="flex items-center space-x-2">
                                 {renderStars(review.rating)}
@@ -60,7 +92,7 @@ const Product = ({ products }) => {
                 ) : (
                     <p className="text-gray-500">No reviews yet.</p>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 };

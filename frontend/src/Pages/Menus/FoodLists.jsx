@@ -1,16 +1,22 @@
-// Menu/FoodLists.jsx
 import { useContext } from "react";
 import { FoodsContext } from "../../Context/FoodsContext";
 import { useCategoryContext } from "../../Context/CategoryContext";
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const FoodLists = () => {
+    const navigate = useNavigate();
     const { foods, loading } = useContext(FoodsContext);
     const { selectedCategory } = useCategoryContext();
 
     const filteredFoods = selectedCategory
         ? foods.filter(food => food.category.toLowerCase() === selectedCategory.toLowerCase())
         : foods;
+
+    const handleDetails = (foodId) => {
+        // console.log('Edit food:', foodId); //for test
+        navigate(`/product/${foodId}`);
+    };
 
     if (loading) {
         return <div className="text-center mt-10 text-lg font-semibold">Loading...</div>;
@@ -56,10 +62,16 @@ const FoodLists = () => {
                                 </div>
 
                                 <button
-                                    className="mt-4 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
+                                    className="mt-4 mr-2 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
                                     onClick={() => console.log("Add to cart", food)}
                                 >
                                     Add to Cart
+                                </button>
+                                <button
+                                    onClick={() => handleDetails(food._id)}
+                                    className="mt-4 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
+                                >
+                                    Details
                                 </button>
                             </div>
                         ))

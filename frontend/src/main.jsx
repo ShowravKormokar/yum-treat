@@ -65,7 +65,7 @@ let router = createBrowserRouter([
         )
       },
       {
-        path: '/product',
+        path: '/product/:id',
         element: <Product />
       }
     ]
