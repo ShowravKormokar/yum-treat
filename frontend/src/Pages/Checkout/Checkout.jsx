@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../Context/AuthContext";
 
 const Checkout = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -14,29 +15,72 @@ const Checkout = () => {
     });
 
     const navigate = useNavigate();
+    const { user, isLoggedIn } = useAuthContext(); 
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
         setCartItems(storedCart);
         if (storedCart.length === 0) navigate("/"); // redirect if cart is empty
-    }, []);
+    }, [navigate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Order placed:", formData, cartItems);
-        localStorage.removeItem("cart");
-        window.dispatchEvent(new Event("cartUpdated"));
-        navigate("/thank-you");
+
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+
+        if (!token) {
+            console.error("Token not found in localStorage or sessionStorage");
+            return;
+        }
+
+        try {
+            for (const item of cartItems) {
+                const response = await fetch("http://localhost:5000/api/orders/place", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        ...formData,
+                        user_id: user._id,
+                        product_id: item._id,
+                        quantity: item.quantity || 1
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    console.error("Failed to place order for", item.name, data.message);
+                }
+            }
+
+            localStorage.removeItem("cart");
+            window.dispatchEvent(new Event("cartUpdated"));
+            navigate("/thank-you");
+
+        } catch (error) {
+            console.error("Order submission error:", error);
+        }
     };
 
     const subtotal = cartItems.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
     const vat = subtotal * 0.02;
     const total = subtotal + vat;
+
+    // Optionally, redirect if not logged in
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate("/login");
+        }
+    }, [isLoggedIn, navigate]);
+    // console.log(formData);
 
     return (
         <div className="max-w-5xl mx-auto p-6 grid md:grid-cols-2 gap-8 my-20">
@@ -90,7 +134,6 @@ const Checkout = () => {
                 <textarea
                     name="note"
                     placeholder="Any query or information or note"
-                    required
                     value={formData.note}
                     onChange={handleInputChange}
                     className="w-full border rounded px-4 py-2"

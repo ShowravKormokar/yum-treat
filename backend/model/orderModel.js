@@ -1,14 +1,14 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema({
     user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "userSignUp",
+        type: String,
+        trim: true,
         required: true
     },
     product_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Food",
+        type: String,
+        trim: true,
         required: true
     },
     fullName: {
@@ -48,7 +48,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["preparing", "ready","cancle"],
+        enum: ["preparing", "ready", "cancle"],
         default: "preparing"
     }
 }, {
@@ -56,4 +56,4 @@ const orderSchema = new mongoose.Schema({
 });
 
 const Order = mongoose.model("Order", orderSchema);
-export default Order;
+module.exports = Order;

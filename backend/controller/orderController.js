@@ -1,9 +1,10 @@
-import Order from "../models/orderModel.js";
+const Order = require('../model/orderModel')
 
 // Place a new order
-export const placeOrder = async (req, res) => {
+const placeOrder = async (req, res) => {
     try {
         const {
+            user_id,
             product_id,
             fullName,
             address,
@@ -13,8 +14,6 @@ export const placeOrder = async (req, res) => {
             note,
             paymentMethod
         } = req.body;
-
-        const user_id = req.user._id; // Make sure req.user is populated from auth middleware
 
         const newOrder = new Order({
             user_id,
@@ -37,7 +36,7 @@ export const placeOrder = async (req, res) => {
 };
 
 // Get all orders (Admin)
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find().populate("user_id").populate("product_id");
         res.status(200).json(orders);
@@ -48,7 +47,7 @@ export const getAllOrders = async (req, res) => {
 };
 
 // Get orders for a specific user
-export const getUserOrders = async (req, res) => {
+const getUserOrders = async (req, res) => {
     try {
         const user_id = req.user._id;
         const orders = await Order.find({ user_id }).populate("product_id");
@@ -60,12 +59,12 @@ export const getUserOrders = async (req, res) => {
 };
 
 // Update order status (Admin)
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
 
-        if (!["preparing", "ready"].includes(status)) {
+        if (!["preparing", "ready", "cancle"].includes(status)) {
             return res.status(400).json({ error: "Invalid status value" });
         }
 
@@ -85,3 +84,5 @@ export const updateOrderStatus = async (req, res) => {
         res.status(500).json({ error: "Failed to update order status" });
     }
 };
+
+module.exports = { placeOrder, getAllOrders, getUserOrders, updateOrderStatus };
