@@ -4,6 +4,7 @@ const cors = require('cors');
 const authRouter = require('./routers/authRouters');
 const categoryRouter = require("./routers/categoryRoutes");
 const foodRoutes = require('./routers/addFoodRoutes');
+const orderRoutes = require("./routers/orderRoutes");
 require('./db/connection');
 
 const app = express();
@@ -27,8 +28,9 @@ app.get('/', (req, res) => {
 
 // ------------------ 4. Define all routes
 app.use("/api/auth", authRouter);
-app.use("/api", categoryRouter); // Your category routes
-app.use('/api/foods', foodRoutes); // Your food routes
+app.use("/api", categoryRouter); // category routes
+app.use('/api/foods', foodRoutes); // food routes
+app.use("/api/orders", orderRoutes); // order routes
 
 // ------------------ 5. Start server
 const PORT = process.env.PORT || 5000;
