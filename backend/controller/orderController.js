@@ -70,7 +70,7 @@ const updateOrderStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
-        if (!["preparing", "ready", "cancle"].includes(status)) {
+        if (!["preparing", "ready", "cancle","delivered"].includes(status)) {
             return res.status(400).json({ error: "Invalid status value" });
         }
 

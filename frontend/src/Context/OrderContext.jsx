@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import axios from "axios";
 
 // Create the context
 const OrderContext = createContext();
