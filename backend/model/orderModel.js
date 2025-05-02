@@ -48,7 +48,7 @@ const orderSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["preparing", "ready", "cancle","delivered"],
+        enum: ["preparing", "ready", "cancel","delivered"],
         default: "preparing"
     }
 }, {

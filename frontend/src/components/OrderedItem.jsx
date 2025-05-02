@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { FoodsContext } from '../../Context/FoodsContext';
-import img1 from "../../assets/foods/rice-1.png"
+import { FoodsContext } from '../Context/FoodsContext';
 
 const OrderedItem = ({ productID }) => {
   const { foods, loading } = useContext(FoodsContext);

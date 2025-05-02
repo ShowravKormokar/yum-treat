@@ -38,7 +38,10 @@ const placeOrder = async (req, res) => {
 // Get all orders (Admin)
 const getAllOrders = async (req, res) => {
     try {
-        const orders = await Order.find().populate("user_id").populate("product_id");
+        const orders = await Order.find()
+            .populate({ path: "user_id", select: "email" })
+            .populate({ path: "product_id", select: "name" });
+
         res.status(200).json(orders);
     } catch (error) {
         console.error("Error fetching orders:", error);
@@ -70,7 +73,7 @@ const updateOrderStatus = async (req, res) => {
         const { id } = req.params;
         const { status } = req.body;
 
-        if (!["preparing", "ready", "cancle","delivered"].includes(status)) {
+        if (!["preparing", "ready", "cancel", "delivered"].includes(status)) {
             return res.status(400).json({ error: "Invalid status value" });
         }
 

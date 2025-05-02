@@ -13,12 +13,12 @@ const router = express.Router();
 router.post("/place", jwtAuthMiddleware, placeOrder);
 
 // Get all orders (Assuming admin-check is inside controller or another middleware)
-router.get("/admin", jwtAuthMiddleware, getAllOrders);
+router.get("/admin", getAllOrders);
 
 // Get orders of the logged-in user
 router.get("/my-orders", jwtAuthMiddleware, getUserOrders);
 
 // Update status of an order (Admin only — should be validated inside controller or separate middleware)
-router.patch("/update-status/:id", jwtAuthMiddleware, updateOrderStatus);
+router.patch("/update-status/:id", updateOrderStatus);
 
 module.exports = router;

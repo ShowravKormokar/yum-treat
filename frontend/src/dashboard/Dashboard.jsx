@@ -86,7 +86,7 @@ const Dashboard = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="orders" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
+                            <Link to="order-info" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaList className="mr-3" /> Order Info
                             </Link>
                         </li>

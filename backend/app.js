@@ -12,7 +12,7 @@ const app = express();
 // ------------------ 1. Allow request from frontend
 const corsOptions = {
     origin: "http://localhost:5173", // only allow this origin
-    methods: ["GET", "POST", "PUT", "DELETE"], // only allow these HTTP methods
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // only allow these HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // only allow these headers
     credentials: true, // allow cookies or credentials if needed
 };

@@ -29,6 +29,7 @@ import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import ThankYou from "./components/Aditionals/ThankYou.jsx";
 import { OrderProvider } from "./Context/OrderContext.jsx";
+import OrderInfo from "./dashboard/Dash-pages/OrderInfo.jsx";
 
 let router = createBrowserRouter([
   {
@@ -119,8 +120,8 @@ let router = createBrowserRouter([
         element: <EditFoods />
       },
       {
-        path: 'add-foods',
-        element: <FoodAddForm />
+        path: 'order-info',
+        element: <OrderInfo />
       },
       {
         path: 'add-foods',

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
-import OrderedItem from "./OrderedItem";
+import OrderedItem from "../../components/OrderedItem";
 
 const Account = () => {
     const orderContext = useOrderContext();

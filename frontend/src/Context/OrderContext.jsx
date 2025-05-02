@@ -5,7 +5,7 @@ const OrderContext = createContext();
 
 // Provider component
 export const OrderProvider = ({ children }) => {
-    const [orders, setOrders] = useState([]);
+    const [orders, setOrders] = useState([]); 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
