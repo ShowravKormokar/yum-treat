@@ -22,11 +22,11 @@ const signUpSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        // role: {
-        //     type: String,
-        //     required: true,
-        //     enum: ["admin", "manager", "user"]
-        // }
+        role: {
+            type: String,
+            required: true,
+            enum: ["admin", "manager", "user"]
+        }
     },
     {
         timestamps: {

@@ -17,6 +17,10 @@ const signUpValidationSchema = z
             .string({ required_error: "Confrim password must be required" })
             .min(6, { message: "Password must be at least 6 characters" })
             .max(1024, { message: "Password can't be greater than 1024 characters" }),
+
+        role: z.enum(["admin", "manager", "user"], {
+            required_error: "Role must be required",
+        }),
     })
     .superRefine(({ password, cPassword }, ctx) => {
         if (password !== cPassword) {

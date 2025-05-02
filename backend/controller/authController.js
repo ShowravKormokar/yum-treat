@@ -27,7 +27,7 @@ const getSignUpData = async (req, res) => {
 //That registers a new user and returns a JWT token upon success
 const register = async (req, res) => {
     try {
-        const { email, password, cPassword } = req.body; //Extracts signup form data sent from the frontend
+        const { email, password, cPassword, role } = req.body; //Extracts signup form data sent from the frontend
         const userExist = await SignUp.findOne({ email }); //Checks if the email is already registered in MongoDB.
 
         if (userExist) {
@@ -39,7 +39,8 @@ const register = async (req, res) => {
         const createUser = await SignUp.create({ //Creates a new user in the database -> The pre("save") middleware from model will hash the password and cPassword before saving.
             email,
             password,
-            cPassword
+            cPassword,
+            role
         });
 
         console.info(createUser);
@@ -82,6 +83,7 @@ const login = async (req, res) => {
                 user: {
                     userId: userExist._id,
                     userEmail: userExist.email,
+                    userRole: userExist.role
                     // optionally add more non-sensitive info here
                 },
             });

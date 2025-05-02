@@ -37,14 +37,18 @@ const SignIn = () => {
                 body: JSON.stringify(userlogIn)
             });
 
-            console.log(res);
+            // console.log(res);
             if (res.ok) {
                 const resdata = await res.json();
                 storeTokenInLS(resdata.token, rememberMe);
-
+                console.log(resdata.user.userRole);
                 alert("Log in successfully!");
                 setUserLogIn({ email: "", password: "" });
-                navigate("/"); // redirect to /home
+                if (resdata.user.userRole==="user"){
+                    navigate("/"); // redirect to /home
+                } else if (resdata.user.userRole === "admin"){
+                    navigate("/admin-dashboard"); // redirect to /manager
+                }
             } else {
                 alert("Invalid credentials!");
                 const errorData = await res.json(); // Read server error message
@@ -55,8 +59,8 @@ const SignIn = () => {
             console.error(err);
         }
     }
-    console.log(userlogIn);
-    console.log("Token stored in LS:", localStorage.getItem("token"));
+    // console.log(userlogIn);
+    // console.log("Token stored in LS:", localStorage.getItem("token"));
 
 
     return (

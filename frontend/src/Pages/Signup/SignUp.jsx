@@ -15,6 +15,7 @@ const SignUp = () => {
         email: "",
         password: "",
         cPassword: "",
+        role: "user",
         wrongPass: false
     });
 
