@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
-import OrderedItem from "../../components/OrderedItem";
+import OrderedItem from "../../components/Orders/OrderedItem";
 
 const Account = () => {
     const orderContext = useOrderContext();
@@ -49,7 +49,7 @@ const Account = () => {
                 )}
                 <NavLink
                     to="/sign_out"
-                    className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg block text-center"
+                    className="mt-4 px-4 py-2 bg-[#c34c2e] text-white rounded-lg block text-center"
                 >
                     Sign Out
                 </NavLink>
@@ -62,7 +62,7 @@ const Account = () => {
                     {orders.length ? (
                         orders.map(order => (
                             <li key={order._id} className="border-b py-2">
-                                <OrderedItem productID={order.product_id} />
+                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
                                 <div className="flex items-center justify-evenly gap-8"><h3>Status: {order.status}</h3> <p>Note: {order.note}</p></div>
                             </li>
                         ))
@@ -100,7 +100,7 @@ const Account = () => {
                             value={review.feedback}
                             onChange={(e) => setReview({ ...review, feedback: e.target.value })}
                         ></textarea>
-                        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg" type="submit">Submit Review</button>
+                        <button className="mt-4 px-4 py-2 bg-[#c34c2e] text-white rounded-lg" type="submit">Submit Review</button>
                     </form>
                 </div>
             )}

@@ -4,7 +4,7 @@ import Dashboard from "../dashboard/Dashboard";
 
 const AdminRoute = () => {
     const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-    console.log("Admin token:", token);
+    // console.log("Admin token:", token);
 
     if (!token) return <Navigate to="/sign_in" />;
 

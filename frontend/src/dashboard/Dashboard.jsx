@@ -138,11 +138,11 @@ const Dashboard = () => {
 
                 {/* Main content */}
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <Navbar
+                    {/* <Navbar
                         sidebarOpen={sidebarOpen}
                         setSidebarOpen={setSidebarOpen}
                         title={getTitle()}
-                    />
+                    /> */}
 
                     {/* Main content area */}
                     <main className="flex-1 overflow-y-auto p-4">

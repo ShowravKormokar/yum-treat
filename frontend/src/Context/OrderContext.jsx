@@ -14,7 +14,7 @@ export const OrderProvider = ({ children }) => {
             setLoading(true);
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
             if (!token) console.log("Token not found");
-            console.log(token);
+            // console.log(token);
             const response = await fetch("http://localhost:5000/api/orders/my-orders", {
                 headers: {
                     Authorization: `Bearer ${token}`
