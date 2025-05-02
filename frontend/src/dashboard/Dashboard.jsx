@@ -1,10 +1,8 @@
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaUtensils, FaHome, FaChartLine, FaPlus, FaList, FaEnvelope, FaChair, FaGlobe, FaSignOutAlt } from 'react-icons/fa';
 import { RiMenu2Fill, RiCloseLine } from 'react-icons/ri';
-import InfoCards from './Dash-components/InfoCards';
-import OrderCards from './Dash-components/OrderCards';
 import Navbar from './Dash-components/Navbar';
 
 const Dashboard = () => {
@@ -111,9 +109,12 @@ const Dashboard = () => {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/logout" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
-                                <FaSignOutAlt className="mr-3" /> Log Out
-                            </Link>
+                            <NavLink
+                                to="/sign_out"
+                                className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg"
+                            >
+                                <FaSignOutAlt className="mr-3" />Sign Out
+                            </NavLink>
                         </li>
                     </ul>
                 </nav>

@@ -30,6 +30,8 @@ import Checkout from "./Pages/Checkout/Checkout.jsx";
 import ThankYou from "./components/Aditionals/ThankYou.jsx";
 import { OrderProvider } from "./Context/OrderContext.jsx";
 import OrderInfo from "./dashboard/Dash-pages/OrderInfo.jsx";
+import Unauthorized from "./components/Aditionals/Unauthorized.jsx";
+import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
 
 let router = createBrowserRouter([
   {
@@ -104,8 +106,12 @@ let router = createBrowserRouter([
     element: <SignOut />
   },
   {
+    path: '/unauthorized',
+    element: <Unauthorized />
+  },
+  {
     path: '/admin-dashboard',
-    element: <Dashboard />,
+    element: <AdminRoute />,
     children: [
       {
         path: '',

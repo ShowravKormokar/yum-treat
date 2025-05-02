@@ -70,6 +70,7 @@ signUpSchema.methods.generateToken = async function () { //Adds a method to crea
         return jwt.sign( //Sets token validity duration
             {
                 userId: this._id.toString(),
+                role: this.role,
             },
             process.env.JWT_SECRET_KEY, //Used to sign and later verify the token
             {
