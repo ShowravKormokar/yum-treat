@@ -5,7 +5,7 @@ const OrderContext = createContext();
 
 // Provider component
 export const OrderProvider = ({ children }) => {
-    const [orders, setOrders] = useState([]); 
+    const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -13,8 +13,9 @@ export const OrderProvider = ({ children }) => {
         try {
             setLoading(true);
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-            if (!token) console.log("Token not found");
+            // if (!token) console.log("Token not found");
             // console.log(token);
+            if (!token) return;
             const response = await fetch("http://localhost:5000/api/orders/my-orders", {
                 headers: {
                     Authorization: `Bearer ${token}`
