@@ -103,21 +103,47 @@ const OrderInfo = () => {
                             </div>
 
                             {/* Status Actions */}
-                            <div className="p-3 bg-gray-50 border-t flex flex-wrap gap-2">
-                                {["preparing", "ready", "delivered", "cancel"].map(status => (
-                                    <button
-                                        key={status}
-                                        onClick={() => handleStatusChange(order._id, status)}
-                                        className={`px-2 py-1 text-xs rounded-md ${order.status === status
-                                            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                                            : 'bg-blue-500 hover:bg-blue-600 text-white'
-                                            }`}
-                                        disabled={order.status === status}
-                                    >
-                                        Mark as {status}
-                                    </button>
-                                ))}
+                            <div className="p-3 bg-gray-50 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                                <div className="flex flex-wrap gap-2">
+                                    {["preparing", "ready", "delivered", "cancel"].map(status => (
+                                        <button
+                                            key={status}
+                                            onClick={() => handleStatusChange(order._id, status)}
+                                            className={`px-2 py-1 text-xs rounded-md ${order.status === status
+                                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                                : 'bg-blue-500 hover:bg-blue-600 text-white'
+                                                }`}
+                                            disabled={order.status === status}
+                                        >
+                                            Mark as {status}
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="text-sm mt-2 md:mt-0 font-medium">
+                                    <span className="mr-1">Order Complete:</span>
+                                    <span className={order.isComplete ? "text-green-600" : "text-gray-500"}>
+                                        {order.isComplete ? (
+                                            <>
+                                                ✅ Yes
+                                                <p className="pt-1 text-sm">
+                                                    {new Date(order.updatedAt).toLocaleString('en-US', {
+                                                        weekday: 'short',
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    })}
+                                                </p>
+                                            </>
+                                        ) : (
+                                            "No"
+                                        )}
+                                    </span>
+
+                                </div>
                             </div>
+
                         </div>
                     ))}
                 </div>

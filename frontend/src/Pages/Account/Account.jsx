@@ -34,6 +34,30 @@ const Account = () => {
         setReview({ rating: 0, feedback: "" });
     };
 
+    const markAsComplete = async (orderId) => {
+        try {
+            const res = await fetch(`http://localhost:5000/api/orders/complete/${orderId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
+                }
+            });
+
+            if (res.ok) {
+                // Refresh orders after marking as complete
+                useOrderContext.fetchOrders();
+            } else {
+                const data = await res.json();
+                alert(`Failed to mark as complete: ${data.error}`);
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            alert("Something went wrong while marking the order as complete.");
+        }
+    };
+
+
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
             <h1 className="text-3xl font-bold text-center">User Account</h1>
@@ -59,16 +83,33 @@ const Account = () => {
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Order History</h2>
                 <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
-                    {orders.length ? (
-                        orders.map(order => (
-                            <li key={order._id} className="border-b py-2">
-                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
-                                <div className="flex items-center justify-evenly gap-8"><h3>Status: {order.status}</h3> <p>Note: {order.note}</p></div>
-                            </li>
-                        ))
-                    ) : (
-                        <p>No orders found.</p>
-                    )}
+                    {orders.map(order => (
+                        <li key={order._id} className="border-b py-2">
+                            <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
+                            <div className="flex items-center justify-evenly gap-8">
+                                <h3>Status: {order.status}</h3>
+                                <p>Note: {order.note}</p>
+                            </div>
+
+                            {order.status === "delivered" && !order.isComplete && (
+                                <div className="mt-2 text-center">
+                                    <p className="mb-2">Have you received this order?</p>
+                                    <button
+                                        onClick={() => markAsComplete(order._id)}
+                                        className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                                    >
+                                        Yes, I received it
+                                    </button>
+                                </div>
+                            )}
+
+                            {order.isComplete && (
+                                <div className="text-green-700 font-semibold text-center mt-2">
+                                    ✅ Order marked as complete
+                                </div>
+                            )}
+                        </li>
+                    ))}
                 </ul>
             </div>
 

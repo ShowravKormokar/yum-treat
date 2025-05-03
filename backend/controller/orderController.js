@@ -12,7 +12,8 @@ const placeOrder = async (req, res) => {
             postalCode,
             phone,
             note,
-            paymentMethod
+            paymentMethod,
+            isComplete
         } = req.body;
 
         const newOrder = new Order({
@@ -24,7 +25,8 @@ const placeOrder = async (req, res) => {
             postalCode,
             phone,
             note,
-            paymentMethod
+            paymentMethod,
+            isComplete
         });
 
         await newOrder.save();
@@ -94,4 +96,26 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
-module.exports = { placeOrder, getAllOrders, getUserOrders, updateOrderStatus };
+// Confirm order as complete (Customer action)
+const markOrderAsComplete = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            { isComplete: true },
+            { new: true }
+        );
+
+        if (!updatedOrder) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        res.status(200).json({ message: "Order marked as complete", order: updatedOrder });
+    } catch (error) {
+        console.error("Error marking order as complete:", error);
+        res.status(500).json({ error: "Failed to complete order" });
+    }
+};
+
+module.exports = { placeOrder, getAllOrders, getUserOrders, updateOrderStatus, markOrderAsComplete };
