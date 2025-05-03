@@ -7,6 +7,8 @@ import OrderedItem from "../../components/Orders/OrderedItem";
 const Account = () => {
     const orderContext = useOrderContext();
     const { orders, loading } = orderContext;
+    const { fetchOrders } = useOrderContext();
+
 
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState({ rating: 0, feedback: "" });
@@ -46,7 +48,7 @@ const Account = () => {
 
             if (res.ok) {
                 // Refresh orders after marking as complete
-                useOrderContext.fetchOrders();
+                fetchOrders();
             } else {
                 const data = await res.json();
                 alert(`Failed to mark as complete: ${data.error}`);
