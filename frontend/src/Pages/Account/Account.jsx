@@ -96,25 +96,6 @@ const Account = () => {
                                     </div>
                                 )}
 
-                                {/* {order.isComplete && showReviewFormFor !== order._id && (
-                                    <button
-                                        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg"
-                                        onClick={() => setShowReviewFormFor(order._id)}
-                                    >
-                                        Post Review
-                                    </button>
-                                )}
-
-                                {order.isComplete && showReviewFormFor === order._id && (
-                                    <ReviewForm
-                                        orderID={order._id}
-                                        userID={user._id}
-                                        productID={order.product_id}
-                                        orderCompleteDate={order.updatedAt}
-                                    />
-                                )} */}
-
-
                                 {order.isComplete && (
                                     <div className="text-green-700 font-semibold text-center mt-2">
                                         ✅ Order marked as complete
@@ -145,14 +126,6 @@ const Account = () => {
                 </ul>
             </div>
 
-            {/* <div className="mt-6">
-                <h2 className="text-2xl font-semibold">Review History</h2>
-                {user?._id && (
-                    <div className="mt-6">
-                        <UserReviewCard userID={user._id} />
-                    </div>
-                )}
-            </div> */}
         </div>
     );
 };
