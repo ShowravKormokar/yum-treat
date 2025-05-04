@@ -4,6 +4,7 @@ import { useCategoryContext } from "../../Context/CategoryContext";
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import CartButton from "../../components/Cart/CartButton";
+import ReviewStar from "../../components/Reviews/ReviewStar";
 
 const FoodLists = () => {
     const navigate = useNavigate();
@@ -44,13 +45,7 @@ const FoodLists = () => {
                                 <h3 className="text-xl font-semibold text-gray-900">{food.name}</h3>
 
                                 <div className="flex justify-center items-center gap-1 text-yellow-500 my-2">
-                                    {[...Array(5)].map((_, index) => (
-                                        <span key={`${food._id}-star-${index}`}>
-                                            {food.rating === 0
-                                                ? <FaRegStar />
-                                                : (index < Math.floor(food.rating) ? <FaStar /> : <FaStarHalfAlt />)}
-                                        </span>
-                                    ))}
+                                    <ReviewStar rating={food.rating} />
                                     <span className="text-gray-500 text-sm">({food.reviews || 0})</span>
                                 </div>
 

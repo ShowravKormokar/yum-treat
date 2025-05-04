@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import CartButton from "../../components/Cart/CartButton";
+import ReviewStar from "../../components/Reviews/ReviewStar";
 
 const Product = () => {
     const { id } = useParams();
@@ -65,7 +66,7 @@ const Product = () => {
                 {/* Right Side: Product Details */}
                 <div className="space-y-4">
                     <h2 className="text-4xl font-bold text-gray-800">{foodData.name}</h2>
-                    <div className="flex items-center space-x-1">{renderStars(foodData.rating)} {` (${foodData.numberOfReviews})`}</div>
+                    <div className="flex items-center space-x-1"><ReviewStar rating={foodData.rating} /></div>
                     <p className="text-sm text-gray-500">Tags: {foodData.tags.join(", ")}</p>
                     <p className="text-gray-700">{foodData.description}</p>
                     <p className="text-2xl font-semibold text-orange-500">${foodData.currentPrice || '0'} {!foodData.pastPrice == 0 && (
