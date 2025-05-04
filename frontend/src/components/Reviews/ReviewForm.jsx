@@ -1,22 +1,43 @@
 import React, { useState } from "react";
 
-const ReviewForm = ({ orderID, userID, productID, orderCompleteDate, onReviewSubmit }) => {
+const ReviewForm = ({ orderID, userID, productID, orderCompleteDate }) => {
     const [review, setReview] = useState({ rating: 0, feedback: "" });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         const newReview = {
             orderID,
             userID,
             productID,
             rating: review.rating,
             feedback: review.feedback,
-            date: orderCompleteDate,
+            orderCompletedAt: orderCompleteDate
         };
-        onReviewSubmit(newReview);
-        setReview({ rating: 0, feedback: "" });
+
+        try {
+            const res = await fetch("http://localhost:5000/api/reviews", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
+                },
+                body: JSON.stringify(newReview)
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert("✅ Review submitted!");
+                setReview({ rating: 0, feedback: "" });
+            } else {
+                alert("❌ Failed to submit review: " + data.error);
+            }
+        } catch (err) {
+            console.error("Error submitting review:", err);
+            alert("An error occurred while submitting your review.");
+        }
     };
-    console.log(review);
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg shadow-md mt-3">

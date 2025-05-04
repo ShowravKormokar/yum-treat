@@ -5,7 +5,7 @@ const authRouter = require('./routers/authRouters');
 const categoryRouter = require("./routers/categoryRoutes");
 const foodRoutes = require('./routers/addFoodRoutes');
 const orderRoutes = require("./routers/orderRoutes");
-import reviewRoutes from "./routers/reviewRoutes";
+const reviewRoutes = require("./routers/reviewRoutes");
 
 require('./db/connection');
 

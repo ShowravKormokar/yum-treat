@@ -1,10 +1,10 @@
-const express = require("express");
 const { addReview,
     getReviewsByUser,
     getReviewsByProduct,
-    getAllReviews } = require("../controller/reviewController.js");
+    getAllReviews } = require('../controller/reviewController.js');
 const verifyToken = require("../middlewares/jwtAuthMiddlewares.js");
 
+const express = require("express");
 const router = express.Router();
 
 // POST /api/reviews/
@@ -19,4 +19,4 @@ router.get("/product/:productID", verifyToken, getReviewsByProduct);
 //Get all reviews (For Admin)
 router.get("/", verifyToken, getAllReviews);
 
-export default router;
+module.exports = router;

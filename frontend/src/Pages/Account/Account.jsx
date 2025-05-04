@@ -27,9 +27,7 @@ const Account = () => {
         setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
 
-    const handleReviewSubmit = (newReview) => {
-        setReviews(prev => [...prev, newReview]);
-    };
+    
 
     const markAsComplete = async (orderId) => {
         try {
@@ -126,7 +124,6 @@ const Account = () => {
                             userID={user._id}
                             productID={order.product_id}
                             orderCompleteDate={order.updatedAt}
-                            onReviewSubmit={handleReviewSubmit}
                         />
                     ))}
                 </div>

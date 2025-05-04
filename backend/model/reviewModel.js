@@ -2,18 +2,18 @@ import mongoose from "mongoose";
 
 const reviewSchema = new mongoose.Schema({
     orderID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
+        type: String,
+        trim: true,
         required: true
     },
     userID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "userSignUp",
+        type: String,
+        trim: true,
         required: true
     },
     productID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Food",
+        type: String,
+        trim: true,
         required: true
     },
     rating: {
@@ -33,4 +33,5 @@ const reviewSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-export default mongoose.model("Review", reviewSchema);
+const Review = mongoose.model("Review", reviewSchema);
+module.exports = Review;
