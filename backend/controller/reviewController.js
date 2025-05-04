@@ -1,38 +1,46 @@
-import Review from "../model/reviewModel";
-
-// Create a review
-const createReview = async (req, res) => {
+const Review = require('../model/reviewModel');
+// Add review
+const addReview = async (req, res) => {
     try {
-        const { orderID, userID, productID, rating, feedback, orderCompleteDate } = req.body;
+        const { userID, productID, orderID, rating, feedback, orderCompletedAt } = req.body;
 
-        if (!orderID || !userID || !productID || !rating || !feedback || !orderCompleteDate) {
-            return res.status(400).json({ error: "All fields are required" });
-        }
+        const review = new Review({ userID, productID, orderID, rating, feedback, orderCompletedAt });
+        const saved = await review.save();
 
-        const review = await Review.create({
-            orderID,
-            userID,
-            productID,
-            rating,
-            feedback,
-            orderCompleteDate
-        });
-
-        res.status(201).json(review);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to create review" });
+        res.status(201).json(saved);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to add review." });
     }
 };
 
-// Get reviews by user
-const getUserReviews = async (req, res) => {
+// Get reviews by user ID
+const getReviewsByUser = async (req, res) => {
     try {
-        const { userID } = req.params;
-        const reviews = await Review.find({ userID }).sort({ createdAt: -1 });
+        const reviews = await Review.find({ userID: req.params.userID }).populate("productID");
         res.json(reviews);
-    } catch (err) {
-        res.status(500).json({ error: "Failed to fetch reviews" });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch user reviews." });
     }
 };
 
-module.exports = { createReview, getUserReviews };
+// Get reviews by product ID
+const getReviewsByProduct = async (req, res) => {
+    try {
+        const reviews = await Review.find({ productID: req.params.productID }).populate("userID");
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch product reviews." });
+    }
+};
+
+// Get all reviews
+const getAllReviews = async (req, res) => {
+    try {
+        const reviews = await Review.find().populate("userID").populate("productID");
+        res.json(reviews);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch all reviews." });
+    }
+};
+
+module.exports = { addReview, getReviewsByUser, getReviewsByProduct, getAllReviews };
