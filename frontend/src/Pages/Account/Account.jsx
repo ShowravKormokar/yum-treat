@@ -1,39 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
+import ReviewForm from "../../components/Reviews/ReviewForm";
+import ReviewCard from "../../components/Reviews/ReviewCard";
 
 const Account = () => {
-    const orderContext = useOrderContext();
-    const { orders, loading } = orderContext;
-    const { fetchOrders } = useOrderContext();
-
+    const { orders, fetchOrders } = useOrderContext();
+    const { user } = useAuthContext();
 
     const [reviews, setReviews] = useState([]);
-    const [review, setReview] = useState({ rating: 0, feedback: "" });
     const [deliveredOrders, setDeliveredOrders] = useState([]);
 
-    const { user, isLoggedIn } = useAuthContext();
-
     useEffect(() => {
-        // When orders are updated from context, update deliveredOrders
         if (orders.length > 0) {
-            setDeliveredOrders(orders.filter(order => order.status === "Delivered"));
+            setDeliveredOrders(orders.filter(order => order.status === "delivered"));
         }
 
         fetchUserReviews();
-    }, [orders]); // ⬅️ React to order updates
+    }, [orders]);
+    console.log(deliveredOrders);
 
     const fetchUserReviews = () => {
-        // Dummy reviews (replace with API later if needed)
-        setReviews([{ product: "Steak", rating: 5, feedback: "Delicious!" }]);
+        // Dummy static reviews - replace with API call as needed
+        setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
 
-    const handleReviewSubmit = (e) => {
-        e.preventDefault();
-        setReviews([...reviews, { ...review }]);
-        setReview({ rating: 0, feedback: "" });
+    const handleReviewSubmit = (newReview) => {
+        setReviews(prev => [...prev, newReview]);
     };
 
     const markAsComplete = async (orderId) => {
@@ -47,7 +42,6 @@ const Account = () => {
             });
 
             if (res.ok) {
-                // Refresh orders after marking as complete
                 fetchOrders();
             } else {
                 const data = await res.json();
@@ -59,12 +53,10 @@ const Account = () => {
         }
     };
 
-
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
             <h1 className="text-3xl font-bold text-center">User Account</h1>
             <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-                {/* <h2 className="text-2xl font-semibold">Email: abc@xyz.com </h2> */}
                 {user ? (
                     <div>
                         <p><strong>User ID:</strong> {user._id}</p>
@@ -79,7 +71,6 @@ const Account = () => {
                 >
                     Sign Out
                 </NavLink>
-
             </div>
 
             <div className="mt-6">
@@ -108,6 +99,16 @@ const Account = () => {
                             {order.isComplete && (
                                 <div className="text-green-700 font-semibold text-center mt-2">
                                     ✅ Order marked as complete
+                                    <p className="pt-1 text-sm text-gray-500">
+                                        {new Date(order.updatedAt).toLocaleString('en-US', {
+                                            weekday: 'short',
+                                            year: 'numeric',
+                                            month: 'short',
+                                            day: 'numeric',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        })}
+                                    </p>
                                 </div>
                             )}
                         </li>
@@ -118,43 +119,22 @@ const Account = () => {
             {deliveredOrders.length > 0 && (
                 <div className="mt-6">
                     <h2 className="text-2xl font-semibold">Submit a Review</h2>
-                    <form onSubmit={handleReviewSubmit} className="bg-white p-4 rounded-lg shadow-md mt-3">
-                        <select
-                            className="w-full p-2 border rounded"
-                            value={review.product}
-                            onChange={(e) => setReview({ ...review, product: e.target.value })}
-                        >
-                            <option value="">Select a product</option>
-                            {deliveredOrders.map(order => (
-                                <option key={order.id} value={order.product}>{order.product}</option>
-                            ))}
-                        </select>
-                        <input
-                            type="number"
-                            className="w-full p-2 border rounded mt-3"
-                            placeholder="Rating (1-5)"
-                            value={review.rating}
-                            onChange={(e) => setReview({ ...review, rating: e.target.value })}
-                            min="1" max="5"
+                    {deliveredOrders.map(order => (
+                        <ReviewForm
+                            key={order._id}
+                            orderID={order._id}
+                            userID={user._id}
+                            productID={order.product_id}
+                            orderCompleteDate={order.updatedAt}
+                            onReviewSubmit={handleReviewSubmit}
                         />
-                        <textarea
-                            className="w-full p-2 border rounded mt-3"
-                            placeholder="Short feedback"
-                            value={review.feedback}
-                            onChange={(e) => setReview({ ...review, feedback: e.target.value })}
-                        ></textarea>
-                        <button className="mt-4 px-4 py-2 bg-[#c34c2e] text-white rounded-lg" type="submit">Submit Review</button>
-                    </form>
+                    ))}
                 </div>
             )}
 
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Review History</h2>
-                <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
-                    {reviews.length ? reviews.map((review, index) => (
-                        <li key={index} className="border-b py-2">{review.product} - {review.rating} Stars - {review.feedback}</li>
-                    )) : <p>No reviews yet.</p>}
-                </ul>
+                <ReviewCard reviews={reviews} />
             </div>
         </div>
     );
