@@ -20,14 +20,14 @@ const Account = () => {
 
         fetchUserReviews();
     }, [orders]);
-    console.log(deliveredOrders);
+    // console.log(deliveredOrders);
 
     const fetchUserReviews = () => {
         // Dummy static reviews - replace with API call as needed
         setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
 
-    
+
 
     const markAsComplete = async (orderId) => {
         try {

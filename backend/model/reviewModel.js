@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const reviewSchema = new mongoose.Schema({
     orderID: {
@@ -17,7 +17,7 @@ const reviewSchema = new mongoose.Schema({
         required: true
     },
     rating: {
-        type: Number,
+        type: String,
         required: true,
         min: 1,
         max: 5
@@ -28,8 +28,9 @@ const reviewSchema = new mongoose.Schema({
         trim: true
     },
     orderCompleteDate: {
-        type: Date,
-        required: true
+        type: String,
+        required: true,
+        trim: true
     }
 }, { timestamps: true });
 

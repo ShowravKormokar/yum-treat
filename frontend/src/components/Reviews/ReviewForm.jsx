@@ -12,15 +12,17 @@ const ReviewForm = ({ orderID, userID, productID, orderCompleteDate }) => {
             productID,
             rating: review.rating,
             feedback: review.feedback,
-            orderCompletedAt: orderCompleteDate
+            orderCompleteDate: orderCompleteDate
         };
 
         try {
+            const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+            if (!token) return;
             const res = await fetch("http://localhost:5000/api/reviews", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(newReview)
             });
@@ -37,7 +39,9 @@ const ReviewForm = ({ orderID, userID, productID, orderCompleteDate }) => {
             console.error("Error submitting review:", err);
             alert("An error occurred while submitting your review.");
         }
+        // console.log(newReview);
     };
+    // console.log(review);
 
     return (
         <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg shadow-md mt-3">
