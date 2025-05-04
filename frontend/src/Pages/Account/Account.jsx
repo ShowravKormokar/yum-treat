@@ -4,7 +4,8 @@ import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
 import ReviewForm from "../../components/Reviews/ReviewForm";
-import ReviewCard from "../../components/Reviews/ReviewCard";
+import UserReviewCard from "../../components/Reviews/userReviewCard";
+import Review from "../../components/Reviews/Review";
 
 const Account = () => {
     const { orders, fetchOrders } = useOrderContext();
@@ -12,6 +13,8 @@ const Account = () => {
 
     const [reviews, setReviews] = useState([]);
     const [deliveredOrders, setDeliveredOrders] = useState([]);
+    const [confirmedOrders, setConfirmedOrders] = useState([]);  // Stores confirmed orders
+    const [showReviewFormFor, setShowReviewFormFor] = useState(null);
 
     useEffect(() => {
         if (orders.length > 0) {
@@ -20,14 +23,11 @@ const Account = () => {
 
         fetchUserReviews();
     }, [orders]);
-    // console.log(deliveredOrders);
 
     const fetchUserReviews = () => {
         // Dummy static reviews - replace with API call as needed
         setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
-
-
 
     const markAsComplete = async (orderId) => {
         try {
@@ -40,7 +40,8 @@ const Account = () => {
             });
 
             if (res.ok) {
-                fetchOrders();
+                fetchOrders(); // Refetch orders to update the state
+                setConfirmedOrders((prev) => [...prev, orderId]); // Add the completed order to confirmedOrders
             } else {
                 const data = await res.json();
                 alert(`Failed to mark as complete: ${data.error}`);
@@ -74,65 +75,84 @@ const Account = () => {
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Order History</h2>
                 <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
-                    {orders.map(order => (
-                        <li key={order._id} className="border-b py-2">
-                            <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
-                            <div className="flex items-center justify-evenly gap-8">
-                                <h3>Status: {order.status}</h3>
-                                <p>Note: {order.note}</p>
-                            </div>
+                    {orders
+                        .map(order => (
+                            <li key={order._id} className="border-b py-2">
+                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
+                                <div className="flex items-center justify-evenly gap-8">
+                                    <h3>Status: {order.status}</h3>
+                                    <p>Note: {order.note}</p>
+                                </div>
 
-                            {order.status === "delivered" && !order.isComplete && (
-                                <div className="mt-2 text-center">
-                                    <p className="mb-2">Have you received this order?</p>
+                                {order.status === "delivered" && !order.isComplete && (
+                                    <div className="mt-2 text-center">
+                                        <p className="mb-2">Have you received this order?</p>
+                                        <button
+                                            onClick={() => markAsComplete(order._id)}
+                                            className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                                        >
+                                            Yes, I received it
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* {order.isComplete && showReviewFormFor !== order._id && (
                                     <button
-                                        onClick={() => markAsComplete(order._id)}
-                                        className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                                        className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-lg"
+                                        onClick={() => setShowReviewFormFor(order._id)}
                                     >
-                                        Yes, I received it
+                                        Post Review
                                     </button>
-                                </div>
-                            )}
+                                )}
 
-                            {order.isComplete && (
-                                <div className="text-green-700 font-semibold text-center mt-2">
-                                    ✅ Order marked as complete
-                                    <p className="pt-1 text-sm text-gray-500">
-                                        {new Date(order.updatedAt).toLocaleString('en-US', {
-                                            weekday: 'short',
-                                            year: 'numeric',
-                                            month: 'short',
-                                            day: 'numeric',
-                                            hour: '2-digit',
-                                            minute: '2-digit'
-                                        })}
-                                    </p>
-                                </div>
-                            )}
-                        </li>
-                    ))}
+                                {order.isComplete && showReviewFormFor === order._id && (
+                                    <ReviewForm
+                                        orderID={order._id}
+                                        userID={user._id}
+                                        productID={order.product_id}
+                                        orderCompleteDate={order.updatedAt}
+                                    />
+                                )} */}
+
+
+                                {order.isComplete && (
+                                    <div className="text-green-700 font-semibold text-center mt-2">
+                                        ✅ Order marked as complete
+                                        <p className="pt-1 text-sm text-gray-500">
+                                            {new Date(order.updatedAt).toLocaleString('en-US', {
+                                                weekday: 'short',
+                                                year: 'numeric',
+                                                month: 'short',
+                                                day: 'numeric',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                            })}
+                                        </p>
+                                        <div>
+                                            <Review
+                                                orderID={order._id}
+                                                userID={user._id}
+                                                productID={order.product_id}
+                                                orderCompleteDate={order.updatedAt}
+                                                isComplete={order.isComplete}
+                                            />
+                                        </div>
+                                    </div>
+
+                                )}
+                            </li>
+                        ))}
                 </ul>
             </div>
 
-            {deliveredOrders.length > 0 && (
-                <div className="mt-6">
-                    <h2 className="text-2xl font-semibold">Submit a Review</h2>
-                    {deliveredOrders.map(order => (
-                        <ReviewForm
-                            key={order._id}
-                            orderID={order._id}
-                            userID={user._id}
-                            productID={order.product_id}
-                            orderCompleteDate={order.updatedAt}
-                        />
-                    ))}
-                </div>
-            )}
-
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Review History</h2>
-                <ReviewCard reviews={reviews} />
-            </div>
+                {user?._id && (
+                    <div className="mt-6">
+                        <UserReviewCard userID={user._id} />
+                    </div>
+                )}
+            </div> */}
         </div>
     );
 };

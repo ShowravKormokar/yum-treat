@@ -32,6 +32,7 @@ import { OrderProvider } from "./Context/OrderContext.jsx";
 import OrderInfo from "./dashboard/Dash-pages/OrderInfo.jsx";
 import Unauthorized from "./components/Aditionals/Unauthorized.jsx";
 import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
+import { ReviewProvider } from "./Context/ReviewContext.jsx";
 
 let router = createBrowserRouter([
   {
@@ -148,7 +149,9 @@ ReactDOM.createRoot(root).render(
     <CategoryProvider>
       <FoodsProvider>
         <OrderProvider>
-          <RouterProvider router={router} />
+          <ReviewProvider>
+            <RouterProvider router={router} />
+          </ReviewProvider>
         </OrderProvider>
       </FoodsProvider>
     </CategoryProvider>
