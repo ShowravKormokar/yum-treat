@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
-import ReviewForm from "../../components/Reviews/ReviewForm";
-import UserReviewCard from "../../components/Reviews/userReviewCard";
 import Review from "../../components/Reviews/Review";
 
 const Account = () => {
     const { orders, fetchOrders } = useOrderContext();
     const { user } = useAuthContext();
+    // if (!user) return <p>Loading user info...</p>;
+
 
     const [reviews, setReviews] = useState([]);
     const [deliveredOrders, setDeliveredOrders] = useState([]);
@@ -75,7 +75,8 @@ const Account = () => {
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Order History</h2>
                 <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
-                    {orders
+                    {[...orders]
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map(order => (
                             <li key={order._id} className="border-b py-2">
                                 <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
@@ -110,16 +111,17 @@ const Account = () => {
                                             })}
                                         </p>
                                         <div>
-                                            <Review
-                                                orderID={order._id}
-                                                userID={user._id}
-                                                productID={order.product_id}
-                                                orderCompleteDate={order.updatedAt}
-                                                isComplete={order.isComplete}
-                                            />
+                                            {user && (
+                                                <Review
+                                                    orderID={order._id}
+                                                    userID={user._id}
+                                                    productID={order.product_id}
+                                                    orderCompleteDate={order.updatedAt}
+                                                    isComplete={order.isComplete}
+                                                />)
+                                            }
                                         </div>
                                     </div>
-
                                 )}
                             </li>
                         ))}
