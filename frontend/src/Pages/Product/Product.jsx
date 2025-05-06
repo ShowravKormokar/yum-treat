@@ -3,9 +3,13 @@ import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import CartButton from "../../components/Cart/CartButton";
 import ReviewStar from "../../components/Reviews/ReviewStar";
+import { useReviewContext } from "../../Context/ReviewContext";
+import { useAuthContext } from "../../Context/AuthContext";
 
 const Product = () => {
     const { id } = useParams();
+    const { reviews, loading, fetchReviewsByProduct } = useReviewContext();
+    const { user } = useAuthContext();
 
     const [foodData, setFoodData] = useState({
         name: '',
@@ -29,6 +33,7 @@ const Product = () => {
                 if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
                 const data = await res.json();
                 setFoodData(data);
+                fetchReviewsByProduct(data._id);
             } catch (error) {
                 console.error('Error fetching food:', error);
             }
@@ -54,6 +59,8 @@ const Product = () => {
         }
         return stars;
     };
+
+    // console.log(reviews);
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-10 md:mt-20 mt-10">
@@ -81,10 +88,10 @@ const Product = () => {
             </div>
 
             {/* Product Reviews */}
-            {/* <div className="mt-10">
+            <div className="mt-10">
                 <h3 className="text-3xl font-semibold text-gray-800 mb-5">Customer Reviews</h3>
-                {foodData.reviews.length > 0 ? (
-                    foodData.reviews.map((review, index) => (
+                {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
                         <div key={index} className="bg-gray-100 p-4 rounded-lg mb-4">
                             <div className="flex items-center space-x-2">
                                 {renderStars(review.rating)}
@@ -96,7 +103,7 @@ const Product = () => {
                 ) : (
                     <p className="text-gray-500">No reviews yet.</p>
                 )}
-            </div> */}
+            </div>
         </div>
     );
 };
