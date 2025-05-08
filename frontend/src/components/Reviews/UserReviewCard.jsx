@@ -23,14 +23,11 @@ const UserReviewCard = ({ userID, productID }) => {
                     .map((review, index) => (
                         <div key={index} className="p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors">
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                                <h4 className="text-gray-700 font-medium truncate">
-                                    Product: {review.productID}
-                                </h4>
                                 <ReviewStar rating={review.rating} />
+                                <p className="text-gray-600 mt-1 text-sm italic">
+                                    "{review.feedback}"
+                                </p>
                             </div>
-                            <p className="text-gray-600 mt-1 text-sm italic">
-                                "{review.feedback}"
-                            </p>
                         </div>
                     ))}
             </div>
