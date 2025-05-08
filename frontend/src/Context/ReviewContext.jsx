@@ -12,9 +12,10 @@ export const ReviewProvider = ({ children }) => {
     // 🔹 Fetch reviews by userID
     const fetchReviewsByUser = async (userID) => {
         setLoading(true);
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
             const res = await axios.get(`http://localhost:5000/api/reviews/user/${userID}`, {
-                headers: { Authorization: `Bearer ${getToken()}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
         } catch (error) {
@@ -27,9 +28,10 @@ export const ReviewProvider = ({ children }) => {
     // 🔹 Fetch reviews by productID
     const fetchReviewsByProduct = async (productID) => {
         setLoading(true);
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
             const res = await axios.get(`http://localhost:5000/api/reviews/product/${productID}`, {
-                headers: { Authorization: `Bearer ${getToken()}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
         } catch (error) {
@@ -42,9 +44,10 @@ export const ReviewProvider = ({ children }) => {
     // 🔹 Fetch all reviews (admin use)
     const fetchAllReviews = async () => {
         setLoading(true);
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
             const res = await axios.get(`http://localhost:5000/api/reviews/`, {
-                headers: { Authorization: `Bearer ${getToken()}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
         } catch (error) {
@@ -56,9 +59,10 @@ export const ReviewProvider = ({ children }) => {
 
     // 🔹 Add a new review
     const addReview = async (reviewData) => {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
             const res = await axios.post(`http://localhost:5000/api/reviews/`, reviewData, {
-                headers: { Authorization: `Bearer ${getToken()}` }
+                headers: { Authorization: `Bearer ${token}` }
             });
             setReviews((prev) => [res.data, ...prev]);
         } catch (error) {
