@@ -3,6 +3,7 @@ import { FaBars, FaSearch, FaShoppingCart, FaUser, FaUtensils, FaTimes } from "r
 import Cart from "../Cart/Cart";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Context/AuthContext";
+import SearchBar from "../Search/SearchBar";
 
 const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -47,10 +48,7 @@ const Navbar = () => {
 
             {/* Search Form */}
             {searchOpen && (
-                <section className="fixed top-16 left-0 right-0 bg-white p-6 flex justify-center shadow-md z-40">
-                    <input type="search" placeholder="Search here..." className="border p-2 w-1/2" />
-                    <button className="bg-[#c34c2e] rounded-lg ml-2 p-2 cursor-pointer hover:bg-white hover:border-2 "><FaSearch className="text-2xl text-black" /></button>
-                </section>
+                <SearchBar />
             )}
 
             {/* Shopping Cart */}

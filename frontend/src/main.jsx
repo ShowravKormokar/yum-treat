@@ -33,6 +33,7 @@ import OrderInfo from "./dashboard/Dash-pages/OrderInfo.jsx";
 import Unauthorized from "./components/Aditionals/Unauthorized.jsx";
 import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
 import { ReviewProvider } from "./Context/ReviewContext.jsx";
+import FoodBySearch from "./components/Search/FoodBySearch.jsx";
 
 let router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ let router = createBrowserRouter([
       {
         path: '/contact_us',
         element: <Contact />
+      },
+      {
+        path: '/search/:productName',
+        element: <FoodBySearch />
       },
       {
         path: '/account',
