@@ -3,13 +3,8 @@ const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema({
     user_id: {
         type: String,
-        trim: true,
-        required: true
-    },
-    product_id: {
-        type: String,
-        trim: true,
-        required: true
+        required: true,
+        trim: true
     },
     fullName: {
         type: String,
@@ -41,6 +36,19 @@ const orderSchema = new mongoose.Schema({
         default: "",
         trim: true
     },
+    products: [
+        {
+            product_id: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ],
     payed: {
         type: String,
         required: true,
@@ -59,10 +67,9 @@ const orderSchema = new mongoose.Schema({
     isComplete: {
         type: Boolean,
         default: false
-    },
+    }
 }, {
     timestamps: true
 });
 
-const Order = mongoose.model("Order", orderSchema);
-module.exports = Order;
+module.exports = mongoose.model("Order", orderSchema);

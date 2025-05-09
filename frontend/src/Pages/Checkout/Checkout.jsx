@@ -44,33 +44,35 @@ const Checkout = () => {
             return;
         }
 
+        const products = cartItems.map(item => ({
+            product_id: item._id,
+            quantity: item.quantity || 1
+        }));
+
         try {
-            for (const item of cartItems) {
-                const response = await fetch("http://localhost:5000/api/orders/place", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        ...formData,
-                        payed: total + "",
-                        user_id: user._id,
-                        product_id: item._id,
-                        quantity: item.quantity || 1
-                    })
-                });
+            const response = await fetch("http://localhost:5000/api/orders/place", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    ...formData,
+                    payed: total.toFixed(2),
+                    user_id: user._id,
+                    products
+                })
+            });
 
-                const data = await response.json();
+            const data = await response.json();
 
-                if (!response.ok) {
-                    console.error("Failed to place order for", item.name, data.message);
-                }
+            if (!response.ok) {
+                console.error("Failed to place order", data.message);
+            } else {
+                localStorage.removeItem("cart");
+                window.dispatchEvent(new Event("cartUpdated"));
+                navigate("/thank-you");
             }
-
-            localStorage.removeItem("cart");
-            window.dispatchEvent(new Event("cartUpdated"));
-            navigate("/thank-you");
 
         } catch (error) {
             console.error("Order submission error:", error);

@@ -1,11 +1,10 @@
-const Order = require('../model/orderModel')
+const Order = require('../model/orderModel');
 
 // Place a new order
 const placeOrder = async (req, res) => {
     try {
         const {
             user_id,
-            product_id,
             fullName,
             address,
             city,
@@ -14,12 +13,24 @@ const placeOrder = async (req, res) => {
             note,
             payed,
             paymentMethod,
-            isComplete
+            isComplete,
+            products
         } = req.body;
+
+        // Validate products array
+        if (!Array.isArray(products) || products.length === 0) {
+            return res.status(400).json({ error: "Products array is required and must not be empty" });
+        }
+
+        // Validate each product entry
+        for (const item of products) {
+            if (!item.product_id || typeof item.quantity !== "number") {
+                return res.status(400).json({ error: "Each product must have a product_id and a quantity" });
+            }
+        }
 
         const newOrder = new Order({
             user_id,
-            product_id,
             fullName,
             address,
             city,
@@ -28,7 +39,8 @@ const placeOrder = async (req, res) => {
             note,
             payed,
             paymentMethod,
-            isComplete
+            isComplete,
+            products
         });
 
         await newOrder.save();
@@ -44,7 +56,7 @@ const getAllOrders = async (req, res) => {
     try {
         const orders = await Order.find()
             .populate({ path: "user_id", select: "email" })
-            .populate({ path: "product_id", select: "name" });
+            .populate({ path: "products.product_id", select: "name price" });
 
         res.status(200).json(orders);
     } catch (error) {
@@ -56,20 +68,21 @@ const getAllOrders = async (req, res) => {
 // Get orders for a specific user
 const getUserOrders = async (req, res) => {
     try {
-        const user_id = req.user?._id || req.jwtPayload?.userId; // fallback for flexibility
+        const user_id = req.user?._id || req.jwtPayload?.userId;
 
         if (!user_id) {
             return res.status(401).json({ error: "Unauthorized: No user ID found" });
         }
 
-        const orders = await Order.find({ user_id }).populate("product_id");
+        const orders = await Order.find({ user_id })
+            .populate({ path: "products.product_id", select: "name price" });
+
         res.status(200).json(orders);
     } catch (error) {
         console.error("Error fetching user orders:", error);
         res.status(500).json({ error: "Failed to fetch your orders" });
     }
 };
-
 
 // Update order status (Admin)
 const updateOrderStatus = async (req, res) => {
@@ -120,4 +133,10 @@ const markOrderAsComplete = async (req, res) => {
     }
 };
 
-module.exports = { placeOrder, getAllOrders, getUserOrders, updateOrderStatus, markOrderAsComplete };
+module.exports = {
+    placeOrder,
+    getAllOrders,
+    getUserOrders,
+    updateOrderStatus,
+    markOrderAsComplete
+};
