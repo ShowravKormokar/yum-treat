@@ -4,6 +4,7 @@ import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
 import Review from "../../components/Reviews/Review";
+import OrderBillTime from "../../components/Orders/OrderBillTime";
 
 const Account = () => {
     const { orders, fetchOrders } = useOrderContext();
@@ -79,7 +80,18 @@ const Account = () => {
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map(order => (
                             <li key={order._id} className="border-b py-2">
-                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} payed={order.payed} quantity={order.quantity} />
+                                {order.products.map((product, index) => (
+                                    <OrderedItem
+                                        key={product.product_id + index}
+                                        productID={product.product_id} quantity={product.quantity}
+                                    />
+                                ))}
+                                <div>
+                                    <OrderBillTime
+                                        orderTime={order.createdAt}
+                                        payed={order.payed}
+                                    />
+                                </div>
                                 <div className="flex items-center justify-evenly gap-8">
                                     <h3>Status: {order.status}</h3>
                                     <p>Note: {order.note}</p>
