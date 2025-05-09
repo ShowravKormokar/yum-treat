@@ -12,6 +12,7 @@ const placeOrder = async (req, res) => {
             postalCode,
             phone,
             note,
+            payed,
             paymentMethod,
             isComplete
         } = req.body;
@@ -25,6 +26,7 @@ const placeOrder = async (req, res) => {
             postalCode,
             phone,
             note,
+            payed,
             paymentMethod,
             isComplete
         });

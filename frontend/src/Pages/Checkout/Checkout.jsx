@@ -11,11 +11,17 @@ const Checkout = () => {
         postalCode: "",
         phone: "",
         note: "",
+        payed: "",
         paymentMethod: "card",
     });
 
     const navigate = useNavigate();
-    const { user, isLoggedIn } = useAuthContext(); 
+    const { user, isLoggedIn } = useAuthContext();
+
+
+    const subtotal = cartItems.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
+    const vat = subtotal * 0.02;
+    const total = subtotal + vat;
 
     useEffect(() => {
         const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -48,6 +54,7 @@ const Checkout = () => {
                     },
                     body: JSON.stringify({
                         ...formData,
+                        payed: total + "",
                         user_id: user._id,
                         product_id: item._id,
                         quantity: item.quantity || 1
@@ -69,10 +76,6 @@ const Checkout = () => {
             console.error("Order submission error:", error);
         }
     };
-
-    const subtotal = cartItems.reduce((acc, item) => acc + item.price * (item.quantity || 1), 0);
-    const vat = subtotal * 0.02;
-    const total = subtotal + vat;
 
     // Optionally, redirect if not logged in
     useEffect(() => {
