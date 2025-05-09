@@ -99,7 +99,12 @@ const OrderInfo = () => {
 
                             {/* Ordered Items */}
                             <div className="p-3 border-t">
-                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
+                                {order.products.map((product, index) => (
+                                    <OrderedItem
+                                        key={product.product_id + index}
+                                        productID={product.product_id} quantity={product.quantity}
+                                    />
+                                ))}
                             </div>
 
                             {/* Status Actions */}
