@@ -137,7 +137,7 @@ const Account = () => {
                                     </button>
                                 )}
 
-                                {order.isComplete && (
+                                {order.isComplete && order.status !== "cancel" && (
                                     <div className=" text-green-700 font-semibold text-center mt-2">
                                         <div className="flex items-center justify-evenly">
                                             <p>✅ Order marked as complete</p>
