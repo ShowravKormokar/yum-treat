@@ -30,6 +30,23 @@ const Account = () => {
         setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
     };
 
+    //Order Cancel
+    const cancelOrder = async (orderId) => {
+        try {
+            const res = await fetch(`/api/orders/${orderId}/cancel`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            if (res.ok) alert('Order cancelled successfully!');
+            else alert(data.message || 'Failed to cancel');
+        } catch (err) {
+            console.error(err);
+            alert('Error cancelling order');
+        }
+    };
+
+
     const markAsComplete = async (orderId) => {
         try {
             const res = await fetch(`http://localhost:5000/api/orders/complete/${orderId}`, {
@@ -107,6 +124,14 @@ const Account = () => {
                                             Yes, I received it
                                         </button>
                                     </div>
+                                )}
+                                {(order.status === 'preparing' || order.status === 'pending') && !order.isComplete && (
+                                    <button
+                                        onClick={() => cancelOrder(order._id)}
+                                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
+                                    >
+                                        Cancel Order
+                                    </button>
                                 )}
 
                                 {order.isComplete && (
