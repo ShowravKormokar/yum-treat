@@ -92,9 +92,14 @@ const OrderInfo = () => {
                                         </span>
                                     </p>
                                     <p className="text-sm">
-                                        <span className="font-medium">Note:</span> {order.note || "None"}
+                                        <span className="font-medium">Bill:</span> ${order.payed}
                                     </p>
                                 </div>
+                            </div>
+                            <div className="p-4">
+                                <p className="text-sm">
+                                    <span className="font-medium">Note:</span> {order.note || "None"}
+                                </p>
                             </div>
 
                             {/* Ordered Items */}
@@ -114,16 +119,19 @@ const OrderInfo = () => {
                                         <button
                                             key={status}
                                             onClick={() => handleStatusChange(order._id, status)}
-                                            className={`px-2 py-1 text-xs rounded-md ${order.status === status
-                                                ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
-                                                : 'bg-blue-500 hover:bg-blue-600 text-white'
+                                            className={`px-2 py-1 text-xs rounded-md ${order.isComplete
+                                                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                                : order.status === status
+                                                    ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                                                    : 'bg-blue-500 hover:bg-blue-600 text-white'
                                                 }`}
-                                            disabled={order.status === status}
+                                            disabled={order.isComplete || order.status === status}
                                         >
                                             Mark as {status}
                                         </button>
                                     ))}
                                 </div>
+
                                 <div className="text-sm mt-2 md:mt-0 font-medium">
                                     <span className="mr-1">Order Complete:</span>
                                     <span className={order.isComplete ? "text-green-600" : "text-gray-500"}>
