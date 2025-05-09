@@ -125,7 +125,7 @@ const OrderInfo = () => {
                                                     ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                                                     : 'bg-blue-500 hover:bg-blue-600 text-white'
                                                 }`}
-                                            disabled={order.isComplete || order.status === status}
+                                            disabled={order.isComplete || order.status === status || order.status === "cancel"}
                                         >
                                             Mark as {status}
                                         </button>
@@ -137,7 +137,11 @@ const OrderInfo = () => {
                                     <span className={order.isComplete ? "text-green-600" : "text-gray-500"}>
                                         {order.isComplete ? (
                                             <>
-                                                ✅ Yes
+                                                {order.status === "cancel" ? (
+                                                    <span>Canceled</span>
+                                                ) : (
+                                                    <span>✅ Yes</span>
+                                                )}
                                                 <p className="pt-1 text-sm">
                                                     {new Date(order.updatedAt).toLocaleString('en-US', {
                                                         weekday: 'short',

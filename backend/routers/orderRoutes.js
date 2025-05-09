@@ -4,7 +4,8 @@ const {
     getAllOrders,
     getUserOrders,
     updateOrderStatus,
-    markOrderAsComplete
+    markOrderAsComplete,
+    cancelOrder
 } = require("../controller/orderController");
 const jwtAuthMiddleware = require("../middlewares/jwtAuthMiddlewares");
 
@@ -21,6 +22,9 @@ router.get("/my-orders", jwtAuthMiddleware, getUserOrders);
 
 // Update status of an order (Admin only — should be validated inside controller or separate middleware)
 router.patch("/update-status/:id", updateOrderStatus);
+
+// Cancel order route
+router.patch('/cancel/:id', cancelOrder);
 
 // Mark order as complete (Customer confirms delivery)
 router.patch("/complete/:id", jwtAuthMiddleware, markOrderAsComplete);

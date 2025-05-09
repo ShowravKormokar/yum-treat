@@ -111,6 +111,27 @@ const updateOrderStatus = async (req, res) => {
     }
 };
 
+//Mark as Order cancel by customer or user
+const cancelOrder = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const order = await Order.findById(id);
+        if (!order) return res.status(404).send("Order not found");
+
+        if (order.isComplete || order.status !== 'preparing') {
+            return res.status(400).send("Cannot cancel this order");
+        }
+
+        order.status = 'cancel';
+        order.isComplete = true;
+        await order.save();
+
+        res.status(200).send({ message: "Order cancelled", order });
+    } catch (err) {
+        res.status(500).send("Server error");
+    }
+};
+
 // Confirm order as complete (Customer action)
 const markOrderAsComplete = async (req, res) => {
     try {
@@ -138,5 +159,6 @@ module.exports = {
     getAllOrders,
     getUserOrders,
     updateOrderStatus,
-    markOrderAsComplete
+    markOrderAsComplete,
+    cancelOrder
 };

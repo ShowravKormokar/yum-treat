@@ -33,9 +33,12 @@ const Account = () => {
     //Order Cancel
     const cancelOrder = async (orderId) => {
         try {
-            const res = await fetch(`/api/orders/${orderId}/cancel`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
+            const res = await fetch(`http://localhost:5000/api/orders/cancel/${orderId}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
+                }
             });
             const data = await res.json();
             if (res.ok) alert('Order cancelled successfully!');
@@ -58,7 +61,7 @@ const Account = () => {
             });
 
             if (res.ok) {
-                fetchOrders(); // Refetch orders to update the state
+                // fetchOrders(); // Refetch orders to update the state
                 setConfirmedOrders((prev) => [...prev, orderId]); // Add the completed order to confirmedOrders
             } else {
                 const data = await res.json();
