@@ -79,7 +79,7 @@ const Account = () => {
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map(order => (
                             <li key={order._id} className="border-b py-2">
-                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} payed={order.payed} />
+                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} payed={order.payed} quantity={order.quantity} />
                                 <div className="flex items-center justify-evenly gap-8">
                                     <h3>Status: {order.status}</h3>
                                     <p>Note: {order.note}</p>
@@ -98,18 +98,21 @@ const Account = () => {
                                 )}
 
                                 {order.isComplete && (
-                                    <div className="text-green-700 font-semibold text-center mt-2">
-                                        ✅ Order marked as complete
-                                        <p className="pt-1 text-sm text-gray-500">
-                                            {new Date(order.updatedAt).toLocaleString('en-US', {
-                                                weekday: 'short',
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric',
-                                                hour: '2-digit',
-                                                minute: '2-digit'
-                                            })}
-                                        </p>
+                                    <div className=" text-green-700 font-semibold text-center mt-2">
+                                        <div className="flex items-center justify-evenly">
+                                            <p>✅ Order marked as complete</p>
+                                            <p className="pt-1 text-sm text-gray-500">
+                                                {new Date(order.updatedAt).toLocaleString('en-US', {
+                                                    weekday: 'short',
+                                                    year: 'numeric',
+                                                    month: 'short',
+                                                    day: 'numeric',
+                                                    hour: '2-digit',
+                                                    minute: '2-digit'
+                                                })}
+                                            </p>
+                                        </div>
+
                                         <div>
                                             {user && (
                                                 <Review
