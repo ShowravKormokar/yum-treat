@@ -95,11 +95,11 @@ const Account = () => {
 
             <div className="mt-6">
                 <h2 className="text-2xl font-semibold">Order History</h2>
-                <ul className="bg-white p-4 rounded-lg shadow-md mt-3">
+                <ul className="bg-white p-2 rounded-lg shadow-md mt-3">
                     {[...orders]
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map(order => (
-                            <li key={order._id} className="border-b py-2">
+                            <li key={order._id} className="p-2 mb-2 border-2 rounded-[4px] border-amber-500">
                                 <div>
                                     <OrderBillTime
                                         orderTime={order.createdAt}
