@@ -1,7 +1,7 @@
 import { useOrderContext } from '../../Context/OrderContext';
 
 const InfoCards = () => {
-    const { totalOrders, totalSales, currentOrders } = useOrderContext();
+    const { totalOrders, totalSales, totalCompleted, totalCanceled, currentOrders } = useOrderContext();
 
     const stats = [
         {
@@ -18,7 +18,17 @@ const InfoCards = () => {
             title: 'Current Orders',
             value: currentOrders ?? 0,
             color: 'bg-purple-100 text-purple-800'
-        }
+        },
+        {
+            title: 'Total Cancel(s)',
+            value: totalCanceled ?? 0,
+            color: 'bg-red-100 text-red-800'
+        },
+        {
+            title: 'Total Complete(s)',
+            value: totalCompleted ?? 0,
+            color: 'bg-purple-100 text-purple-800'
+        },
     ];
 
     return (

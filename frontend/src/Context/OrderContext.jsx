@@ -50,7 +50,21 @@ export const OrderProvider = ({ children }) => {
 
     const totalOrders = aOrders.length;
 
-    const totalSales = aOrders.reduce((acc, order) => acc + (parseFloat(order.payed) || 0), 0);
+    const totalSales = aOrders.reduce((acc, order) => {
+        if (order.isComplete && order.status !== "cancel") {
+            return acc + (parseFloat(order.payed) || 0);
+        }
+        return acc;
+    }, 0);
+
+    const totalCanceled = aOrders.reduce((acc, order) => {
+        return order.status === "cancel" ? acc + 1 : acc;
+    }, 0);
+
+    const totalCompleted = aOrders.reduce((acc, order) => {
+        return (order.isComplete && order.status !== "cancel") ? acc + 1 : acc;
+    }, 0);
+
 
     const currentOrders = aOrders.filter(order => !order.isComplete).length;
 
@@ -65,6 +79,8 @@ export const OrderProvider = ({ children }) => {
                 refetchAOrders: fetchAOrders,
                 totalOrders,
                 totalSales,
+                totalCompleted,
+                totalCanceled,
                 currentOrders
             }}
         >
