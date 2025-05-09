@@ -56,7 +56,7 @@ export const OrderProvider = ({ children }) => {
     // console.log(orders);
     const totalOrders = aOrders.length;
 
-    const totalSales = aOrders.reduce((acc, order) => acc + (order.price || 0), 0);
+    const totalSales = aOrders.reduce((acc, order) => acc + (parseFloat(order.payed) || 0), 0);
 
     const currentOrders = aOrders.filter(order => order.isComplete === false).length;
 
