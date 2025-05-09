@@ -79,7 +79,7 @@ const Account = () => {
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map(order => (
                             <li key={order._id} className="border-b py-2">
-                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} />
+                                <OrderedItem productID={order.product_id} orderTime={order.createdAt} payed={order.payed} />
                                 <div className="flex items-center justify-evenly gap-8">
                                     <h3>Status: {order.status}</h3>
                                     <p>Note: {order.note}</p>

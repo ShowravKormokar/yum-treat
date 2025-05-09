@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { FoodsContext } from '../../Context/FoodsContext';
 
-const OrderedItem = ({ productID, orderTime }) => {
+const OrderedItem = ({ productID, orderTime, payed }) => {
   const { foods, loading } = useContext(FoodsContext);
 
   if (loading) return <div className="p-4 text-gray-500">Loading...</div>;
@@ -26,7 +26,7 @@ const OrderedItem = ({ productID, orderTime }) => {
       </div>
 
       <div className="ml-4 text-right">
-        <p className="font-medium text-gray-900">${food.currentPrice.toFixed(2)}</p>
+        <p className="font-medium text-gray-900">${parseFloat(payed).toFixed(2)}</p>
         <p className="font-medium text-gray-900">
           {new Date(orderTime).toLocaleString('en-US', {
             weekday: 'short',
