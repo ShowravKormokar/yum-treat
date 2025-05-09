@@ -53,7 +53,7 @@ export const OrderProvider = ({ children }) => {
     useEffect(() => {
         fetchAOrders();
     }, []);
-    console.log(orders);
+    // console.log(orders);
     const totalOrders = aOrders.length;
 
     const totalSales = aOrders.reduce((acc, order) => acc + (order.price || 0), 0);
