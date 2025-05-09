@@ -25,7 +25,6 @@ const Dashboard = () => {
 
     const getTitle = () => {
         const path = location.pathname;
-        if (path.includes('analytics')) return 'Analytics';
         if (path.includes('add-foods')) return 'Add Food';
         if (path.includes('add-category')) return 'Orders';
         if (path.includes('edit-foods')) return 'Edit Foods';
@@ -61,11 +60,6 @@ const Dashboard = () => {
                         <li>
                             <Link to="/admin-dashboard" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
                                 <FaHome className="mr-3" /> Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="analytics" className="flex items-center p-2 text-gray-700 hover:bg-amber-50 rounded-lg">
-                                <FaChartLine className="mr-3" /> Analytics
                             </Link>
                         </li>
                         <li>

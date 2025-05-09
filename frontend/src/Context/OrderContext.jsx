@@ -5,6 +5,7 @@ const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
     const [orders, setOrders] = useState([]);
+    const [pendingOrders, setPendingOrders] = useState([]);
     const [aOrders, setAOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -35,6 +36,12 @@ export const OrderProvider = ({ children }) => {
             setLoading(true);
             const res = await axios.get("http://localhost:5000/api/orders/admin");
             setAOrders(res.data);
+
+            // Filter and set pending orders whenever aOrders updates
+            setPendingOrders(res.data.filter(order =>
+                order.isComplete === false &&
+                order.status !== "cancel"
+            ));
         } catch (err) {
             console.error("Failed to fetch admin orders:", err);
             setError(err.response?.data?.error || "Failed to load admin orders");
@@ -65,8 +72,7 @@ export const OrderProvider = ({ children }) => {
         return (order.isComplete && order.status !== "cancel") ? acc + 1 : acc;
     }, 0);
 
-
-    const currentOrders = aOrders.filter(order => !order.isComplete).length;
+    const currentOrders = pendingOrders.length;
 
     return (
         <OrderContext.Provider

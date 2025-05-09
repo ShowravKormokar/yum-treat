@@ -1,15 +1,11 @@
 import InfoCards from './Dash-components/InfoCards';
 import OrderCards from './Dash-components/OrderCards';
+import Analytix from './Dash-pages/Analytix';
 
-const DashboardHome = ({orders, handleAcceptOrder, handleReadyForDelivery }) => {
+const DashboardHome = ({ orders, handleAcceptOrder, handleReadyForDelivery }) => {
     return (
         <>
-            <InfoCards/>
-            <OrderCards
-                orders={orders}
-                handleAcceptOrder={handleAcceptOrder}
-                handleReadyForDelivery={handleReadyForDelivery}
-            />
+            <Analytix />
         </>
     );
 };
