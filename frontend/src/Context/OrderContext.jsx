@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 // Create the context
@@ -6,6 +7,7 @@ const OrderContext = createContext();
 // Provider component
 export const OrderProvider = ({ children }) => {
     const [orders, setOrders] = useState([]);
+    const [aOrders, setAOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -35,8 +37,31 @@ export const OrderProvider = ({ children }) => {
         fetchOrders();
     }, []);
 
+    const fetchAOrders = async () => {
+        try {
+            setLoading(true);
+            const res = await axios.get("http://localhost:5000/api/orders/admin");
+            setAOrders(res.data);
+        } catch (err) {
+            console.error("Error fetching orders:", err);
+            setError("Failed to load orders");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchAOrders();
+    }, []);
+    console.log(orders);
+    const totalOrders = aOrders.length;
+
+    const totalSales = aOrders.reduce((acc, order) => acc + (order.price || 0), 0);
+
+    const currentOrders = aOrders.filter(order => order.isComplete === false).length;
+
     return (
-        <OrderContext.Provider value={{ orders, loading, error, refetchOrders: fetchOrders }}>
+        <OrderContext.Provider value={{ orders, loading, error, refetchOrders: fetchOrders, totalOrders, totalSales, currentOrders }}>
             {children}
         </OrderContext.Provider>
     );
