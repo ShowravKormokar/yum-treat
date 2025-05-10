@@ -6,7 +6,10 @@ const createFood = async (req, res) => {
     try {
         const {
             name, description, imageUrl, rating, numberOfReviews,
-            currentPrice, pastPrice, category, tags, customOrder, isAvailable
+            currentPrice, pastPrice, category, tags, customOrder, isAvailable,
+            isPopular,
+            isSpecial,
+            isSuperDeals
         } = req.body;
 
         // Create a new food item with provided data
@@ -21,7 +24,10 @@ const createFood = async (req, res) => {
             category,
             tags,
             customOrder,
-            isAvailable
+            isAvailable,
+            isPopular,
+            isSpecial,
+            isSuperDeals
         });
 
         // Save the food item to the database

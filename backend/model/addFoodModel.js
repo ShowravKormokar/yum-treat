@@ -24,7 +24,7 @@ const foodSchema = new mongoose.Schema({
     currentPrice: {
         type: Number,
         required: true
-    }, // Make sure this is present and required
+    },
     pastPrice: {
         type: Number
     },
@@ -43,7 +43,19 @@ const foodSchema = new mongoose.Schema({
     isAvailable: {
         type: Boolean,
         default: true
-    }
+    },
+    isPopular: {
+        type: Boolean,
+        default: false
+    },
+    isSpecial: {
+        type: Boolean,
+        default: false
+    },
+    isSuperDeals: {
+        type: Boolean,
+        default: false
+    },
 });
 
 module.exports = mongoose.model('Food', foodSchema);

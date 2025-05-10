@@ -21,7 +21,10 @@ const EditFood = () => {
         category: '',
         tags: [],
         customOrder: false,
-        isAvailable: true
+        isAvailable: true,
+        isPopular: false,
+        isSpecial: false,
+        isSuperDeals: false
     });
 
     // Fetch food details
@@ -91,6 +94,7 @@ const EditFood = () => {
     return (
         <div className="max-w-4xl mx-auto p-8">
             <h1 className="text-3xl font-bold text-center mb-8">Edit Food</h1>
+            <h4 className='font-bold text-center'>Food ID: {id}</h4>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
                 <label className="flex flex-col">
@@ -205,8 +209,6 @@ const EditFood = () => {
                     {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category}</p>}
                 </label>
 
-
-
                 <label className="flex flex-col">
                     <span className="font-medium mb-1">Tags (comma separated)</span>
                     <input
@@ -244,6 +246,33 @@ const EditFood = () => {
                         ) : (
                             <FaTimesCircle className="text-red-500" />
                         )}
+                    </label>
+                    <label className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="isPopular"
+                            checked={foodData.isPopular}
+                            onChange={handleChange}
+                        />
+                        Popular Food
+                    </label>
+                    <label className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="isSpecial"
+                            checked={foodData.isSpecial}
+                            onChange={handleChange}
+                        />
+                        Special Food
+                    </label>
+                    <label className="flex items-center gap-2">
+                        <input
+                            type="checkbox"
+                            name="isSuperDeals"
+                            checked={foodData.isSuperDeals}
+                            onChange={handleChange}
+                        />
+                        Super Deals Food
                     </label>
                 </div>
 

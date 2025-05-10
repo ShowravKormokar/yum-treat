@@ -20,6 +20,9 @@ const FoodAddForm = () => {
         tags: [],
         customOrder: false,
         isAvailable: true,
+        isPopular: false,
+        isSpecial: false,
+        isSuperDeals: false
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -100,7 +103,7 @@ const FoodAddForm = () => {
             };
 
             // Log the food data to check if the price is correctly included
-            console.log("Food data being sent:", foodData);
+            // console.log("Food data being sent:", foodData);
 
             const response = await fetch(URL, {
                 method: "POST",
@@ -256,21 +259,6 @@ const FoodAddForm = () => {
                     </div>
                 </div>
 
-                {/* Food Availability */}
-                <div className="flex items-center">
-                    <input
-                        type="checkbox"
-                        id="isAvailable"
-                        name="isAvailable"
-                        checked={formData.isAvailable}
-                        onChange={handleChange}
-                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
-                    />
-                    <label htmlFor="isAvailable" className="ml-2 block text-sm text-gray-700">
-                        This food item is currently available
-                    </label>
-                </div>
-
                 {/* Tags */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Tags</label>
@@ -324,6 +312,21 @@ const FoodAddForm = () => {
                     </div>
                 </div>
 
+                {/* Food Availability */}
+                <div className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="isAvailable"
+                        name="isAvailable"
+                        checked={formData.isAvailable}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="isAvailable" className="ml-2 block text-sm text-gray-700">
+                        This food item is currently available
+                    </label>
+                </div>
+
                 {/* Custom Order Accepted */}
                 <div className="flex items-center">
                     <input
@@ -336,6 +339,48 @@ const FoodAddForm = () => {
                     />
                     <label htmlFor="customOrder" className="ml-2 block text-sm text-gray-700">
                         Accept Custom Orders for this item
+                    </label>
+                </div>
+                {/* Popular food */}
+                <div className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="isPopular"
+                        name="isPopular"
+                        checked={formData.isPopular}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="isPopular" className="ml-2 block text-sm text-gray-700">
+                        Add this popular food lists
+                    </label>
+                </div>
+                {/* Special food */}
+                <div className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="isSpecial"
+                        name="isSpecial"
+                        checked={formData.isSpecial}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="isSpecial" className="ml-2 block text-sm text-gray-700">
+                        Add this special food lists
+                    </label>
+                </div>
+                {/* Super Deals food */}
+                <div className="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="isSuperDeals"
+                        name="isSuperDeals"
+                        checked={formData.isSuperDeals}
+                        onChange={handleChange}
+                        className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="isSuperDeals" className="ml-2 block text-sm text-gray-700">
+                        Add this super deals food lists
                     </label>
                 </div>
 
