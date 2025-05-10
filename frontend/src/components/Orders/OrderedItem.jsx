@@ -22,7 +22,7 @@ const OrderedItem = ({ productID, quantity }) => {
 
       <div className="flex-grow ml-4 min-w-0">
         <h4 className="font-medium text-gray-900 truncate">{product.name}</h4>
-        <p className="text-sm text-gray-500 truncate">{product.description}</p>
+        <p className="text-sm text-gray-500 truncate">Product ID: {productID}</p>
       </div>
 
       <div className="ml-4 text-right">
