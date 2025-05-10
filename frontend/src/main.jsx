@@ -29,11 +29,13 @@ import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import ThankYou from "./components/Aditionals/ThankYou.jsx";
 import { OrderProvider } from "./Context/OrderContext.jsx";
-import OrderInfo from "./dashboard/Dash-pages/OrderInfo.jsx";
+import OrderInfo from "./dashboard/Dash-components/CurrentOrder.jsx";
 import Unauthorized from "./components/Aditionals/Unauthorized.jsx";
 import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
 import { ReviewProvider } from "./Context/ReviewContext.jsx";
 import FoodBySearch from "./components/Search/FoodBySearch.jsx";
+import OrderCard from "./dashboard/Dash-pages/OrderInfos.jsx";
+import OrderInfos from "./dashboard/Dash-pages/OrderInfos.jsx";
 
 let router = createBrowserRouter([
   {
@@ -133,7 +135,7 @@ let router = createBrowserRouter([
       },
       {
         path: 'order-info',
-        element: <OrderInfo />
+        element: <OrderInfos />
       },
       {
         path: 'add-foods',

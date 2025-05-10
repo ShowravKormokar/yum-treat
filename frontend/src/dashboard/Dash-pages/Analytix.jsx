@@ -3,7 +3,7 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell, Legend
 } from 'recharts';
-import CurrentOrders from '../Dash-components/CurrentOrders';
+import CurrentOrder from '../Dash-components/CurrentOrder';
 
 const Analytix = () => {
     const { totalOrders, totalSales, totalCompleted, totalCanceled, currentOrders } = useOrderContext();
@@ -97,7 +97,7 @@ const Analytix = () => {
 
             <div className="bg-white p-4 rounded-lg shadow-sm overflow-x-auto">
                 <h2 className="text-lg font-semibold mb-4">Current Pending Orders</h2>
-                <CurrentOrders limit={5} />
+                <CurrentOrder />
             </div>
         </div>
     );

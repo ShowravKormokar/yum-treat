@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderedItem from '../../components/Orders/OrderedItem';
 
-const OrderInfo = () => {
+const CurrentOrder = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -169,4 +169,4 @@ const OrderInfo = () => {
     );
 };
 
-export default OrderInfo;
+export default CurrentOrder;
