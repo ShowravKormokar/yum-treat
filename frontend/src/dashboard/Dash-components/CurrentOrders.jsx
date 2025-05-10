@@ -34,7 +34,7 @@ const CurrentOrders = ({ limit = 5 }) => {
                 {pendingOrders.slice(0, limit).map((order) => (
                     <tr key={order._id || Math.random()}>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            #{order._id ? order._id.toString().slice(0, 8) : 'N/A'}
+                            #{order._id ? order._id.toString().slice(-6) : 'N/A'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             {order.fullName || 'Unknown'}
