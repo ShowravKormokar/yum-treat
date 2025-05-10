@@ -18,7 +18,7 @@ const ReviewForm = ({ orderID, userID, productID, orderCompleteDate }) => {
         try {
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
             if (!token) return;
-            const res = await fetch("http://localhost:5000/api/reviews", {
+            const res = await fetch("http://localhost:5000/api/reviews/add-review", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

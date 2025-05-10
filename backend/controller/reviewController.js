@@ -2,9 +2,9 @@ const Review = require('../model/reviewModel');
 // Add review
 const addReview = async (req, res) => {
     try {
-        const { userID, productID, orderID, rating, feedback, orderCompleteDate } = req.body;
+        const { orderID, userID, productID, rating, feedback, orderCompleteDate } = req.body;
 
-        const review = new Review({ userID, productID, orderID, rating, feedback, orderCompleteDate });
+        const review = new Review({ orderID, userID, productID, rating, feedback, orderCompleteDate });
         const saved = await review.save();
 
         res.status(201).json(saved);

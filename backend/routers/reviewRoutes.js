@@ -8,7 +8,7 @@ const express = require("express");
 const router = express.Router();
 
 // POST /api/reviews/
-router.post("/", verifyToken, addReview);
+router.post("/add-review", verifyToken, addReview);
 
 // GET /api/reviews/user/:userID
 router.get("/user/:userID", verifyToken, getReviewsByUser);

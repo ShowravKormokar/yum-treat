@@ -107,12 +107,22 @@ const Account = () => {
                                         orderID={order._id}
                                     />
                                 </div>
-                                {order.products.map((product, index) => (
-                                    <OrderedItem
-                                        key={product.product_id + index}
-                                        productID={product.product_id} quantity={product.quantity}
-                                    />
+                                {user && order.products.map((product, index) => (
+                                    <React.Fragment key={product.product_id + index}>
+                                        <OrderedItem
+                                            productID={product.product_id}
+                                            quantity={product.quantity}
+                                        />
+                                        <Review
+                                            orderID={order._id}
+                                            userID={user._id}
+                                            productID={product.product_id}
+                                            orderCompleteDate={order.updatedAt}
+                                            isComplete={order.isComplete}
+                                        />
+                                    </React.Fragment>
                                 ))}
+
                                 <div className="flex items-center justify-evenly gap-8">
                                     <h3>Status: {order.status}</h3>
                                     <p>Note: {order.note}</p>
@@ -154,17 +164,18 @@ const Account = () => {
                                             </p>
                                         </div>
 
-                                        <div>
-                                            {user && (
+                                        {/* <div>
+                                            {user && order.products.map((product, index) => (
                                                 <Review
+                                                    key={product.product_id + index}
                                                     orderID={order._id}
                                                     userID={user._id}
-                                                    productID={order.product_id}
+                                                    productID={product.product_id}
                                                     orderCompleteDate={order.updatedAt}
                                                     isComplete={order.isComplete}
-                                                />)
-                                            }
-                                        </div>
+                                                />
+                                            ))}
+                                        </div> */}
                                     </div>
                                 )}
                             </li>
