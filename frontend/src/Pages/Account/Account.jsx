@@ -7,7 +7,7 @@ import Review from "../../components/Reviews/Review";
 import OrderBillTime from "../../components/Orders/OrderBillTime";
 
 const Account = () => {
-    const { orders, fetchOrders } = useOrderContext();
+    const { orders, refetchOrders } = useOrderContext();
     const { user } = useAuthContext();
     // if (!user) return <p>Loading user info...</p>;
 
@@ -61,7 +61,7 @@ const Account = () => {
             });
 
             if (res.ok) {
-                // fetchOrders(); // Refetch orders to update the state
+                refetchOrders(); // Refetch orders to update the state
                 setConfirmedOrders((prev) => [...prev, orderId]); // Add the completed order to confirmedOrders
             } else {
                 const data = await res.json();
@@ -123,7 +123,7 @@ const Account = () => {
                                         <p className="mb-2">Have you received this order?</p>
                                         <button
                                             onClick={() => markAsComplete(order._id)}
-                                            className="bg-green-600 text-white px-4 py-2 rounded-lg"
+                                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointer"
                                         >
                                             Yes, I received it
                                         </button>

@@ -42,8 +42,6 @@ const CurrentOrder = () => {
 
     return (
         <div className="p-4 max-w-6xl mx-auto">
-            <h2 className="text-xl font-bold mb-4 text-gray-800">Customer Orders</h2>
-
             {orders.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">No orders found</div>
             ) : (
