@@ -5,6 +5,7 @@ import CartButton from "../../components/Cart/CartButton";
 import ReviewStar from "../../components/Reviews/ReviewStar";
 import { useReviewContext } from "../../Context/ReviewContext";
 import { useAuthContext } from "../../Context/AuthContext";
+import ProductReviewCard from "../../components/Reviews/ProductReviewCard";
 
 const Product = () => {
     const { id } = useParams();
@@ -88,22 +89,7 @@ const Product = () => {
             </div>
 
             {/* Product Reviews */}
-            <div className="mt-10">
-                <h3 className="text-3xl font-semibold text-gray-800 mb-5">Customer Reviews</h3>
-                {reviews.length > 0 ? (
-                    reviews.map((review, index) => (
-                        <div key={index} className="bg-gray-100 p-4 rounded-lg mb-4">
-                            <div className="flex items-center space-x-2">
-                                {renderStars(review.rating)}
-                                <span className="text-gray-700 font-semibold">{review.user}</span>
-                            </div>
-                            <p className="text-gray-600 mt-2">{review.comment}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-gray-500">No reviews yet.</p>
-                )}
-            </div>
+            <ProductReviewCard reviews={reviews} />
         </div>
     );
 };
