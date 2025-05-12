@@ -22,7 +22,7 @@ const Review = ({ orderID, userID, productID, orderCompleteDate, isComplete }) =
         <div className="mt-4">
             {existingReview ? (
                 // If review exists, show the review card
-                <UserReviewCard userID={userID} productID={productID} />
+                <UserReviewCard userID={userID} productID={productID} orderID={orderID} />
             ) : (
                 <>
                     {!showForm ? (
