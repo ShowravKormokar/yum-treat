@@ -113,13 +113,15 @@ const Account = () => {
                                             productID={product.product_id}
                                             quantity={product.quantity}
                                         />
-                                        <Review
-                                            orderID={order._id}
-                                            userID={user._id}
-                                            productID={product.product_id}
-                                            orderCompleteDate={order.updatedAt}
-                                            isComplete={order.isComplete}
-                                        />
+                                        {order.isComplete && (
+                                            <Review
+                                                orderID={order._id}
+                                                userID={user._id}
+                                                productID={product.product_id}
+                                                orderCompleteDate={order.updatedAt}
+                                                isComplete={order.isComplete}
+                                            />
+                                        )}
                                     </React.Fragment>
                                 ))}
 
@@ -163,19 +165,6 @@ const Account = () => {
                                                 })}
                                             </p>
                                         </div>
-
-                                        {/* <div>
-                                            {user && order.products.map((product, index) => (
-                                                <Review
-                                                    key={product.product_id + index}
-                                                    orderID={order._id}
-                                                    userID={user._id}
-                                                    productID={product.product_id}
-                                                    orderCompleteDate={order.updatedAt}
-                                                    isComplete={order.isComplete}
-                                                />
-                                            ))}
-                                        </div> */}
                                     </div>
                                 )}
                             </li>
