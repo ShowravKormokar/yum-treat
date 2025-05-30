@@ -55,7 +55,7 @@ const Cart = ({ cartOpen, setCartOpen }) => {
     const includeVAT = withVat - total;
 
     return (
-        <section className="fixed top-16 left-0 right-0 bg-white p-6 shadow-md z-40 overflow-auto max-h-[80vh]">
+        <section className="fixed top-15 left-0 right-0 bg-white p-6 shadow-md z-40 overflow-auto max-h-[80vh]">
             <h3 className="text-2xl font-bold text-center pb-4 border-b">Your Cart</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-4">
                 {cartItems.length > 0 ? cartItems.map((item) => (
@@ -99,7 +99,7 @@ const Cart = ({ cartOpen, setCartOpen }) => {
                 </h3>
                 <NavLink
                     to="/checkout"
-                    className="bg-[#c34c2e] text-white px-6 py-2 rounded-md inline-block mt-4"
+                    className="bg-[#c34c2e] text-white px-6 py-2 rounded-md inline-block mt-4 hover:bg-black"
                     onClick={() => setCartOpen(false)}
                 >
                     Proceed to Checkout
