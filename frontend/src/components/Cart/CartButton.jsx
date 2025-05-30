@@ -39,7 +39,7 @@ const CartButton = ({ food }) => {
             <button
                 onClick={handleAddToCart}
                 disabled={!isLoggedIn}
-                className={`mt-4  px-4 py-2 rounded-lg text-white ${isLoggedIn
+                className={`mt-4  px-4 py-2 rounded-lg w-full text-white ${isLoggedIn
                     ? 'bg-[#c34c2e] hover:bg-black'
                     : 'bg-gray-400 cursor-not-allowed'
                     }`}
