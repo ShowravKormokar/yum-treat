@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams, NavLink } from 'react-router-dom';
+import { useNavigate, useParams, NavLink, Link } from 'react-router-dom';
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import CartButton from "../../components/Cart/CartButton";
 import ReviewStar from "../../components/Reviews/ReviewStar";
@@ -82,10 +82,20 @@ const Product = () => {
                             ${foodData.pastPrice}
                         </span>
                     )}</p>
-                    <CartButton
-                        food={foodData}
-                    />
+                    <div className="flex flex-col text-center">
+                        <CartButton
+                            food={foodData}
+                        />
+                        <Link
+                            to="/checkout"
+                            className=" w-full bg-black text-white mt-4 px-4 py-2 rounded-lg hover:bg-white hover:text-black border-2"
+                        >
+                            Proceed to Checkout
+                        </Link>
+                    </div>
+
                 </div>
+
             </div>
 
             {/* Product Reviews */}
