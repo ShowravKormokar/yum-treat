@@ -44,9 +44,9 @@ const SignIn = () => {
                 console.log(resdata.user.userRole);
                 alert("Log in successfully!");
                 setUserLogIn({ email: "", password: "" });
-                if (resdata.user.userRole==="user"){
+                if (resdata.user.userRole === "user") {
                     navigate("/"); // redirect to /home
-                } else if (resdata.user.userRole === "admin"){
+                } else if (resdata.user.userRole === "admin") {
                     navigate("/admin-dashboard"); // redirect to /manager
                 }
             } else {
@@ -109,13 +109,13 @@ const SignIn = () => {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className="w-full bg-[#c34c2e] text-white py-2 rounded-lg hover:bg-black cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
                     >
                         Sign In
                     </button>
                 </form>
                 <p className="text-sm text-center mt-4">
-                    Don't have an account? <NavLink to="/sign_up" className="text-blue-500">Create one</NavLink>
+                    Don't have an account? <NavLink to="/sign_up" className="text-blue-500 underline">Create one</NavLink>
                 </p>
             </div>
         </div>
