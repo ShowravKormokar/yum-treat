@@ -35,8 +35,8 @@ const OrderInfos = () => {
                                 <p><span className="font-medium">Placed On:</span> {formatDate(order.createdAt)}</p>
                                 <p><span className="font-medium">Completed On:</span> {formatDate(order.updatedAt)}</p>
                                 <p><span className="font-medium">Status:</span>
-                                    <span className={`ml-1 px-2 py-1 rounded text-xs ${order.isComplete ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                                        {order.isComplete ? 'Completed' : 'Processing'}
+                                    <span className={`ml-1 px-2 py-1 rounded text-xs ${order.isComplete ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-red-800'}`}>
+                                        {order.isComplete ? 'Completed' : 'Cancel'}
                                     </span>
                                 </p>
                             </div>
