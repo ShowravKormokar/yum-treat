@@ -73,7 +73,7 @@ const updateFood = async (req, res) => {
     try {
         const food = await Food.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!food) return res.status(404).json({ message: 'Food not found' });
-        res.json({ message: 'Food updated successfully', food });
+        res.status(200).json({ message: 'Food updated successfully', food });
     } catch (error) {
         console.error('Error updating food:', error);
         res.status(400).json({ error: 'Failed to update food item' });
