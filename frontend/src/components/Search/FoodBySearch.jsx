@@ -37,7 +37,7 @@ const FoodBySearch = () => {
                                 <img src={`../src/assets/foods/${food.imageUrl}.png`} alt={food.name} className="h-40 mx-auto" />
                             </div>
 
-                            <h3 className="text-xl font-semibold text-gray-900">{food.name}</h3>
+                            <h3 className="text-xl font-semibold text-gray-900">{food.name.slice(0, 14)}...</h3>
 
                             <div className="flex justify-center items-center gap-1 text-yellow-500 my-2">
                                 <ReviewStar rating={food.rating} />
@@ -54,7 +54,7 @@ const FoodBySearch = () => {
                             <CartButton food={food} />
                             <button
                                 onClick={() => handleDetails(food._id)}
-                                className="mt-4 bg-[#c34c2e] text-white px-4 py-2 rounded-lg hover:bg-black cursor-pointer"
+                                className="mt-2 bg-[#c34c2e] text-white px-4 py-2 w-full rounded-lg hover:bg-black cursor-pointer"
                             >
                                 Details
                             </button>

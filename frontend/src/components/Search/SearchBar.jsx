@@ -42,7 +42,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="fixed top-16 left-0 right-0 bg-white p-6 flex flex-col items-center shadow-md z-40">
+        <div className="fixed top-15 left-0 right-0 bg-white p-6 flex flex-col items-center shadow-md z-40">
             <div className="flex w-full justify-center">
                 <input
                     type="search"
@@ -52,10 +52,10 @@ const SearchBar = () => {
                     onChange={handleChange}
                 />
                 <button
-                    className="bg-[#c34c2e] rounded-lg ml-2 p-2 cursor-pointer hover:bg-white hover:border-2"
+                    className="bg-[#c34c2e] rounded-lg ml-2 p-2 cursor-pointer hover:bg-black   "
                     onClick={handleSearchClick}
                 >
-                    <FaSearch className="text-2xl text-black" />
+                    <FaSearch className="text-2xl text-white " />
                 </button>
             </div>
 
