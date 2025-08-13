@@ -5,30 +5,20 @@ import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
 import Review from "../../components/Reviews/Review";
 import OrderBillTime from "../../components/Orders/OrderBillTime";
+import Loader from "../../components/Loader/Loader";
 
 const Account = () => {
     const { orders, refetchOrders } = useOrderContext();
     const { user } = useAuthContext();
-    // if (!user) return <p>Loading user info...</p>;
 
-
-    const [reviews, setReviews] = useState([]);
     const [deliveredOrders, setDeliveredOrders] = useState([]);
     const [confirmedOrders, setConfirmedOrders] = useState([]);  // Stores confirmed orders
-    const [showReviewFormFor, setShowReviewFormFor] = useState(null);
 
     useEffect(() => {
         if (orders.length > 0) {
             setDeliveredOrders(orders.filter(order => order.status === "delivered"));
         }
-
-        fetchUserReviews();
     }, [orders]);
-
-    const fetchUserReviews = () => {
-        // Dummy static reviews - replace with API call as needed
-        setReviews([{ productID: "Steak", rating: 5, feedback: "Delicious!" }]);
-    };
 
     //Order Cancel
     const cancelOrder = async (orderId) => {
@@ -72,6 +62,8 @@ const Account = () => {
             alert("Something went wrong while marking the order as complete.");
         }
     };
+
+    if (!user || !orders) return <Loader />;
 
     return (
         <div className="max-w-4xl mx-auto py-10 mt-10 p-5">
