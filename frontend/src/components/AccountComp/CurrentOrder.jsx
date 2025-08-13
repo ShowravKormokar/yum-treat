@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
-import Review from "../../components/Reviews/Review";
 import OrderBillTime from "../../components/Orders/OrderBillTime";
 
 const CurrentOrder = () => {
@@ -83,15 +82,6 @@ const CurrentOrder = () => {
                                     productID={product.product_id}
                                     quantity={product.quantity}
                                 />
-                                {/* {order.isComplete && (
-                                    <Review
-                                        orderID={order._id}
-                                        userID={user._id}
-                                        productID={product.product_id}
-                                        orderCompleteDate={order.updatedAt}
-                                        isComplete={order.isComplete}
-                                    />
-                                )} */}
                             </React.Fragment>
                         ))}
 
