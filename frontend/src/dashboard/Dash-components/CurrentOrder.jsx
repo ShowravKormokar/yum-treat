@@ -47,7 +47,7 @@ const CurrentOrder = () => {
             ) : (
                 <div className="grid gap-3">
                     {[...orders]
-                        .filter(order => !order.isComplete && !order.status === "cancel") // Only show incomplete orders
+                        .filter(order => !order.isComplete && order.status === "preparing" || order.status === "ready") // Only show incomplete orders
                         .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)) // Sort by most recent update
                         .map(order => (
                             <div key={order._id} className="border rounded-lg overflow-hidden">
