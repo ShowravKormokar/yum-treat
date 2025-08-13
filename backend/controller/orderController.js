@@ -123,7 +123,7 @@ const cancelOrder = async (req, res) => {
         }
 
         order.status = 'cancel';
-        order.isComplete = true;
+        order.isComplete = false;
         await order.save();
 
         res.status(200).send({ message: "Order cancelled", order });
