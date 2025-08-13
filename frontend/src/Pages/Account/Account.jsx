@@ -10,6 +10,8 @@ import Loader from "../../components/Loader/Loader";
 const Account = () => {
     const { orders, refetchOrders } = useOrderContext();
     const { user } = useAuthContext();
+    const [activeTab, setActiveTab] = useState("current");
+
 
     const [deliveredOrders, setDeliveredOrders] = useState([]);
     const [confirmedOrders, setConfirmedOrders] = useState([]);  // Stores confirmed orders
@@ -83,6 +85,46 @@ const Account = () => {
                 >
                     Sign Out
                 </NavLink>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md mt-6">
+                <div className="flex justify-between">
+                    <button
+                        onClick={() => setActiveTab("current")}
+                        className={`mt-4 px-4 py-2 rounded-lg block text-center ${activeTab === "current"
+                            ? "bg-[#a83b1f] text-white"
+                            : "bg-[#c34c2e] text-white"
+                            }`}
+                    >
+                        Current Orders
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTab("cancel")}
+                        className={`mt-4 px-4 py-2 rounded-lg block text-center ${activeTab === "cancel"
+                            ? "bg-[#a83b1f] text-white"
+                            : "bg-[#c34c2e] text-white"
+                            }`}
+                    >
+                        Cancel Orders
+                    </button>
+
+                    <button
+                        onClick={() => setActiveTab("history")}
+                        className={`mt-4 px-4 py-2 rounded-lg block text-center ${activeTab === "history"
+                            ? "bg-[#a83b1f] text-white"
+                            : "bg-[#c34c2e] text-white"
+                            }`}
+                    >
+                        Order History
+                    </button>
+                </div>
+
+                {/* <div className="mt-6">
+                    {activeTab === "current" && <CurrentOrder />}
+                    {activeTab === "cancel" && <CancelOrders />}
+                    {activeTab === "history" && <OrderHistory />}
+                </div> */}
             </div>
 
             <div className="mt-6">
