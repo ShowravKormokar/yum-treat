@@ -6,6 +6,9 @@ import OrderedItem from "../../components/Orders/OrderedItem";
 import Review from "../../components/Reviews/Review";
 import OrderBillTime from "../../components/Orders/OrderBillTime";
 import Loader from "../../components/Loader/Loader";
+import CancelOrders from "../../components/AccountComp/CancelOrders";
+import CurrentOrder from "../../components/AccountComp/CurrentOrder";
+import OrderHistory from "../../components/AccountComp/OrderHistory";
 
 const Account = () => {
     const { orders, refetchOrders } = useOrderContext();
@@ -120,90 +123,11 @@ const Account = () => {
                     </button>
                 </div>
 
-                {/* <div className="mt-6">
+                <div className="mt-6">
                     {activeTab === "current" && <CurrentOrder />}
                     {activeTab === "cancel" && <CancelOrders />}
                     {activeTab === "history" && <OrderHistory />}
-                </div> */}
-            </div>
-
-            <div className="mt-6">
-                <h2 className="text-2xl font-semibold">Order History</h2>
-                <ul className="bg-white p-2 rounded-lg shadow-md mt-3">
-                    {[...orders]
-                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                        .map(order => (
-                            <li key={order._id} className="p-2 mb-2 border-2 rounded-[4px] border-amber-500">
-                                <div>
-                                    <OrderBillTime
-                                        orderTime={order.createdAt}
-                                        payed={order.payed}
-                                        orderID={order._id}
-                                    />
-                                </div>
-                                {user && order.products.map((product, index) => (
-                                    <React.Fragment key={product.product_id + index}>
-                                        <OrderedItem
-                                            productID={product.product_id}
-                                            quantity={product.quantity}
-                                        />
-                                        {order.isComplete && (
-                                            <Review
-                                                orderID={order._id}
-                                                userID={user._id}
-                                                productID={product.product_id}
-                                                orderCompleteDate={order.updatedAt}
-                                                isComplete={order.isComplete}
-                                            />
-                                        )}
-                                    </React.Fragment>
-                                ))}
-
-                                <div className="flex items-center justify-evenly gap-8">
-                                    <h3>Status: {order.status}</h3>
-                                    <p>Note: {order.note}</p>
-                                </div>
-
-                                {order.status === "delivered" && !order.isComplete && (
-                                    <div className="mt-2 text-center">
-                                        <p className="mb-2">Have you received this order?</p>
-                                        <button
-                                            onClick={() => markAsComplete(order._id)}
-                                            className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointer"
-                                        >
-                                            Yes, I received it
-                                        </button>
-                                    </div>
-                                )}
-                                {(order.status === 'preparing' || order.status === 'pending') && !order.isComplete && (
-                                    <button
-                                        onClick={() => cancelOrder(order._id)}
-                                        className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
-                                    >
-                                        Cancel Order
-                                    </button>
-                                )}
-
-                                {order.isComplete && order.status !== "cancel" && (
-                                    <div className=" text-green-700 font-semibold text-center mt-2">
-                                        <div className="flex items-center justify-evenly">
-                                            <p>✅ Order marked as complete</p>
-                                            <p className="pt-1 text-sm text-gray-500">
-                                                {new Date(order.updatedAt).toLocaleString('en-US', {
-                                                    weekday: 'short',
-                                                    year: 'numeric',
-                                                    month: 'short',
-                                                    day: 'numeric',
-                                                    hour: '2-digit',
-                                                    minute: '2-digit'
-                                                })}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
-                            </li>
-                        ))}
-                </ul>
+                </div>
             </div>
 
         </div>
