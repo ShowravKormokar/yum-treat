@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
 import OrderedItem from "../../components/Orders/OrderedItem";
@@ -6,7 +5,7 @@ import Review from "../../components/Reviews/Review";
 import OrderBillTime from "../../components/Orders/OrderBillTime";
 
 const OrderHistory = () => {
-    const { orders, refetchOrders } = useOrderContext();
+    const { orders } = useOrderContext();
     const { user } = useAuthContext();
 
     return (
