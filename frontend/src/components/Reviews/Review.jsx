@@ -15,7 +15,7 @@ const Review = ({ orderID, userID, productID, orderCompleteDate, isComplete }) =
 
     // Check if a review exists for the given orderID
     const existingReview = reviews.find(
-        (review) => review.orderID === orderID
+        (review) => review.orderID === orderID && review.productID === productID
     );
 
     return (
