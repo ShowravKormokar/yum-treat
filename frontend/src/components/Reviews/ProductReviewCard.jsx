@@ -4,12 +4,6 @@ import { useAuthContext } from '../../Context/AuthContext';
 const ProductReviewCard = ({ reviews }) => {
     const { user } = useAuthContext();
 
-    // Function to extract the name part from email (before @)
-    const getEmailName = (email) => {
-        if (!email) return 'Anonymous';
-        return email.split('@')[0];
-    };
-
     // Function to format date as relative time (e.g., "5 days ago")
     const formatRelativeTime = (dateString) => {
         const date = new Date(dateString);
