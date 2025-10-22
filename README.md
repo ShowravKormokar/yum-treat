@@ -55,25 +55,6 @@ It’s built with modern technologies for a smooth and responsive user experienc
 
 ---
 
-## 📂 Project Structure
-
-YumTreat/
-→ frontend/                 # React frontend (Vite + Tailwind)
-  → src/
-    → components/
-    → pages/
-    → context/
-    → App.jsx
-  → package.json
-→ backend/                  # Node.js + Express server
-  → models/
-  → routes/
-  → controllers/
-  → app.js
-  → package.json
-→ README.md
-
----
 ## 🧑‍💻 Author
 
 👤 Showrav Kormokar©
