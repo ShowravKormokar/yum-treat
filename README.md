@@ -3,7 +3,6 @@
 ![YumTreat Preview](https://your-image-link-here.com/preview.png)
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://yumtreat.vercel.app)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
@@ -57,36 +56,24 @@ It’s built with modern technologies for a smooth and responsive user experienc
 ---
 
 ## 📂 Project Structure
+
 YumTreat/
-│
-├── frontend/ # React frontend (Vite + Tailwind)
-│ ├── src/
-│ │ ├── components/
-│ │ ├── pages/
-│ │ ├── context/
-│ │ └── App.jsx
-│ └── package.json
-│
-├── backend/ # Node.js + Express server
-│ ├── models/
-│ ├── routes/
-│ ├── controllers/
-│ ├── app.js
-│ └── package.json
-│
-└── README.md
-```
-| Feature            | Description                                                 |
-| ------------------ | ----------------------------------------------------------- |
-| 🔑 Authentication  | JWT-based login, signup, and role-based access              |
-| 🍔 Menu Management | CRUD operations for admin to add, edit, or delete dishes    |
-| 🛍️ Cart System    | Add to cart, update quantities, and checkout                |
-| 📦 Order Tracking  | Real-time order status updates (accepted, ready, delivered) |
-| 📝 Reviews         | Users can review their past orders                          |
-| 📅 Reservations    | Reserve tables in advance                                   |
-```
+├─ frontend/               # React frontend (Vite + Tailwind)
+│  ├─ src/
+│  │  ├─ components/
+│  │  ├─ pages/
+│  │  ├─ context/
+│  │  └─ App.jsx
+│  └─ package.json
+├─ backend/                # Node.js + Express server
+│  ├─ models/
+│  ├─ routes/
+│  ├─ controllers/
+│  ├─ app.js
+│  └─ package.json
+└─ README.md
+---
 🧑‍💻 Author
 
-👤 Showrav Kormokar
+👤 Showrav Kormokar©
 Full Stack Developer
-```
