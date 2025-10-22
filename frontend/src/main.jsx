@@ -43,7 +43,7 @@ let router = createBrowserRouter([
     element: <Root />,
     children: [
       {
-        path: '/',
+        index: true,
         element: <Home />
       },
       {
@@ -121,30 +121,11 @@ let router = createBrowserRouter([
     path: '/admin-dashboard',
     element: <AdminRoute />,
     children: [
-      {
-        path: '',
-        element: <DashboardHome /> // This would render the InfoCards and OrderCards
-      },
-      {
-        path: 'add-foods',
-        element: <FoodAddForm />
-      },
-      {
-        path: 'edit-foods',
-        element: <EditFoods />
-      },
-      {
-        path: 'order-info',
-        element: <OrderInfos />
-      },
-      {
-        path: 'add-foods',
-        element: <FoodAddForm />
-      },
-      {
-        path: 'edit-food/:id',
-        element: <EditFood />
-      }
+      { path: '', element: <DashboardHome /> },
+      { path: 'add-foods', element: <FoodAddForm /> },
+      { path: 'edit-foods', element: <EditFoods /> },
+      { path: 'order-info', element: <OrderInfos /> },
+      { path: 'edit-food/:id', element: <EditFood /> }
     ]
   }
 
