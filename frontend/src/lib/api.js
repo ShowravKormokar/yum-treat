@@ -1,6 +1,22 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL =
+    import.meta.env.MODE === "production"
+        ? import.meta.env.VITE_API_PROD_URL
+        : import.meta.env.VITE_API_DEV_URL;
 
-export const api = {
+// Reusable response handler
+const handleResponse = async (response) => {
+    const data = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+        const error = new Error(data.message || "Something went wrong");
+        error.status = response.status;
+        throw error;
+    }
+    return data;
+};
+
+// API helper object
+const apiF = {
     get: async (endpoint, options = {}) => {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
             method: "GET",
@@ -8,7 +24,7 @@ export const api = {
                 "Content-Type": "application/json",
                 ...(options.headers || {}),
             },
-            credentials: "include", // if using cookies or auth
+            credentials: "include",
         });
         return handleResponse(response);
     },
@@ -65,11 +81,4 @@ export const api = {
     },
 };
 
-// 🔍 Centralized response handler
-async function handleResponse(response) {
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP Error: ${response.status}`);
-    }
-    return response.json();
-}
+export default apiF;
