@@ -4,7 +4,12 @@ import { useAuthContext } from "../../Context/AuthContext";
 import Loader from "../../components/Loader/Loader";
 
 // SignIn post request url
-const URL = "http://localhost:5000/api/auth/sign_in";
+const BASE_URL = import.meta.env.MODE === "production"
+    ? "https://yum-treat-npht.vercel.app"
+    : "http://localhost:5000";
+
+const URL = `${BASE_URL}/api/auth/sign_in`;
+
 
 const SignIn = () => {
     const { storeTokenInLS } = useAuthContext();
@@ -43,7 +48,7 @@ const SignIn = () => {
             if (res.ok) {
                 const resdata = await res.json();
                 storeTokenInLS(resdata.token, rememberMe);
-                console.log(resdata.user.userRole);
+                // console.log(resdata.user.userRole);
                 alert("Log in successfully!");
                 setUserLogIn({ email: "", password: "" });
 
