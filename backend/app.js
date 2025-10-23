@@ -11,9 +11,21 @@ require('./db/connection');
 
 const app = express();
 
+const allowedOrigins = [
+    "http://localhost:5173",            // local frontend
+    "https://yum-treat.vercel.app",     // deployed frontend (replace with your exact domain)
+];
+
 // ------------------ 1. Allow request from frontend
 const corsOptions = {
-    origin: "http://localhost:5173", // only allow this origin
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"], // only allow these HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // only allow these headers
     credentials: true, // allow cookies or credentials if needed
