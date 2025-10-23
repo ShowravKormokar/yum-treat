@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const Cart = ({ cartOpen, setCartOpen }) => {
     const [cartItems, setCartItems] = useState([]);

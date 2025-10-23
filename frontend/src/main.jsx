@@ -20,7 +20,6 @@ import { AuthProvider } from "./Context/AuthContext.jsx";
 import SignOut from "./Pages/SignOut/SignOut.jsx";
 import ProtectedRoute from "./ProtectedRoute/ProtectedRoute.jsx";
 import { CategoryProvider } from "./Context/CategoryContext.jsx";
-import Dashboard from "./dashboard/Dashboard.jsx";
 import FoodAddForm from "./dashboard/Dash-components/FoodAddForm.jsx";
 import DashboardHome from "./dashboard/DashboardHome.jsx";
 import FoodsProvider from "./Context/FoodsContext.jsx";
@@ -29,12 +28,10 @@ import EditFood from "./dashboard/Dash-pages/EditFood.jsx";
 import Checkout from "./Pages/Checkout/Checkout.jsx";
 import ThankYou from "./components/Aditionals/ThankYou.jsx";
 import { OrderProvider } from "./Context/OrderContext.jsx";
-import OrderInfo from "./dashboard/Dash-components/CurrentOrder.jsx";
 import Unauthorized from "./components/Aditionals/Unauthorized.jsx";
 import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
 import { ReviewProvider } from "./Context/ReviewContext.jsx";
 import FoodBySearch from "./components/Search/FoodBySearch.jsx";
-import OrderCard from "./dashboard/Dash-pages/OrderInfos.jsx";
 import OrderInfos from "./dashboard/Dash-pages/OrderInfos.jsx";
 
 let router = createBrowserRouter([
