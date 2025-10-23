@@ -1,36 +1,64 @@
-//Load variable that stored in the '.env' file
+// 🌱 Load environment variables from `.env`
 const dotenv = require('dotenv');
 dotenv.config();
-const mongoose = require('mongoose'); // Mongoose (ODM-object data modeling library) used to efficiently manage data
 
-const db = process.env.DATA_BASE; // Read data base url from '.env' file (way- 01)
+// 🧩 Import Mongoose (ODM library)
+const mongoose = require('mongoose');
 
-// Connection error handling (Way-01)
-mongoose.connect(db)
+// 🌍 Determine which database to use based on environment
+const isProduction = process.env.NODE_ENV === 'production';
+const dbURI = isProduction
+    ? process.env.MONGODB_URI // ☁️ MongoDB Atlas (Production)
+    : process.env.LOCAL_DB_URI; // 💻 Local MongoDB (Development)
+
+
+// 🚀 Connect to MongoDB
+mongoose
+    .connect(dbURI)
     .then(() => {
-        console.log("MongoDB connected successfully.✌️");
+        console.log(
+            `🚀MongoDB Connected Successfully → ${isProduction ? 'Atlas Cloud✅' : 'Localhost✅'
+            }`
+        );
     })
     .catch((err) => {
-        console.error(`MongoDB connection error: ${err}`);
+        console.error('❌ MongoDB Connection Error:', err.message);
+        process.exit(1); // Exit process if DB fails to connect
     });
 
-/*
-// Read data base url from '.env' file (way- 02)
-mongoose.connect(process.env.DATA_BASE,{
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
-
-// Connection error handling (Way-02)
+// 🧠 Connection Events (for debugging / monitoring)
 mongoose.connection.on('connected', () => {
-    console.log("MongoDB connected successfully.");
-});
-mongoose.connection.on('error', (err) => {
-    console.error("MongoDB connection error: ", err);
-});
-mongoose.connection.on('disconnected', () => {
-    console.log("MongoDB disconnected.");
+    console.log('🟢 Mongoose connection is open.');
 });
 
-Way-02 is better than way-01 because it is secure, configurable and scalable. It helps to add new feature easily make application more maintainable and
-*/
+mongoose.connection.on('disconnected', () => {
+    console.log('🔴 Mongoose connection is disconnected.');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('⚠️ Mongoose connection error:', err);
+});
+
+// Graceful Shutdown (e.g., when app is stopped manually)
+process.on('SIGINT', async () => {
+    await mongoose.connection.close();
+    console.log('🛑 MongoDB connection closed due to app termination.');
+    process.exit(0);
+});
+
+/* -------------------------------------------------
+ * 💻 LOCAL CONNECTION (commented version)
+ * Uncomment this section only if want to force
+ * connect locally for development testing.
+ -------------------------------------------------
+
+mongoose.connect(process.env.LOCAL_DB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('✅ Local MongoDB connected.'))
+.catch((err) => console.error('❌ Local MongoDB error:', err));
+
+-------------------------------------------------- */
+
+module.exports = mongoose;
