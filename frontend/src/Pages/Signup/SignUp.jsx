@@ -28,10 +28,10 @@ const SignUp = () => {
         e.preventDefault();
         setError("");
 
-        if (formData.password !== formData.cPassword) {
-            setError("Passwords do not match.");
-            return;
-        }
+        // if (formData.password !== formData.cPassword) {
+        //     setError("Passwords do not match.");
+        //     return;
+        // }
 
         try {
             setLoading(true);
@@ -41,7 +41,7 @@ const SignUp = () => {
             setFormData({ email: "", password: "", cPassword: "", role: "user" });
             navigate("/sign_in"); // Redirect after successful signup
         } catch (err) {
-            console.error(err);
+            // console.error(err);
             setError(err.message || "Signup failed. Please try again.");
         } finally {
             setLoading(false);
