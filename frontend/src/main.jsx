@@ -33,54 +33,32 @@ import AdminRoute from "./ProtectedRoute/AdminRoute.jsx";
 import { ReviewProvider } from "./Context/ReviewContext.jsx";
 import FoodBySearch from "./components/Search/FoodBySearch.jsx";
 import OrderInfos from "./dashboard/Dash-pages/OrderInfos.jsx";
+import NotFound from "./components/Aditionals/NotFound.jsx";
 
-let router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    errorElement: <ErrorBoundary />, // Add error boundary
     children: [
+      { index: true, element: <Home /> },
+      { path: 'menus', element: <Menu /> },
+      { path: 'events', element: <Event /> },
+      { path: 'blogs', element: <Blogs /> },
+      { path: 'about_us', element: <About /> },
+      { path: 'contact_us', element: <Contact /> },
+      { path: 'search/:productName', element: <FoodBySearch /> },
       {
-        index: true,
-        element: <Home />
-      },
-      {
-        path: '/menus',
-        element: <Menu />
-      },
-      {
-        path: '/events',
-        element: <Event />
-      },
-      {
-        path: '/blogs',
-        element: <Blogs />
-      },
-      {
-        path: '/about_us',
-        element: <About />
-      },
-      {
-        path: '/contact_us',
-        element: <Contact />
-      },
-      {
-        path: '/search/:productName',
-        element: <FoodBySearch />
-      },
-      {
-        path: '/account',
+        path: 'account',
         element: (
           <ProtectedRoute>
             <Account />
           </ProtectedRoute>
         )
       },
+      { path: 'product/:id', element: <Product /> },
       {
-        path: '/product/:id',
-        element: <Product />
-      },
-      {
-        path: '/checkout',
+        path: 'checkout',
         element: (
           <ProtectedRoute>
             <Checkout />
@@ -88,7 +66,7 @@ let router = createBrowserRouter([
         )
       },
       {
-        path: '/thank-you',
+        path: 'thank-you',
         element: (
           <ProtectedRoute>
             <ThankYou />
@@ -96,37 +74,31 @@ let router = createBrowserRouter([
         )
       }
     ]
-
   },
+  { path: 'sign_in', element: <SignIn /> },
+  { path: 'sign_up', element: <SignUp /> },
+  { path: 'sign_out', element: <SignOut /> },
+  { path: 'unauthorized', element: <Unauthorized /> },
   {
-    path: '/sign_in',
-    element: <SignIn />
-  },
-  {
-    path: '/sign_up',
-    element: <SignUp />
-  },
-  {
-    path: '/sign_out',
-    element: <SignOut />
-  },
-  {
-    path: '/unauthorized',
-    element: <Unauthorized />
-  },
-  {
-    path: '/admin-dashboard',
+    path: 'admin-dashboard',
     element: <AdminRoute />,
     children: [
-      { path: '', element: <DashboardHome /> },
+      { index: true, element: <DashboardHome /> },
       { path: 'add-foods', element: <FoodAddForm /> },
       { path: 'edit-foods', element: <EditFoods /> },
       { path: 'order-info', element: <OrderInfos /> },
       { path: 'edit-food/:id', element: <EditFood /> }
     ]
+  },
+  // Redirect unknown routes to 404
+  { path: '*', element: <NotFound /> }
+], {
+  // Router configuration
+  future: {
+    v7_relativeSplatPath: true,
+    v7_startTransition: true,
   }
-
-]);
+});
 
 const root = document.getElementById("root");
 ReactDOM.createRoot(root).render(
