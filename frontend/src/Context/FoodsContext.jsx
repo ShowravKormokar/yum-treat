@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import axios from 'axios';
+import { API_BASE_URL } from '../lib/api';
 
 export const FoodsContext = createContext();
 
@@ -10,7 +10,7 @@ const FoodsProvider = ({ children }) => {
     useEffect(() => {
         const fetchFoods = async () => {
             try {
-                const res = await fetch("http://localhost:5000/api/foods");
+                const res = await fetch(`${API_BASE_URL}/api/foods`);
                 const data = await res.json();
                 setFoods(data);
             } catch (error) {

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../lib/api";
 
 const ReviewContext = createContext();
 
@@ -14,7 +15,7 @@ export const ReviewProvider = ({ children }) => {
         setLoading(true);
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
-            const res = await axios.get(`http://localhost:5000/api/reviews/user/${userID}`, {
+            const res = await axios.get(`${API_BASE_URL}/api/reviews/user/${userID}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
@@ -30,7 +31,7 @@ export const ReviewProvider = ({ children }) => {
         setLoading(true);
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
-            const res = await axios.get(`http://localhost:5000/api/reviews/product/${productID}`, {
+            const res = await axios.get(`${API_BASE_URL}/api/reviews/product/${productID}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
@@ -46,7 +47,7 @@ export const ReviewProvider = ({ children }) => {
         setLoading(true);
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
-            const res = await axios.get(`http://localhost:5000/api/reviews/`, {
+            const res = await axios.get(`${API_BASE_URL}/api/reviews/`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setReviews(res.data);
@@ -61,7 +62,7 @@ export const ReviewProvider = ({ children }) => {
     const addReview = async (reviewData) => {
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         try {
-            const res = await axios.post(`http://localhost:5000/api/reviews/`, reviewData, {
+            const res = await axios.post(`${API_BASE_URL}/api/reviews/`, reviewData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setReviews((prev) => [res.data, ...prev]);

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 const OrderContext = createContext();
 
@@ -17,7 +18,7 @@ export const OrderProvider = ({ children }) => {
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
             if (!token) return;
 
-            const response = await axios.get("http://localhost:5000/api/orders/my-orders", {
+            const response = await axios.get(`${API_BASE_URL}/api/orders/my-orders`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -34,7 +35,7 @@ export const OrderProvider = ({ children }) => {
     const fetchAOrders = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("http://localhost:5000/api/orders/admin");
+            const res = await axios.get(`${API_BASE_URL}/api/orders/admin`);
             setAOrders(res.data);
 
             // Filter and set pending orders whenever aOrders updates

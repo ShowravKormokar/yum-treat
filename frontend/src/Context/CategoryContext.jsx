@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 const CategoryContext = createContext();
 
@@ -9,7 +10,7 @@ export const CategoryProvider = ({ children }) => {
 
     const fetchCategories = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/categories");
+            const res = await fetch(`${API_BASE_URL}/api/categories`);
             const data = await res.json();
             setCategories(data);
         } catch (error) {
