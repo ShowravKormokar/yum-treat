@@ -34,6 +34,7 @@ import { ReviewProvider } from "./Context/ReviewContext.jsx";
 import FoodBySearch from "./components/Search/FoodBySearch.jsx";
 import OrderInfos from "./dashboard/Dash-pages/OrderInfos.jsx";
 import NotFound from "./components/Aditionals/NotFound.jsx";
+import ErrorBoundary from "./components/Aditionals/ErrorBoundary.jsx";
 
 const router = createBrowserRouter([
   {
