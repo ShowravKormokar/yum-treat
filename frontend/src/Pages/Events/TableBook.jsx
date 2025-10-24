@@ -8,7 +8,7 @@ const TableBook = () => {
             </div>
             <div className="flex flex-wrap gap-8 justify-center items-center">
                 <div className="w-full md:w-1/2">
-                    <img src="/src/assets/image/book-table.jpg" alt="Table Booking" className="w-full rounded-lg shadow-lg" />
+                    <img src={new URL(`../../assets/image/book-table.jpg`, import.meta.url).href} alt="Table Booking" className="w-full rounded-lg shadow-lg" />
                 </div>
                 <form className="w-full md:w-1/3 bg-white p-6 rounded-lg shadow-lg border">
                     <h3 className="text-2xl font-semibold text-center mb-4">Reserve Your Spot</h3>

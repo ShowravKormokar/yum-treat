@@ -68,7 +68,7 @@ const Product = () => {
             <div className="grid md:grid-cols-2 gap-8">
                 {/* Left Side: Product Image */}
                 <div>
-                    <img src={`../src/assets/foods/${foodData.imageUrl}.png`} alt={foodData.name} className="w-[80%] h-auto object-cover " />
+                    <img src={new URL(`../../assets/foods/${foodData.imageUrl}.png`, import.meta.url).href} alt={foodData.name} className="w-[80%] h-auto object-cover " />
                 </div>
 
                 {/* Right Side: Product Details */}

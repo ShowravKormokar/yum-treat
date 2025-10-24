@@ -64,7 +64,7 @@ const Cart = ({ cartOpen, setCartOpen }) => {
                             className="absolute top-2 right-2 text-lg cursor-pointer text-gray-600 hover:text-[#c34c2e]"
                             onClick={() => removeItem(item._id)}
                         />
-                        <img src={`../src/assets/foods/${item.image}.png`} alt={item.name} className="h-auto w-20 object-cover" />
+                        <img src={new URL(`../../assets/foods/${item.image}.png`, import.meta.url).href} alt={item.name} className="h-auto w-20 object-cover" />
                         <div className="ml-4 w-full">
                             <h3 className="text-xl text-gray-800">{item.name}</h3>
                             <div className="flex items-center justify-between">

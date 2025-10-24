@@ -39,7 +39,7 @@ const FoodLists = () => {
                         .map((food) => (
                             <div key={food._id} className="bg-gray-100 p-6 rounded-2xl text-center relative shadow-lg">
                                 <div className="mb-4">
-                                    <img src={`../src/assets/foods/${food.imageUrl}.png`} alt={food.name} className="h-40 mx-auto" />
+                                    <img src={new URL(`../../assets/foods/${food.imageUrl}.png`, import.meta.url).href} alt={food.name} className="h-40 mx-auto" />
                                 </div>
 
                                 <h3 className="text-xl font-semibold text-gray-900">{food.name.slice(0, 14)}...</h3>
