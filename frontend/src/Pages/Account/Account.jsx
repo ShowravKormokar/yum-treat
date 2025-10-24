@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from '../../Context/AuthContext';
 import { useOrderContext } from "../../Context/OrderContext";
-import OrderedItem from "../../components/Orders/OrderedItem";
-import Review from "../../components/Reviews/Review";
-import OrderBillTime from "../../components/Orders/OrderBillTime";
 import Loader from "../../components/Loader/Loader";
 import CancelOrders from "../../components/AccountComp/CancelOrders";
 import CurrentOrder from "../../components/AccountComp/CurrentOrder";
 import OrderHistory from "../../components/AccountComp/OrderHistory";
+import { API_BASE_URL } from "../../lib/api";
+import apiF from "../../lib/api";
 
 const Account = () => {
     const { orders, refetchOrders } = useOrderContext();
@@ -28,7 +27,7 @@ const Account = () => {
     //Order Cancel
     const cancelOrder = async (orderId) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/orders/cancel/${orderId}`, {
+            const res = await fetch(`${API_BASE_URL}/api/orders/cancel/${orderId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +46,7 @@ const Account = () => {
 
     const markAsComplete = async (orderId) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/orders/complete/${orderId}`, {
+            const res = await fetch(`${API_BASE_URL}/api/orders/complete/${orderId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
