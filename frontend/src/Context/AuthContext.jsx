@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useState } from "react";
 import authReducer from "../Reducer/AuthReducer";
+import { API_BASE_URL } from "../lib/api"
 
 // Create context
 const AuthContext = createContext();
@@ -49,7 +50,7 @@ const AuthProvider = ({ children }) => {
             const token = localStorage.getItem("token") || sessionStorage.getItem("token");
             if (!token) return;
 
-            const res = await fetch("http://localhost:5000/api/auth/account", {
+            const res = await fetch(`${API_BASE_URL}/api/auth/account`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
