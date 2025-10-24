@@ -1,7 +1,7 @@
 export const API_BASE_URL =
     import.meta.env.MODE === "production"
         ? import.meta.env.VITE_API_PROD_URL
-        : import.meta.env.VITE_API_DEV_URL;
+        : import.meta.env.VITE_API_PROD_URL;
 console.log("Degub-> API url: ", API_BASE_URL);
 
 // Reusable response handler
@@ -11,6 +11,7 @@ const handleResponse = async (response) => {
     if (!response.ok) {
         const error = new Error(data.message || "Something went wrong");
         error.status = response.status;
+        // error.data = data;
         throw error;
     }
     return data;
