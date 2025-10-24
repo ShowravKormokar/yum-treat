@@ -6,8 +6,6 @@ import Loader from "../../components/Loader/Loader";
 import CancelOrders from "../../components/AccountComp/CancelOrders";
 import CurrentOrder from "../../components/AccountComp/CurrentOrder";
 import OrderHistory from "../../components/AccountComp/OrderHistory";
-import { API_BASE_URL } from "../../lib/api";
-import apiF from "../../lib/api";
 
 const Account = () => {
     const { orders, refetchOrders } = useOrderContext();
@@ -16,56 +14,12 @@ const Account = () => {
 
 
     const [deliveredOrders, setDeliveredOrders] = useState([]);
-    const [confirmedOrders, setConfirmedOrders] = useState([]);  // Stores confirmed orders
 
     useEffect(() => {
         if (orders.length > 0) {
             setDeliveredOrders(orders.filter(order => order.status === "delivered"));
         }
     }, [orders]);
-
-    //Order Cancel
-    const cancelOrder = async (orderId) => {
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/orders/cancel/${orderId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
-                }
-            });
-            const data = await res.json();
-            if (res.ok) alert('Order cancelled successfully!');
-            else alert(data.message || 'Failed to cancel');
-        } catch (err) {
-            console.error(err);
-            alert('Error cancelling order');
-        }
-    };
-
-
-    const markAsComplete = async (orderId) => {
-        try {
-            const res = await fetch(`${API_BASE_URL}/api/orders/complete/${orderId}`, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token") || sessionStorage.getItem("token")}`
-                }
-            });
-
-            if (res.ok) {
-                refetchOrders(); // Refetch orders to update the state
-                setConfirmedOrders((prev) => [...prev, orderId]); // Add the completed order to confirmedOrders
-            } else {
-                const data = await res.json();
-                alert(`Failed to mark as complete: ${data.error}`);
-            }
-        } catch (err) {
-            console.error("Error:", err);
-            alert("Something went wrong while marking the order as complete.");
-        }
-    };
 
     if (!user || !orders) return <Loader />;
 
@@ -122,11 +76,15 @@ const Account = () => {
                     </button>
                 </div>
 
-                <div className="mt-6">
-                    {activeTab === "current" && <CurrentOrder />}
-                    {activeTab === "cancel" && <CancelOrders />}
-                    {activeTab === "history" && <OrderHistory />}
-                </div>
+                {user ? (
+                    <div className="mt-6">
+                        {activeTab === "current" && <CurrentOrder />}
+                        {activeTab === "cancel" && <CancelOrders />}
+                        {activeTab === "history" && <OrderHistory />}
+                    </div>
+                ) : (
+                    <p>Loading orders info...</p>
+                )}
             </div>
 
         </div>
