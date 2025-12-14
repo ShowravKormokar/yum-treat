@@ -1,6 +1,6 @@
 # 🍽️ YumTreat — Modern Restaurant Web App
 
-![YumTreat Preview](https://your-image-link-here.com/preview.png)
+<img width="1267" height="792" alt="Macbook-Air-yum-treat vercel app" src="https://github.com/user-attachments/assets/7efe9348-dac1-45e5-8963-3b6acaac98f7" />
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-green)](https://yumtreat.vercel.app)
 
